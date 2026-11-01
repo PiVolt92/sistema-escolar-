@@ -91,18 +91,18 @@ app.post('/api/horario', verificarToken, (req, res) => {
 app.put('/api/horario', verificarToken, (req, res) => {
   try {
     const { horario } = req.body;
-    const guardar = db.transaction(() => {
-      db.prepare('DELETE FROM horario_general WHERE usuario_id = ?').run(req.usuario.id);
+    const guardar = db.transaction((uid, items) => {
+      db.prepare('DELETE FROM horario_general WHERE usuario_id = ?').run(uid);
       const insert = db.prepare('INSERT INTO horario_general (usuario_id, dia, hora, materia) VALUES (?, ?, ?, ?)');
-      if (Array.isArray(horario)) {
-        for (const h of horario) {
+      if (Array.isArray(items)) {
+        for (const h of items) {
           if (h.materia) {
-            insert.run(req.usuario.id, h.dia, h.hora, h.materia);
+            insert.run(uid, h.dia, h.hora, h.materia);
           }
         }
       }
     });
-    guardar();
+    guardar(req.usuario.id, horario);
     res.json({ mensaje: 'Horario completo guardado.' });
   } catch (err) {
     res.status(500).json({ error: 'Error al guardar horario' });

@@ -1,38 +1,15 @@
 // database.js
 // Configuración e inicialización de la base de datos SQLite
 
-const { DatabaseSync } = require('node:sqlite');
+const Database = require('better-sqlite3');
 const bcrypt = require('bcryptjs');
 const path = require('path');
 
 // Ruta del archivo de base de datos (soporta variables de entorno para la nube o local)
 const DB_PATH = process.env.DB_PATH || path.join(__dirname, 'escuela.db');
 
-// Crear conexión a la base de datos con el módulo nativo de Node.js
-const db = new DatabaseSync(DB_PATH);
-
-// Helper para compatibilidad de pragma y transacciones
-db.pragma = function(statement) {
-  try {
-    db.exec(`PRAGMA ${statement};`);
-  } catch (err) {
-    console.warn('Pragma warning:', err.message);
-  }
-};
-
-db.transaction = function(fn) {
-  return function(...args) {
-    db.exec('BEGIN TRANSACTION');
-    try {
-      const result = fn(...args);
-      db.exec('COMMIT');
-      return result;
-    } catch (err) {
-      db.exec('ROLLBACK');
-      throw err;
-    }
-  };
-};
+// Crear conexión a la base de datos con better-sqlite3 (compatible con todas las versiones de Node)
+const db = new Database(DB_PATH);
 
 // Habilitar claves foráneas para integridad referencial
 db.pragma('journal_mode = WAL');
