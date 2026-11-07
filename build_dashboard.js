@@ -1072,14 +1072,15 @@ const html = `<!DOCTYPE html>
         + '    <span>Emisión: ' + fechaHoy + ' ' + horaHoy + '</span>'
         + '  </div>'
         + '</div>'
-        + '<script>'
-        + '  setTimeout(function() { window.focus(); window.print(); }, 500);'
-        + '<\/script>'
         + '</body>'
         + '</html>';
 
       win.document.write(docHtml);
       win.document.close();
+      win.focus();
+      setTimeout(function() {
+        try { win.print(); } catch(e) {}
+      }, 500);
     }
 
     // =========================================================================
@@ -1609,19 +1610,18 @@ const html = `<!DOCTYPE html>
         return dateObj.toISOString().split('T')[0];
       }
       const s = String(val).trim();
-      const m1 = s.match(/^(\d{1,2})[\/\-\.](\d{1,2})[\/\-\.](\d{2,4})$/);
-      if (m1) {
-        const dia = m1[1].padStart(2, '0');
-        const mes = m1[2].padStart(2, '0');
-        let anio = m1[3];
-        if (anio.length === 2) anio = '20' + anio;
-        return anio + '-' + mes + '-' + dia;
+      const partes = s.replace(/[\/\.]/g, '-').split('-');
+      if (partes.length === 3) {
+        const d = partes[0].padStart(2, '0');
+        const m = partes[1].padStart(2, '0');
+        let y = partes[2];
+        if (y.length === 2) y = '20' + y;
+        if (y.length === 4) return y + '-' + m + '-' + d;
       }
-      const m2 = s.match(/^(\d{1,2})[\/\-\.](\d{1,2})$/);
-      if (m2) {
-        const dia = m2[1].padStart(2, '0');
-        const mes = m2[2].padStart(2, '0');
-        return '2026-' + mes + '-' + dia;
+      if (partes.length === 2) {
+        const d = partes[0].padStart(2, '0');
+        const m = partes[1].padStart(2, '0');
+        return '2026-' + m + '-' + d;
       }
       return null;
     }
