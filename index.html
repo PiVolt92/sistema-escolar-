@@ -260,19 +260,19 @@
                ondragleave="handleExcelDragLeave(event)" 
                ondrop="handleExcelDrop(event)"
                onclick="document.getElementById('input-excel-file').click()" 
-               style="border:2px dashed #0d6efd;border-radius:10px;padding:34px 20px;text-align:center;background:rgba(13,110,253,0.03);cursor:pointer;transition:all 0.2s ease;">
-            <div style="font-size:3rem;margin-bottom:8px;">📊</div>
+               style="border:2px dashed #0d6efd;border-radius:10px;padding:30px 20px;text-align:center;background:rgba(13,110,253,0.03);cursor:pointer;transition:all 0.2s ease;">
+            <div style="font-size:3rem;margin-bottom:6px;">📊</div>
             <div style="font-weight:700;font-size:1.15rem;color:var(--c-navy);margin-bottom:6px;">
               Arrastra y suelta tu archivo Excel aquí o haz clic para seleccionarlo
             </div>
-            <div style="font-size:0.88rem;color:var(--text-muted);margin-bottom:16px;">
+            <div style="font-size:0.88rem;color:var(--text-muted);margin-bottom:14px;">
               Formatos soportados: <b>.xlsx, .xls, .csv</b>
-              <br>Detecta automáticamente las columnas: <b>Apellido y Nombre</b>, <b>Estudiante</b>, <b>DNI</b>, etc.
+              <br>Detecta automáticamente listas con "Estudiante", "Apellido y Nombre", columnas separadas, DNI, etc.
             </div>
-            <button type="button" class="btn-nav btn-nav-blue" style="pointer-events:none;padding:9px 24px;font-weight:700;font-size:0.95rem;">
+            <label for="input-excel-file" class="btn-nav btn-nav-blue" style="display:inline-block;padding:10px 24px;font-weight:700;font-size:0.95rem;cursor:pointer;" onclick="event.stopPropagation();">
               📁 Seleccionar Archivo Excel desde la Computadora
-            </button>
-            <input type="file" id="input-excel-file" accept=".xlsx, .xls, .csv" style="display:none;" onchange="handleExcelFileInput(event)">
+            </label>
+            <input type="file" id="input-excel-file" accept=".xlsx, .xls, .csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel, text/csv" style="display:none;" onclick="this.value = null;" onchange="handleExcelFileInput(event)">
           </div>
 
           <div id="excel-file-status" class="hidden" style="margin-top:14px;padding:12px 18px;background:#e8f5e9;border:1px solid #a5d6a7;border-radius:8px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
@@ -290,6 +290,19 @@
               </span>
               <button type="button" class="btn-action btn-act-gray" onclick="resetExcelUpload()" style="font-size:0.82rem;padding:5px 12px;">Cambiar archivo</button>
             </div>
+          </div>
+
+          <!-- Mapeo manual opcional de columnas -->
+          <div id="excel-col-mapping-row" class="hidden" style="margin-top:10px;padding:10px 14px;background:#f8fafc;border:1px solid var(--border-light);border-radius:6px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;font-size:0.86rem;">
+            <span><b>⚙️ Columnas elegidas:</b></span>
+            <label style="display:inline-flex;align-items:center;gap:6px;">
+              Alumnos:
+              <select id="excel-map-col-nombre" class="form-select" style="font-size:0.82rem;padding:3px 8px;" onchange="aplicarMapeoManualColumnas()"></select>
+            </label>
+            <label style="display:inline-flex;align-items:center;gap:6px;">
+              DNI:
+              <select id="excel-map-col-dni" class="form-select" style="font-size:0.82rem;padding:3px 8px;" onchange="aplicarMapeoManualColumnas()"></select>
+            </label>
           </div>
         </div>
 

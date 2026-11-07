@@ -514,15 +514,26 @@ async function showAddEstudianteModal(targetCursoId = null) {
 
   const selectColegio = document.getElementById('select-est-colegio');
   const selectCurso = document.getElementById('select-est-curso');
-  const colegiosList = Array.isArray(App.colegios) ? App.colegios : [];
+  let colegiosList = Array.isArray(App.colegios) ? App.colegios : [];
+
+  if (colegiosList.length === 0) {
+    try {
+      await loadColegios();
+      colegiosList = Array.isArray(App.colegios) ? App.colegios : [];
+    } catch(e) {}
+  }
 
   let colegioIdInicial = App.selectedColegio ? (App.selectedColegio.id || App.selectedColegio._id) : '';
 
   if (targetCursoId) {
-    const cursoObj = App.cursos.find(c => (c.id || c._id) == targetCursoId);
+    const cursoObj = (App.cursos || []).find(c => (c.id || c._id) == targetCursoId);
     if (cursoObj && cursoObj.colegio_id) {
       colegioIdInicial = cursoObj.colegio_id;
     }
+  }
+
+  if (!colegioIdInicial && colegiosList.length > 0) {
+    colegioIdInicial = colegiosList[0].id || colegiosList[0]._id;
   }
 
   selectColegio.innerHTML = '<option value="">-- Seleccione colegio --</option>' +
@@ -617,6 +628,8 @@ function resetExcelUpload() {
   if (statusDiv) statusDiv.classList.add('hidden');
   const sheetContainer = document.getElementById('excel-sheet-selector-container');
   if (sheetContainer) sheetContainer.classList.add('hidden');
+  const mapRow = document.getElementById('excel-col-mapping-row');
+  if (mapRow) mapRow.classList.add('hidden');
 }
 
 function procesarArchivoExcel(file) {
@@ -624,7 +637,7 @@ function procesarArchivoExcel(file) {
 
   const validExts = ['.xlsx', '.xls', '.csv'];
   const ext = file.name.substring(file.name.lastIndexOf('.')).toLowerCase();
-  if (!validExts.includes(ext)) {
+  if (!validExts.includes(ext) && file.type !== 'text/csv') {
     showToast('Por favor selecciona un archivo Excel (.xlsx, .xls) o .csv válido.', 'warning');
     return;
   }
@@ -643,8 +656,8 @@ function procesarArchivoExcel(file) {
   reader.onload = function(e) {
     try {
       const data = new Uint8Array(e.target.result);
-      const workbook = XLSX.read(data, { type: 'array' });
-      currentExcelWorkbook = { workbook, fileName: file.name };
+      const workbook = XLSX.read(data, { type: 'array', cellDates: true });
+      currentExcelWorkbook = { workbook, fileName: file.name, rawRows: [] };
 
       const sheetContainer = document.getElementById('excel-sheet-selector-container');
       const sheetSelect = document.getElementById('excel-sheet-select');
@@ -678,51 +691,119 @@ function handleExcelSheetChange() {
   cargarHojaExcel(sheetName, currentExcelWorkbook.fileName);
 }
 
-function cargarHojaExcel(sheetName, fileName) {
+function cargarHojaExcel(sheetName, fileName, forcedColNombre = null, forcedColDni = null) {
   if (!currentExcelWorkbook) return;
   const sheet = currentExcelWorkbook.workbook.Sheets[sheetName];
   if (!sheet) return;
 
-  const rawRows = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+  const rawRows = XLSX.utils.sheet_to_json(sheet, { header: 1, defval: '', blankrows: false });
   if (!rawRows || rawRows.length === 0) {
     showToast('La hoja seleccionada está vacía.', 'warning');
     return;
   }
+  currentExcelWorkbook.rawRows = rawRows;
+  currentExcelWorkbook.sheetName = sheetName;
 
-  // Detectar fila de cabecera e índices de columnas
+  // 1. Detección exhaustiva de cabeceras en las primeras 25 filas
   let headerRowIdx = -1;
-  let studentColIdx = -1;
-  let apellidoColIdx = -1;
-  let nombreColIdx = -1;
-  let dniColIdx = -1;
+  let colApellido = -1;
+  let colNombre = -1;
+  let colNombreCompleto = -1;
+  let colDni = -1;
 
-  for (let r = 0; r < Math.min(10, rawRows.length); r++) {
+  for (let r = 0; r < Math.min(25, rawRows.length); r++) {
     const row = rawRows[r];
-    if (!row) continue;
+    if (!row || !Array.isArray(row)) continue;
+
+    let foundInThisRow = 0;
+    let tempAp = -1, tempNom = -1, tempFull = -1, tempDni = -1;
+
     for (let c = 0; c < row.length; c++) {
-      const val = String(row[c] || '').trim().toLowerCase();
-      if (val.includes('estudiante') || val.includes('alumno') || val.includes('apellido y nombre') || val.includes('nombre y apellido') || val.includes('nómina') || val.includes('nomina')) {
-        headerRowIdx = r;
-        studentColIdx = c;
-        break;
-      }
-      if (val === 'apellido' || val === 'apellidos') {
-        headerRowIdx = r;
-        apellidoColIdx = c;
-      }
-      if (val === 'nombre' || val === 'nombres') {
-        nombreColIdx = c;
-      }
-      if (val.includes('dni') || val.includes('documento')) {
-        dniColIdx = c;
+      const val = String(row[c] || '').trim().toLowerCase()
+        .normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+
+      if (val.includes('apellido y nombre') || val.includes('nombre y apellido') || 
+          val.includes('estudiante') || val.includes('alumno') || 
+          val.includes('nomina') || val.includes('nombre completo') || val === 'datos') {
+        tempFull = c;
+        foundInThisRow++;
+      } else if (val === 'apellido' || val === 'apellidos') {
+        tempAp = c;
+        foundInThisRow++;
+      } else if (val === 'nombre' || val === 'nombres') {
+        tempNom = c;
+        foundInThisRow++;
+      } else if (val.includes('dni') || val.includes('documento') || val.includes('cedula') || val.includes('legajo')) {
+        tempDni = c;
+        foundInThisRow++;
       }
     }
-    if (headerRowIdx !== -1) break;
+
+    if (foundInThisRow > 0) {
+      headerRowIdx = r;
+      colApellido = tempAp;
+      colNombre = tempNom;
+      colNombreCompleto = tempFull;
+      colDni = tempDni;
+      break;
+    }
   }
 
+  // 2. Si no se encontró cabecera explícita, puntuar columnas por tipo de datos
   const startRow = headerRowIdx !== -1 ? headerRowIdx + 1 : 0;
-  const colEst = studentColIdx !== -1 ? studentColIdx : (apellidoColIdx !== -1 ? apellidoColIdx : 0);
 
+  if (colNombreCompleto === -1 && (colApellido === -1 || colNombre === -1)) {
+    const colScores = {};
+    for (let r = startRow; r < Math.min(startRow + 20, rawRows.length); r++) {
+      const row = rawRows[r] || [];
+      for (let c = 0; c < row.length; c++) {
+        const val = String(row[c] || '').trim();
+        if (!colScores[c]) colScores[c] = { textLen: 0, hasSpaces: 0, isDni: 0 };
+        if (/^\d{7,9}$/.test(val.replace(/\./g, ''))) {
+          colScores[c].isDni++;
+        } else if (val.length >= 3 && /[a-zA-ZáéíóúñÁÉÍÓÚÑ]/.test(val)) {
+          colScores[c].textLen += val.length;
+          if (val.includes(' ') || val.includes(',')) colScores[c].hasSpaces++;
+        }
+      }
+    }
+
+    let bestDniCol = -1, maxDniScore = 0;
+    let bestNameCol = -1, maxNameScore = 0;
+
+    Object.keys(colScores).forEach(cStr => {
+      const c = parseInt(cStr, 10);
+      const s = colScores[c];
+      if (s.isDni > maxDniScore) {
+        maxDniScore = s.isDni;
+        bestDniCol = c;
+      }
+      const nameScore = s.hasSpaces * 3 + s.textLen;
+      if (nameScore > maxNameScore) {
+        maxNameScore = nameScore;
+        bestNameCol = c;
+      }
+    });
+
+    if (colDni === -1 && bestDniCol !== -1) colDni = bestDniCol;
+    if (colNombreCompleto === -1 && bestNameCol !== -1) colNombreCompleto = bestNameCol;
+  }
+
+  if (colNombreCompleto === -1 && colApellido === -1) {
+    colNombreCompleto = 0;
+  }
+
+  // Forzados manualmente si el usuario cambió el selector
+  if (forcedColNombre !== null) {
+    colNombreCompleto = parseInt(forcedColNombre, 10);
+    colApellido = -1;
+    colNombre = -1;
+  }
+  if (forcedColDni !== null) {
+    colDni = parseInt(forcedColDni, 10);
+  }
+
+  // 3. Extracción de alumnos
   const estudiantesExtraidos = [];
 
   for (let r = startRow; r < rawRows.length; r++) {
@@ -731,45 +812,62 @@ function cargarHojaExcel(sheetName, fileName) {
 
     let apellido = '';
     let nombre = '';
-    let dni = dniColIdx !== -1 ? String(row[dniColIdx] || '').trim() : '';
+    let dni = (colDni !== -1 && row[colDni]) ? String(row[colDni]).trim() : '';
 
-    if (apellidoColIdx !== -1 && nombreColIdx !== -1) {
-      apellido = String(row[apellidoColIdx] || '').trim();
-      nombre = String(row[nombreColIdx] || '').trim();
+    if (colApellido !== -1 && colNombre !== -1) {
+      apellido = String(row[colApellido] || '').trim();
+      nombre = String(row[colNombre] || '').trim();
     } else {
-      const fullText = String(row[colEst] || '').trim();
+      const targetCol = colNombreCompleto !== -1 ? colNombreCompleto : (colApellido !== -1 ? colApellido : 0);
+      const fullText = String(row[targetCol] || '').trim();
       if (!fullText) continue;
+
       const lower = fullText.toLowerCase();
-      if (lower.includes('total') || lower.includes('promedio') || lower.includes('porcentaje') || lower === 'estudiante' || lower === 'alumno' || lower === 'nombres' || lower === 'apellidos') continue;
+      if (lower.includes('total') || lower.includes('promedio') || lower.includes('presentes') || 
+          lower.includes('ausentes') || lower.includes('observaciones') || lower.includes('firma') ||
+          lower === 'estudiante' || lower === 'alumno' || lower === 'nombres' || lower === 'apellidos') {
+        continue;
+      }
+
+      if (/^\d+$/.test(fullText)) continue;
 
       if (fullText.includes(',')) {
         const parts = fullText.split(',');
         apellido = parts[0].trim();
         nombre = parts.slice(1).join(' ').trim();
       } else {
-        const words = fullText.split(/\s+/);
-        if (words.length === 1) {
+        const words = fullText.split(/\s+/).filter(Boolean);
+        if (words.length <= 1) {
+          apellido = words[0] || '';
+          nombre = '-';
+        } else if (words.length === 2) {
           apellido = words[0];
-          nombre = '';
+          nombre = words[1];
         } else {
-          apellido = words[0];
-          nombre = words.slice(1).join(' ');
+          const compoundPrefixes = ['de', 'del', 'de la', 'de los', 'di', 'san', 'santa'];
+          if (compoundPrefixes.includes(words[0].toLowerCase())) {
+            apellido = words.slice(0, 2).join(' ');
+            nombre = words.slice(2).join(' ');
+          } else {
+            apellido = words[0];
+            nombre = words.slice(1).join(' ');
+          }
         }
       }
     }
 
-    // Limpieza de caracteres residuales
-    apellido = apellido.replace(/^[,;.\s]+|[,;.\s]+$/g, '');
-    nombre = nombre.replace(/^[,;.\s]+|[,;.\s]+$/g, '');
-    dni = dni.replace(/[^0-9.]/g, '');
+    apellido = apellido.replace(/^[,;.\s]+|[,;.\s]+$/g, '').toUpperCase();
+    nombre = nombre.replace(/^[,;.\s]+|[,;.\s]+$/g, '').toUpperCase();
+    dni = dni.replace(/[^0-9]/g, '');
 
-    if (apellido || nombre) {
+    if (apellido && apellido !== '-') {
+      if (!nombre || nombre === '-') nombre = '-';
       estudiantesExtraidos.push({ apellido, nombre, dni });
     }
   }
 
   if (estudiantesExtraidos.length === 0) {
-    showToast('No se encontraron filas con nombres de estudiantes en esta hoja.', 'warning');
+    showToast('No se encontraron estudiantes en esta hoja. Intenta seleccionar otra hoja o columnas.', 'warning');
     return;
   }
 
@@ -777,8 +875,31 @@ function cargarHojaExcel(sheetName, fileName) {
   const tbody = document.getElementById('excel-grid-tbody');
   tbody.innerHTML = '';
   estudiantesExtraidos.forEach(est => {
-    agregarFilaExcel(est.apellido, est.nombre, est.dni);
+    agregarFilaExcel(est.apellido, est.nombre === '-' ? '' : est.nombre, est.dni);
   });
+
+  // Poblar selector manual de columnas por si el usuario quiere ajustarlo
+  const mapRow = document.getElementById('excel-col-mapping-row');
+  const selColNom = document.getElementById('excel-map-col-nombre');
+  const selColDni = document.getElementById('excel-map-col-dni');
+  
+  if (mapRow && selColNom && selColDni) {
+    const maxCols = Math.max(...rawRows.slice(0, 15).map(r => r.length));
+    let optNom = '';
+    let optDni = '<option value="-1">-- Ninguna / Omitir --</option>';
+
+    for (let c = 0; c < maxCols; c++) {
+      const letraCol = String.fromCharCode(65 + (c % 26));
+      const colHeaderVal = rawRows[0] && rawRows[0][c] ? ` (${String(rawRows[0][c]).substring(0, 15)})` : '';
+      const isNomSel = (colNombreCompleto === c || colApellido === c);
+      const isDniSel = (colDni === c);
+      optNom += `<option value="${c}" ${isNomSel ? 'selected' : ''}>Columna ${letraCol}${colHeaderVal}</option>`;
+      optDni += `<option value="${c}" ${isDniSel ? 'selected' : ''}>Columna ${letraCol}${colHeaderVal}</option>`;
+    }
+    selColNom.innerHTML = optNom;
+    selColDni.innerHTML = optDni;
+    mapRow.classList.remove('hidden');
+  }
 
   // Mostrar resumen en UI
   const statusDiv = document.getElementById('excel-file-status');
@@ -786,11 +907,20 @@ function cargarHojaExcel(sheetName, fileName) {
   const summaryEl = document.getElementById('excel-loaded-summary');
 
   if (nameEl) nameEl.textContent = fileName + (sheetName ? ` [Hoja: ${sheetName}]` : '');
-  if (summaryEl) summaryEl.textContent = `¡${estudiantesExtraidos.length} estudiante(s) leídos exitosamente! Revisa la grilla abajo y haz clic en "Guardar Alumnos en el Curso".`;
+  if (summaryEl) summaryEl.textContent = `¡${estudiantesExtraidos.length} estudiante(s) extraídos exitosamente! Revisa la grilla abajo y presiona "Guardar Alumnos en el Curso".`;
   if (statusDiv) statusDiv.classList.remove('hidden');
 
   actualizarContadorFilas();
   showToast(`✅ ¡${estudiantesExtraidos.length} estudiantes cargados del archivo Excel!`, 'success');
+}
+
+function aplicarMapeoManualColumnas() {
+  if (!currentExcelWorkbook) return;
+  const selColNom = document.getElementById('excel-map-col-nombre');
+  const selColDni = document.getElementById('excel-map-col-dni');
+  const cNom = selColNom ? selColNom.value : null;
+  const cDni = selColDni ? selColDni.value : null;
+  cargarHojaExcel(currentExcelWorkbook.sheetName, currentExcelWorkbook.fileName, cNom, cDni);
 }
 
 function agregarFilaExcel(apellido = '', nombre = '', dni = '') {
@@ -948,45 +1078,75 @@ function procesarPegadoExcel() {
 
   lineas.forEach(linea => {
     if (!linea.trim()) return;
-    const partes = linea.split(/\t|;|\|/).map(p => p.trim());
-    let apellido = partes[0] || '';
-    let nombre = partes[1] || '';
-    let dni = partes[2] || '';
+    let partes = linea.split(/\t|;|\|/).map(p => p.trim()).filter(p => p !== '');
+    if (partes.length === 0) return;
 
-    if (!nombre && apellido.includes(',')) {
-      const splitComa = apellido.split(',');
-      apellido = splitComa[0].trim();
-      nombre = splitComa[1].trim();
-    } else if (!nombre && apellido.includes(' ')) {
-      const palabras = apellido.split(' ');
-      apellido = palabras[0];
-      nombre = palabras.slice(1).join(' ');
+    // Si la primera columna es un número de orden (ej: 1, 2, 3), omitirla
+    if (/^\d{1,3}$/.test(partes[0]) && partes.length > 1) {
+      partes = partes.slice(1);
+    }
+
+    let apellido = '';
+    let nombre = '';
+    let dni = '';
+
+    // Buscar si alguna columna es DNI
+    const dniIdx = partes.findIndex(p => /^\d{7,9}$/.test(p.replace(/\./g, '')));
+    if (dniIdx !== -1) {
+      dni = partes[dniIdx];
+      partes.splice(dniIdx, 1);
+    }
+
+    if (partes.length >= 2) {
+      apellido = partes[0];
+      nombre = partes.slice(1).join(' ');
+    } else if (partes.length === 1) {
+      const full = partes[0];
+      if (full.includes(',')) {
+        const spl = full.split(',');
+        apellido = spl[0].trim();
+        nombre = spl.slice(1).join(' ').trim();
+      } else {
+        const words = full.split(/\s+/);
+        if (words.length > 1) {
+          apellido = words[0];
+          nombre = words.slice(1).join(' ');
+        } else {
+          apellido = words[0];
+          nombre = '-';
+        }
+      }
     }
 
     if (apellido || nombre) {
-      agregarFilaExcel(apellido, nombre, dni);
+      agregarFilaExcel(apellido, nombre === '-' ? '' : nombre, dni);
       agregados++;
     }
   });
 
-  if (agregados < 3) {
-    agregarMultiplesFilas(3 - agregados);
+  if (agregados === 0) {
+    showToast('No se detectaron datos válidos para pegar.', 'warning');
+    return;
   }
 
   cambiarModoCarga('grid');
-  showToast(`¡${agregados} alumnos cargados en la grilla! Revisa y dale a Guardar`, 'success');
+  showToast(`¡${agregados} alumnos cargados en la grilla! Revisa y presiona "Guardar Alumnos en el Curso"`, 'success');
 }
 
 async function saveNewEstudiante() {
-  const cursoId = document.getElementById('select-est-curso').value;
-  const colegioId = document.getElementById('select-est-colegio').value;
+  const selectCurso = document.getElementById('select-est-curso');
+  const selectColegio = document.getElementById('select-est-colegio');
+  const cursoId = selectCurso ? selectCurso.value : '';
+  const colegioId = selectColegio ? selectColegio.value : '';
 
   if (!colegioId) {
-    showToast('Seleccione un colegio / escuela', 'warning');
+    showToast('Por favor seleccione una Escuela / Colegio arriba.', 'warning');
+    if (selectColegio) selectColegio.focus();
     return;
   }
   if (!cursoId) {
-    showToast('Seleccione un curso de destino', 'warning');
+    showToast('Por favor seleccione un Curso de destino arriba.', 'warning');
+    if (selectCurso) selectCurso.focus();
     return;
   }
 
@@ -997,16 +1157,33 @@ async function saveNewEstudiante() {
     const inputAp = tr.querySelector('.excel-input-apellido');
     const inputNom = tr.querySelector('.excel-input-nombre');
     const inputDni = tr.querySelector('.excel-input-dni');
-    const apellido = inputAp ? inputAp.value.trim() : '';
-    const nombre = inputNom ? inputNom.value.trim() : '';
+    let apellido = inputAp ? inputAp.value.trim() : '';
+    let nombre = inputNom ? inputNom.value.trim() : '';
     const dni = inputDni ? inputDni.value.trim() : '';
-    if (apellido && nombre) {
+
+    if (apellido || nombre) {
+      if (!apellido) {
+        apellido = nombre;
+        nombre = '-';
+      } else if (!nombre) {
+        if (apellido.includes(',')) {
+          const parts = apellido.split(',');
+          apellido = parts[0].trim();
+          nombre = parts.slice(1).join(' ').trim() || '-';
+        } else if (apellido.includes(' ')) {
+          const parts = apellido.split(/\s+/);
+          apellido = parts[0].trim();
+          nombre = parts.slice(1).join(' ').trim() || '-';
+        } else {
+          nombre = '-';
+        }
+      }
       estudiantes.push({ apellido, nombre, dni });
     }
   });
 
   if (estudiantes.length === 0) {
-    showToast('Debe ingresar al menos un estudiante con Apellido y Nombre', 'warning');
+    showToast('Debe ingresar o cargar al menos un estudiante con Apellido o Nombre.', 'warning');
     return;
   }
 
@@ -1019,7 +1196,7 @@ async function saveNewEstudiante() {
     closeModal('modal-add-estudiante');
     limpiarFilasExcel();
     resetExcelUpload();
-    showToast(`✅ ${estudiantes.length} estudiante(s) guardado(s) correctamente`, 'success');
+    showToast(`✅ ${estudiantes.length} estudiante(s) guardado(s) correctamente en el curso`, 'success');
 
     if (App.selectedColegio && (App.selectedColegio.id || App.selectedColegio._id) == colegioId) {
       await loadCursos(colegioId);

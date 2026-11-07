@@ -70,10 +70,12 @@ async function handleOfflineApi(url, options = {}) {
       const creados = [];
       if (!db.estudiantes) db.estudiantes = [];
       list.forEach(item => {
-        const nombre = (item.nombre || '').trim();
-        const apellido = (item.apellido || '').trim();
+        let apellido = (item.apellido || '').trim();
+        let nombre = (item.nombre || '').trim();
         const dni = (item.dni || '').trim();
-        if (nombre && apellido) {
+        if (!apellido && nombre) { apellido = nombre; nombre = '-'; }
+        if (apellido && !nombre) { nombre = '-'; }
+        if (apellido) {
           const existe = db.estudiantes.find(e => e.curso_id == cursoId && e.apellido.toLowerCase().trim() === apellido.toLowerCase() && e.nombre.toLowerCase().trim() === nombre.toLowerCase());
           if (existe) {
             if (dni && !existe.dni) existe.dni = dni;

@@ -101,10 +101,29 @@ router.post('/:id/estudiantes', (req, res) => {
 
     const guardarLote = db.transaction(() => {
       for (const item of list) {
-        const nombre = (item.nombre || '').trim();
-        const apellido = (item.apellido || '').trim();
+        let apellido = (item.apellido || '').trim();
+        let nombre = (item.nombre || '').trim();
         const dni = (item.dni || '').trim();
-        if (nombre && apellido) {
+
+        if (!apellido && nombre) {
+          const parts = nombre.split(/\s+/);
+          apellido = parts[0] || 'ALUMNO';
+          nombre = parts.slice(1).join(' ') || '-';
+        } else if (apellido && !nombre) {
+          if (apellido.includes(',')) {
+            const parts = apellido.split(',');
+            nombre = parts.slice(1).join(' ').trim() || '-';
+            apellido = parts[0].trim();
+          } else if (apellido.includes(' ')) {
+            const parts = apellido.split(/\s+/);
+            nombre = parts.slice(1).join(' ').trim() || '-';
+            apellido = parts[0].trim();
+          } else {
+            nombre = '-';
+          }
+        }
+
+        if (apellido) {
           const existente = checkExistente.get(req.params.id, apellido, nombre);
           if (existente) {
             if (dni && (!existente.dni || existente.dni.trim() === '')) {
