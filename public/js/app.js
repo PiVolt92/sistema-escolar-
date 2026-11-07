@@ -25,6 +25,13 @@ const App = {
 // UTILIDAD: PETICIONES HTTP CON JWT
 // =============================================
 async function apiFetch(url, options = {}) {
+  const isServer = (window.location.protocol === 'http:' || window.location.protocol === 'https:') &&
+    (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.hostname.includes('trycloudflare.com') || window.location.hostname.includes('onrender.com'));
+
+  if (!isServer && typeof handleOfflineApi === 'function') {
+    return handleOfflineApi(url, options);
+  }
+
   const headers = {
     'Content-Type': 'application/json',
     ...(options.headers || {}),
@@ -49,6 +56,10 @@ async function apiFetch(url, options = {}) {
     return await resp.json();
   } catch (err) {
     hideSpinner();
+    if (typeof handleOfflineApi === 'function') {
+      console.warn('Servidor no disponible, usando base de datos local:', err.message);
+      return handleOfflineApi(url, options);
+    }
     throw err;
   }
 }
@@ -3731,6 +3742,16 @@ document.addEventListener('DOMContentLoaded', () => {
   const loginForm = document.getElementById('login-form');
   if (loginForm) {
     loginForm.addEventListener('submit', handleLogin);
+  }
+
+  const isServer = (window.location.protocol === 'http:' || window.location.protocol === 'https:') &&
+    (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.hostname.includes('trycloudflare.com') || window.location.hostname.includes('onrender.com'));
+
+  if (!isServer && !App.token) {
+    App.token = 'offline-token-facundo';
+    App.user = { id: 1, nombre: 'Prof. Facundo Casciano', email: 'facundo@escuela.com' };
+    localStorage.setItem('token', App.token);
+    localStorage.setItem('user', JSON.stringify(App.user));
   }
 
   if (App.token) {
