@@ -38,7 +38,7 @@ const html = `<!DOCTYPE html>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard Escolar — Deshacer / Rehacer y Copia de Seguridad</title>
+  <title>Dashboard Escolar — Actualización y Sincronización Inteligente</title>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- FontAwesome Icons -->
@@ -91,7 +91,7 @@ ${xlsxCode}
           <i class="fa-solid fa-graduation-cap"></i>
         </div>
         <div>
-          <h1 class="text-lg font-bold text-slate-900 leading-tight">TuProfeWeb <span class="text-xs bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full font-semibold ml-1">Pro + Backup</span></h1>
+          <h1 class="text-lg font-bold text-slate-900 leading-tight">TuProfeWeb <span class="text-xs bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full font-semibold ml-1">Actualización Inteligente</span></h1>
           <p class="text-xs text-slate-500">Gestión Escolar Integral &middot; Prof. Facundo Casciano</p>
         </div>
       </div>
@@ -109,23 +109,23 @@ ${xlsxCode}
           </button>
         </div>
 
+        <!-- BOTÓN ACTUALIZAR DATOS CON ARCHIVO -->
+        <button onclick="document.getElementById('file-upload-excel').click()" class="btn-amber text-xs sm:text-sm px-3.5 py-2 rounded-lg flex items-center space-x-1.5 shadow-sm cursor-pointer">
+          <i class="fa-solid fa-rotate text-sm"></i>
+          <span>Actualizar con Archivo</span>
+        </button>
+
         <!-- BOTÓN COPIA DE SEGURIDAD -->
         <button onclick="abrirModalBackup()" class="bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm px-3.5 py-2 rounded-lg flex items-center space-x-1.5 shadow-sm font-bold transition">
           <i class="fa-solid fa-shield-halved"></i>
-          <span>Copia de Seguridad</span>
-        </button>
-
-        <!-- SUBIR PLANILLA -->
-        <button onclick="document.getElementById('file-upload-excel').click()" class="btn-amber text-xs sm:text-sm px-3.5 py-2 rounded-lg flex items-center space-x-1.5 shadow-sm cursor-pointer">
-          <i class="fa-solid fa-file-arrow-up"></i>
-          <span class="hidden sm:inline">Subir Planilla</span>
+          <span class="hidden sm:inline">Copia de Seguridad</span>
         </button>
       </div>
     </div>
   </header>
 
-  <!-- INPUT FILE OCULTO DIRECTO PARA EXCEL -->
-  <input type="file" id="file-upload-excel" accept=".xlsx,.xls,.csv" class="hidden" onchange="manejarSubidaExcel(event)">
+  <!-- INPUT FILE OCULTO DIRECTO PARA EXCEL/CSV/JSON -->
+  <input type="file" id="file-upload-excel" accept=".xlsx,.xls,.csv,.json,.backup" class="hidden" onchange="manejarSubidaArchivoGeneral(event)">
   <!-- INPUT FILE OCULTO DIRECTO PARA RESTAURAR BACKUP -->
   <input type="file" id="file-restore-backup" accept=".json,.backup" class="hidden" onchange="procesarArchivoBackup(event)">
 
@@ -152,6 +152,27 @@ ${xlsxCode}
           📙 2° Período (Agosto - Diciembre)
         </button>
       </div>
+    </div>
+
+    <!-- BANNER DE CARGA Y ACTUALIZACIÓN RÁPIDA DRAG & DROP -->
+    <div id="dropzone" 
+         ondragover="handleDragOver(event)" 
+         ondragleave="handleDragLeave(event)" 
+         ondrop="handleDrop(event)"
+         onclick="document.getElementById('file-upload-excel').click()"
+         class="mb-6 p-4 rounded-xl border-2 border-dashed border-amber-300 bg-amber-50/50 hover:bg-amber-100/50 transition cursor-pointer flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left shadow-2xs">
+      <div class="flex items-center space-x-3.5">
+        <div class="w-12 h-12 rounded-xl bg-amber-500 text-white flex items-center justify-center text-2xl shadow-sm shrink-0">
+          <i class="fa-solid fa-cloud-arrow-up"></i>
+        </div>
+        <div>
+          <h3 class="font-bold text-slate-800 text-sm sm:text-base">¿Tenés una planilla nueva para actualizar datos?</h3>
+          <p class="text-xs text-slate-600">Arrastrá cualquier archivo <b>Excel (.xlsx), CSV o Copia de Seguridad</b> acá. Podés fusionar nuevas fechas, sumar alumnos o actualizar notas sin perder nada.</p>
+        </div>
+      </div>
+      <button class="btn-amber text-xs px-4 py-2.5 rounded-lg pointer-events-none whitespace-nowrap shadow-sm shrink-0">
+        <i class="fa-solid fa-folder-open mr-1"></i> Seleccionar Archivo
+      </button>
     </div>
 
     <!-- BANNER DE ALERTA PARA PRECEPTORÍA (< 70%) -->
@@ -311,6 +332,91 @@ ${xlsxCode}
 
   </main>
 
+  <!-- =========================================================================
+       MODAL DE VISTA PREVIA Y ACTUALIZACIÓN INTELIGENTE CON ARCHIVOS
+       ========================================================================= -->
+  <div id="modal-preview-actualizacion" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-2xl max-w-xl w-full p-6 shadow-2xl border border-slate-200">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center text-xl font-bold">
+            <i class="fa-solid fa-arrows-rotate"></i>
+          </div>
+          <div>
+            <h3 class="text-base font-bold text-slate-900">Actualizar Datos con Archivo</h3>
+            <p class="text-xs text-slate-500" id="actualizar-archivo-subtitulo">Archivo listo para procesar</p>
+          </div>
+        </div>
+        <button onclick="cerrarModalActualizacion()" class="text-slate-400 hover:text-slate-600 text-xl font-bold p-1">&times;</button>
+      </div>
+
+      <!-- Resumen de lo detectado en el archivo -->
+      <div class="space-y-3.5 mb-5">
+        <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 text-xs space-y-2">
+          <div class="flex justify-between">
+            <span class="text-slate-500 font-medium">📁 Nombre del archivo:</span>
+            <span id="resumen-nombre-archivo" class="font-bold text-slate-800">planilla.xlsx</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-slate-500 font-medium">👥 Estudiantes encontrados:</span>
+            <span id="resumen-total-estudiantes" class="font-bold text-emerald-700">13 alumnos</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-slate-500 font-medium">📅 Columnas de fechas:</span>
+            <span id="resumen-total-fechas" class="font-bold text-blue-700">21 clases registradas</span>
+          </div>
+        </div>
+
+        <!-- Selector de Curso Destino -->
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">
+            Curso al que querés aplicar la actualización:
+          </label>
+          <select id="select-curso-actualizar" class="w-full text-xs font-semibold p-2.5 bg-slate-50 border border-slate-300 rounded-xl outline-none focus:border-amber-500 focus:bg-white transition">
+            <!-- Cursos dinámicos -->
+          </select>
+        </div>
+
+        <!-- Modo de Actualización -->
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1.5">
+            ¿Cómo querés aplicar los datos del archivo?
+          </label>
+          <div class="space-y-2 text-xs">
+            <label class="flex items-start p-3 rounded-xl border border-amber-300 bg-amber-50/60 cursor-pointer">
+              <input type="radio" name="modo-actualizacion" value="merge" checked class="mt-0.5 text-amber-600">
+              <div class="ml-2.5">
+                <span class="font-bold text-amber-950">🔄 Actualizar y Fusionar (Recomendado)</span>
+                <p class="text-amber-800 mt-0.5 text-[11px]">Conserva los alumnos y fechas que ya tenías, suma las nuevas clases de asistencia y actualiza las notas.</p>
+              </div>
+            </label>
+
+            <label class="flex items-start p-3 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer">
+              <input type="radio" name="modo-actualizacion" value="replace" class="mt-0.5 text-amber-600">
+              <div class="ml-2.5">
+                <span class="font-bold text-slate-800">⚡ Reemplazar la lista de este curso</span>
+                <p class="text-slate-500 mt-0.5 text-[11px]">Reemplaza la nómina completa del curso por la que viene en este archivo.</p>
+              </div>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between pt-3 border-t border-slate-100">
+        <span class="text-[11px] text-slate-400">💡 Podrás deshacer la acción con Ctrl + Z si es necesario.</span>
+        <div class="flex space-x-2">
+          <button onclick="cerrarModalActualizacion()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs px-4 py-2 rounded-lg font-semibold transition">
+            Cancelar
+          </button>
+          <button onclick="confirmarAplicarActualizacion()" class="btn-amber text-xs px-5 py-2.5 rounded-lg font-bold shadow-sm transition flex items-center space-x-1.5">
+            <i class="fa-solid fa-check"></i>
+            <span>Confirmar y Actualizar</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- MODAL DE COPIA DE SEGURIDAD -->
   <div id="modal-backup" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-4 hidden">
     <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-200">
@@ -371,17 +477,20 @@ ${xlsxCode}
   </div>
 
   <footer class="bg-white border-t border-slate-200 py-4 text-center text-xs text-slate-500 mt-8">
-    <p>TuProfeWeb &copy; 2026 &middot; Con Sistema de Deshacer/Rehacer (Ctrl+Z / Ctrl+Y) y Respaldo Total</p>
+    <p>TuProfeWeb &copy; 2026 &middot; Con Sistema de Actualización Inteligente, Deshacer/Rehacer y Respaldo Total</p>
   </footer>
 
   <script>
     const INITIAL_STATE = ${JSON.stringify(initialData)};
 
-    let state = JSON.parse(localStorage.getItem('dashboard_docente_data_v6')) || INITIAL_STATE;
+    let state = JSON.parse(localStorage.getItem('dashboard_docente_data_v7')) || INITIAL_STATE;
     let colegioActivoId = 2; // Por defecto Tecnica N° 2 (donde está 4° 3 Montaje GB)
     let cursoActivoId = 10;  // 4° 3 Montaje GB
     let fechaHoy = new Date().toISOString().split('T')[0];
     let periodoSeleccionado = 'todo'; // 'todo' | 'p1' | 'p2'
+
+    // Objeto temporal para almacenar datos analizados de un archivo subido
+    let archivoPendienteActualizar = null;
 
     // =========================================================================
     // ↶ MOTOR DE DESHACER (UNDO) / ↷ REHACER (REDO)
@@ -392,16 +501,14 @@ ${xlsxCode}
 
     function guardarEstado(registrarEnHistorial = true) {
       if (registrarEnHistorial) {
-        // Guardar estado previo en la pila de historial
-        const snapshot = localStorage.getItem('dashboard_docente_data_v6') || JSON.stringify(INITIAL_STATE);
+        const snapshot = localStorage.getItem('dashboard_docente_data_v7') || JSON.stringify(INITIAL_STATE);
         historyStack.push(snapshot);
         if (historyStack.length > MAX_HISTORY) historyStack.shift();
-        redoStack.length = 0; // Limpiar pila de rehacer ante una nueva acción
+        redoStack.length = 0;
         actualizarBotonesUndoRedo();
       }
 
-      localStorage.setItem('dashboard_docente_data_v6', JSON.stringify(state));
-      // Guardar también un snapshot de emergencia
+      localStorage.setItem('dashboard_docente_data_v7', JSON.stringify(state));
       localStorage.setItem('dashboard_backup_emergency_snapshot', JSON.stringify({
         fecha: new Date().toLocaleString('es-AR'),
         state: state
@@ -457,7 +564,6 @@ ${xlsxCode}
       }
     }
 
-    // Atajos de teclado para Deshacer (Ctrl+Z) y Rehacer (Ctrl+Y / Ctrl+Shift+Z)
     window.addEventListener('keydown', (e) => {
       if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'z') {
         if (e.shiftKey) {
@@ -489,6 +595,236 @@ ${xlsxCode}
         t.style.opacity = '0';
         t.style.transform = 'translateY(10px)';
       }, 1800);
+    }
+
+    // =========================================================================
+    // 🔄 MOTOR DE ACTUALIZACIÓN INTELIGENTE CON ARCHIVOS
+    // =========================================================================
+    function manejarSubidaArchivoGeneral(e) {
+      const files = e.target.files;
+      if (files && files.length > 0) {
+        analizarYPrepararArchivo(files[0]);
+      }
+      e.target.value = '';
+    }
+
+    function handleDragOver(e) {
+      e.preventDefault();
+      document.getElementById('dropzone').classList.add('drop-active');
+    }
+    function handleDragLeave(e) {
+      document.getElementById('dropzone').classList.remove('drop-active');
+    }
+    function handleDrop(e) {
+      e.preventDefault();
+      document.getElementById('dropzone').classList.remove('drop-active');
+      const files = e.dataTransfer.files;
+      if (files && files.length > 0) {
+        analizarYPrepararArchivo(files[0]);
+      }
+    }
+
+    function analizarYPrepararArchivo(file) {
+      const ext = file.name.substring(file.name.lastIndexOf('.')).toLowerCase();
+
+      // Si es un archivo de copia de seguridad JSON
+      if (ext === '.json' || ext === '.backup') {
+        procesarArchivoBackup({ target: { files: [file], value: '' } });
+        return;
+      }
+
+      // Si es una planilla Excel o CSV
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        try {
+          const data = new Uint8Array(evt.target.result);
+          const workbook = XLSX.read(data, { type: 'array' });
+          const sheetName = workbook.SheetNames[0];
+          const sheet = workbook.Sheets[sheetName];
+          const rows = XLSX.utils.sheet_to_json(sheet, { header: 1, raw: false });
+
+          if (!rows || rows.length === 0) {
+            alert("El archivo seleccionado está vacío.");
+            return;
+          }
+
+          // Detección de fechas
+          const dateCols = [];
+          rows[0].forEach((col, idx) => {
+            if (idx === 0) return;
+            const str = String(col || '').trim();
+            const dMatch = str.match(/^(\\d{1,2})[\\/\\-](\\d{1,2})[\\/\\-](\\d{2,4})$/);
+            if (dMatch) {
+              let dia = dMatch[1].padStart(2, '0');
+              let mes = dMatch[2].padStart(2, '0');
+              let anio = dMatch[3].length === 2 ? '20' + dMatch[3] : dMatch[3];
+              dateCols.push({ colIndex: idx, dateIso: anio + '-' + mes + '-' + dia });
+            }
+          });
+
+          // Detección de estudiantes
+          const estudiantesExtraidos = [];
+          for (let r = 1; r < rows.length; r++) {
+            const row = rows[r];
+            if (!row || !row[0]) continue;
+            const texto = String(row[0]).trim();
+            if (!texto || texto.toLowerCase().includes('total')) continue;
+
+            let apellido = texto, nombre = '-';
+            if (texto.includes(',')) {
+              const p = texto.split(',');
+              apellido = p[0].trim();
+              nombre = p.slice(1).join(' ').trim() || '-';
+            } else {
+              const words = texto.split(/\\s+/);
+              if (words.length > 1) {
+                apellido = words[0];
+                nombre = words.slice(1).join(' ');
+              }
+            }
+
+            const asistenciasFila = {};
+            dateCols.forEach(dc => {
+              const val = String(row[dc.colIndex] || '').trim().toUpperCase();
+              let code = 'P';
+              if (val === 'A') code = 'A';
+              else if (val === 'J') code = 'J';
+              else if (val === 'T') code = 'T';
+              asistenciasFila[dc.dateIso] = code;
+            });
+
+            estudiantesExtraidos.push({
+              apellido: apellido.toUpperCase(),
+              nombre: nombre.toUpperCase(),
+              asistencias: asistenciasFila
+            });
+          }
+
+          if (estudiantesExtraidos.length === 0) {
+            alert("No se pudieron detectar estudiantes en la primera columna del archivo.");
+            return;
+          }
+
+          // Detectar curso coincidente por nombre de archivo o pestaña
+          let cursoSugeridoId = cursoActivoId;
+          const fileNameLower = (file.name + ' ' + sheetName).toLowerCase();
+          const cursoMatch = state.cursos.find(c => {
+            const nomClean = c.nombre.toLowerCase().replace(/[^a-z0-9]/g, '');
+            return fileNameLower.replace(/[^a-z0-9]/g, '').includes(nomClean) ||
+                   (fileNameLower.includes('montaje') && fileNameLower.includes('4') && fileNameLower.includes('3') && c.id === 10);
+          });
+          if (cursoMatch) {
+            cursoSugeridoId = cursoMatch.id;
+          }
+
+          // Guardar objeto pendiente
+          archivoPendienteActualizar = {
+            fileName: file.name,
+            sheetName: sheetName,
+            estudiantes: estudiantesExtraidos,
+            dateCols: dateCols,
+            cursoSugeridoId: cursoSugeridoId
+          };
+
+          // Abrir modal de vista previa y confirmación
+          abrirModalActualizacion();
+
+        } catch(err) {
+          console.error(err);
+          alert("Error al leer el archivo: " + err.message);
+        }
+      };
+      reader.readAsArrayBuffer(file);
+    }
+
+    function abrirModalActualizacion() {
+      if (!archivoPendienteActualizar) return;
+      const ap = archivoPendienteActualizar;
+
+      document.getElementById('resumen-nombre-archivo').innerText = ap.fileName + ' [' + ap.sheetName + ']';
+      document.getElementById('resumen-total-estudiantes').innerText = ap.estudiantes.length + ' alumnos listos';
+      document.getElementById('resumen-total-fechas').innerText = ap.dateCols.length + ' fechas detectadas';
+
+      // Llenar selector de cursos
+      const select = document.getElementById('select-curso-actualizar');
+      select.innerHTML = '';
+      state.cursos.forEach(cur => {
+        const col = state.colegios.find(c => c.id === cur.colegio_id);
+        const opt = document.createElement('option');
+        opt.value = cur.id;
+        opt.innerText = cur.nombre + ' (' + (col ? col.nombre : '') + ')';
+        if (cur.id === ap.cursoSugeridoId) opt.selected = true;
+        select.appendChild(opt);
+      });
+
+      document.getElementById('modal-preview-actualizacion').classList.remove('hidden');
+    }
+
+    function cerrarModalActualizacion() {
+      document.getElementById('modal-preview-actualizacion').classList.add('hidden');
+      archivoPendienteActualizar = null;
+    }
+
+    function confirmarAplicarActualizacion() {
+      if (!archivoPendienteActualizar) return;
+      const ap = archivoPendienteActualizar;
+      const targetCursoId = parseInt(document.getElementById('select-curso-actualizar').value, 10);
+      const modo = document.querySelector('input[name="modo-actualizacion"]:checked').value; // 'merge' | 'replace'
+
+      guardarEstado(true); // Registrar estado actual en historial antes de aplicar
+
+      if (modo === 'replace') {
+        // Modo reemplazo: limpiar alumnos y asistencias previas de este curso
+        const idsAEliminar = state.estudiantes.filter(e => e.curso_id === targetCursoId).map(e => e.id);
+        state.estudiantes = state.estudiantes.filter(e => e.curso_id !== targetCursoId);
+        Object.keys(state.asistencias).forEach(k => {
+          const estId = parseInt(k.split('_')[1], 10);
+          if (idsAEliminar.includes(estId)) {
+            delete state.asistencias[k];
+          }
+        });
+      }
+
+      let alumnosNuevos = 0;
+      let alumnosActualizados = 0;
+      let asistenciasGuardadas = 0;
+
+      ap.estudiantes.forEach((item, r) => {
+        let est = state.estudiantes.find(e => 
+          e.curso_id === targetCursoId && 
+          e.apellido.toUpperCase().trim() === item.apellido.toUpperCase().trim()
+        );
+
+        if (!est) {
+          est = {
+            id: Date.now() + Math.floor(Math.random() * 100000) + r,
+            curso_id: targetCursoId,
+            apellido: item.apellido,
+            nombre: item.nombre,
+            dni: ''
+          };
+          state.estudiantes.push(est);
+          alumnosNuevos++;
+        } else {
+          alumnosActualizados++;
+          if (item.nombre && item.nombre !== '-' && (!est.nombre || est.nombre === '-')) {
+            est.nombre = item.nombre;
+          }
+        }
+
+        // Cargar/actualizar asistencias de este alumno
+        Object.keys(item.asistencias).forEach(fechaIso => {
+          state.asistencias[fechaIso + '_' + est.id] = item.asistencias[fechaIso];
+          asistenciasGuardadas++;
+        });
+      });
+
+      guardarEstado(false);
+      seleccionarCurso(targetCursoId);
+      cerrarModalActualizacion();
+
+      const nomCurso = (state.cursos.find(c => c.id === targetCursoId) || {}).nombre || '';
+      alert('¡Actualización completada con éxito!\\n\\n📁 Curso: ' + nomCurso + '\\n👥 Alumnos procesados: ' + (alumnosNuevos + alumnosActualizados) + ' (' + alumnosNuevos + ' nuevos, ' + alumnosActualizados + ' actualizados)\\n📅 Asistencias registradas/actualizadas: ' + asistenciasGuardadas);
     }
 
     // =========================================================================
@@ -547,7 +883,7 @@ ${xlsxCode}
           }
 
           if (confirm("¿Estás seguro de restaurar esta copia de seguridad?\\n\\nSe reemplazarán los datos actuales por los contenidos en el archivo (" + (datos.estudiantes.length) + " estudiantes).")) {
-            guardarEstado(true); // Registrar estado actual en historial antes de restaurar
+            guardarEstado(true);
             state = datos;
             guardarEstado(false);
             seleccionarColegio(colegioActivoId);
@@ -828,7 +1164,7 @@ ${xlsxCode}
     function marcarIndividual(estId, estado) {
       const fecha = document.getElementById('fecha-asistencia').value || fechaHoy;
       state.asistencias[fecha + '_' + estId] = estado;
-      guardarEstado(true); // Se registra en historial para permitir Deshacer
+      guardarEstado(true);
       renderTablaEstudiantes();
     }
 
@@ -838,7 +1174,7 @@ ${xlsxCode}
       alumnos.forEach(est => {
         state.asistencias[fecha + '_' + est.id] = estado;
       });
-      guardarEstado(true); // Se registra en historial para permitir Deshacer
+      guardarEstado(true);
       renderTablaEstudiantes();
       mostrarToastRapido("Marcados todos como " + (estado === 'P' ? 'Presentes' : 'Ausentes'));
     }
@@ -956,7 +1292,6 @@ ${xlsxCode}
         ]);
       });
 
-      // Fila de resumen de curso
       s1.push([]);
       const promedioGeneral = alumnos.length > 0 && fechas.length > 0 
         ? Math.round((sumaPresentesTotal / (alumnos.length * fechas.length)) * 100) : 0;
@@ -975,7 +1310,6 @@ ${xlsxCode}
         totalAlumnosRiesgo > 0 ? 'SEGUIMIENTO PRECEPTORÍA URGENTE' : 'SITUACIÓN NORMAL'
       ]);
 
-      // Bloque de Firmas Institucionales
       s1.push([]);
       s1.push([]);
       s1.push(['', '_______________________________', '', '', '_______________________________', '', '', '_______________________________']);
@@ -989,17 +1323,7 @@ ${xlsxCode}
         { s: { r: 2, c: 0 }, e: { r: 2, c: 10 } }
       ];
       ws1['!cols'] = [
-        { wch: 5 },  // N°
-        { wch: 32 }, // Apellido y Nombre
-        { wch: 14 }, // DNI
-        { wch: 16 }, // Clases Dictadas
-        { wch: 12 }, // Presentes
-        { wch: 18 }, // Faltas
-        { wch: 14 }, // Justificadas
-        { wch: 10 }, // Tardes
-        { wch: 16 }, // % Asistencia
-        { wch: 26 }, // Condición
-        { wch: 38 }  // Acción Preceptoría
+        { wch: 5 }, { wch: 32 }, { wch: 14 }, { wch: 16 }, { wch: 12 }, { wch: 18 }, { wch: 14 }, { wch: 10 }, { wch: 16 }, { wch: 26 }, { wch: 38 }
       ];
       XLSX.utils.book_append_sheet(wb, ws1, '📋 Resumen Preceptoría');
 
@@ -1103,122 +1427,12 @@ ${xlsxCode}
 
     function eliminarEstudiante(id) {
       if (confirm("¿Estás seguro de eliminar este estudiante del curso?")) {
-        guardarEstado(true); // Guarda en historial para permitir Deshacer
+        guardarEstado(true);
         state.estudiantes = state.estudiantes.filter(e => e.id !== id);
         guardarEstado(false);
         seleccionarCurso(cursoActivoId);
         mostrarToastRapido("Estudiante eliminado (podés Deshacer con Ctrl+Z)");
       }
-    }
-
-    function manejarSubidaExcel(e) {
-      const files = e.target.files;
-      if (files && files.length > 0) {
-        procesarArchivoExcel(files[0]);
-      }
-      e.target.value = '';
-    }
-
-    function procesarArchivoExcel(file) {
-      const reader = new FileReader();
-      reader.onload = function(evt) {
-        try {
-          const data = new Uint8Array(evt.target.result);
-          const workbook = XLSX.read(data, { type: 'array' });
-          const sheetName = workbook.SheetNames[0];
-          const sheet = workbook.Sheets[sheetName];
-          const rows = XLSX.utils.sheet_to_json(sheet, { header: 1, raw: false });
-
-          if (!rows || rows.length === 0) {
-            alert("El archivo seleccionado está vacío.");
-            return;
-          }
-
-          const dateCols = [];
-          rows[0].forEach((col, idx) => {
-            if (idx === 0) return;
-            const str = String(col || '').trim();
-            const dMatch = str.match(/^(\\d{1,2})[\\/\\-](\\d{1,2})[\\/\\-](\\d{2,4})$/);
-            if (dMatch) {
-              let dia = dMatch[1].padStart(2, '0');
-              let mes = dMatch[2].padStart(2, '0');
-              let anio = dMatch[3].length === 2 ? '20' + dMatch[3] : dMatch[3];
-              dateCols.push({ colIndex: idx, dateIso: anio + '-' + mes + '-' + dia });
-            }
-          });
-
-          let targetCursoId = cursoActivoId;
-          const fileNameLower = (file.name + ' ' + sheetName).toLowerCase();
-          const cursoMatch = state.cursos.find(c => {
-            const nomClean = c.nombre.toLowerCase().replace(/[^a-z0-9]/g, '');
-            return fileNameLower.replace(/[^a-z0-9]/g, '').includes(nomClean) ||
-                   (fileNameLower.includes('montaje') && fileNameLower.includes('4') && fileNameLower.includes('3') && c.id === 10);
-          });
-          if (cursoMatch) {
-            targetCursoId = cursoMatch.id;
-          }
-
-          guardarEstado(true); // Guardar estado en historial antes de cargar
-
-          for (let r = 1; r < rows.length; r++) {
-            const row = rows[r];
-            if (!row || !row[0]) continue;
-            const texto = String(row[0]).trim();
-            if (!texto || texto.toLowerCase().includes('total')) continue;
-
-            let apellido = texto, nombre = '-';
-            if (texto.includes(',')) {
-              const p = texto.split(',');
-              apellido = p[0].trim();
-              nombre = p.slice(1).join(' ').trim() || '-';
-            } else {
-              const words = texto.split(/\\s+/);
-              if (words.length > 1) {
-                apellido = words[0];
-                nombre = words.slice(1).join(' ');
-              }
-            }
-
-            let est = state.estudiantes.find(e => 
-              e.curso_id === targetCursoId && 
-              e.apellido.toUpperCase() === apellido.toUpperCase()
-            );
-
-            if (!est) {
-              est = {
-                id: Date.now() + Math.floor(Math.random() * 10000) + r,
-                curso_id: targetCursoId,
-                apellido: apellido.toUpperCase(),
-                nombre: nombre.toUpperCase(),
-                dni: ''
-              };
-              state.estudiantes.push(est);
-            }
-
-            if (dateCols.length > 0) {
-              dateCols.forEach(dc => {
-                const val = String(row[dc.colIndex] || '').trim().toUpperCase();
-                let estado = 'P';
-                if (val === 'A') estado = 'A';
-                else if (val === 'J') estado = 'J';
-                else if (val === 'T') estado = 'T';
-                state.asistencias[dc.dateIso + '_' + est.id] = estado;
-              });
-            }
-          }
-
-          guardarEstado(false);
-          seleccionarCurso(targetCursoId);
-
-          const nomCurso = (state.cursos.find(c => c.id === targetCursoId) || {}).nombre || '';
-          alert('¡Planilla procesada con éxito!\\n\\n📁 Curso: ' + nomCurso + '\\n👥 Alumnos procesados: ' + (rows.length - 1) + '\\n📅 Fechas de asistencia: ' + dateCols.length);
-
-        } catch(err) {
-          console.error(err);
-          alert("Error al procesar Excel: " + err.message);
-        }
-      };
-      reader.readAsArrayBuffer(file);
     }
 
     function actualizarKPIs() {
@@ -1247,4 +1461,4 @@ ${xlsxCode}
 </html>`;
 
 fs.writeFileSync('C:\\Users\\NuevoAdmin\\Desktop\\Dashboard_Docente.html', html, 'utf8');
-console.log('Saved Dashboard_Docente.html with Undo/Redo and Backup successfully!');
+console.log('Saved Dashboard_Docente.html with Smart File Updater and Sync successfully!');
