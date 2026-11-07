@@ -38,7 +38,7 @@ const html = `<!DOCTYPE html>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard Escolar con Alerta de Preceptoría — Prof. Facundo</title>
+  <title>Dashboard Escolar Profesional — Control de Regularidad (&gt;= 70%)</title>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- FontAwesome Icons -->
@@ -86,19 +86,23 @@ ${xlsxCode}
           <i class="fa-solid fa-graduation-cap"></i>
         </div>
         <div>
-          <h1 class="text-lg font-bold text-slate-900 leading-tight">TuProfeWeb <span class="text-xs bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full font-semibold ml-1">Preceptoría &middot; Asistencia</span></h1>
-          <p class="text-xs text-slate-500">Gestión por Períodos &middot; Prof. Facundo Casciano</p>
+          <h1 class="text-lg font-bold text-slate-900 leading-tight">TuProfeWeb <span class="text-xs bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full font-semibold ml-1">Edición Profesional</span></h1>
+          <p class="text-xs text-slate-500">Planillas de Preceptoría &middot; Prof. Facundo Casciano</p>
         </div>
       </div>
 
       <div class="flex items-center space-x-2 sm:space-x-3">
         <button onclick="document.getElementById('file-upload-excel').click()" class="btn-amber text-xs sm:text-sm px-3.5 py-2 rounded-lg flex items-center space-x-1.5 shadow-sm cursor-pointer">
           <i class="fa-solid fa-file-arrow-up"></i>
-          <span>Subir Planilla Excel</span>
+          <span>Subir Planilla</span>
         </button>
-        <button onclick="descargarInformeDetalladoExcel()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm px-3 py-2 rounded-lg flex items-center space-x-1.5 shadow-sm font-semibold transition">
-          <i class="fa-solid fa-file-excel"></i>
-          <span class="hidden sm:inline">Descargar Detallado</span>
+        <button onclick="descargarExcelProfesionalMultiHoja()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm px-3.5 py-2 rounded-lg flex items-center space-x-1.5 shadow-sm font-bold transition">
+          <i class="fa-solid fa-file-excel text-base"></i>
+          <span>Descargar Excel Oficial</span>
+        </button>
+        <button onclick="imprimirActaOficialPDF()" class="bg-slate-800 hover:bg-slate-900 text-white text-xs sm:text-sm px-3 py-2 rounded-lg flex items-center space-x-1.5 shadow-sm font-semibold transition" title="Imprimir o Guardar en PDF">
+          <i class="fa-solid fa-print"></i>
+          <span class="hidden md:inline">Imprimir / PDF</span>
         </button>
       </div>
     </div>
@@ -114,7 +118,7 @@ ${xlsxCode}
     <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
       <div>
         <span class="text-xs font-bold text-amber-600 uppercase tracking-wider flex items-center gap-1.5">
-          <i class="fa-regular fa-calendar-check"></i> Ciclo Lectivo &middot; Filtro por Período
+          <i class="fa-regular fa-calendar-check"></i> Ciclo Lectivo &middot; Período de Evaluación
         </span>
         <h2 id="periodo-activo-titulo" class="text-base font-bold text-slate-900 mt-0.5">Todo el Ciclo Lectivo (Marzo a Diciembre)</h2>
       </div>
@@ -140,11 +144,11 @@ ${xlsxCode}
         </div>
         <div>
           <div class="flex items-center space-x-2">
-            <span class="text-xs font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-rose-600 text-white">Aviso Preceptoría</span>
-            <span id="alerta-conteo-alumnos" class="text-xs font-bold text-rose-800">4 estudiantes con menos del 70% de asistencia</span>
+            <span class="text-xs font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-rose-600 text-white">Alerta Institucional</span>
+            <span id="alerta-conteo-alumnos" class="text-xs font-bold text-rose-800">Estudiantes en riesgo pedagógico por inasistencias</span>
           </div>
           <p id="alerta-descripcion-texto" class="text-xs text-rose-700 mt-1">
-            Los siguientes estudiantes están en riesgo de perder la regularidad en el período seleccionado.
+            Los siguientes alumnos no alcanzan el 70% de asistencia obligatoria y deben ser notificados por Preceptoría:
           </p>
           <div id="alerta-chips-alumnos" class="flex flex-wrap gap-1.5 mt-2">
             <!-- Nombres de alumnos en riesgo -->
@@ -154,12 +158,12 @@ ${xlsxCode}
 
       <div class="flex flex-wrap items-center gap-2 shrink-0">
         <button onclick="copiarInformePreceptoria()" class="bg-white hover:bg-slate-50 text-rose-700 border border-rose-300 text-xs px-3.5 py-2 rounded-lg font-bold shadow-xs transition flex items-center space-x-1.5">
-          <i class="fa-brands fa-whatsapp text-emerald-600 text-sm"></i>
-          <span>Copiar Mensaje para Preceptora</span>
+          <i class="fa-brands fa-whatsapp text-emerald-600 text-base"></i>
+          <span>Copiar para Preceptora</span>
         </button>
-        <button onclick="descargarInformeDetalladoExcel()" class="bg-rose-600 hover:bg-rose-700 text-white text-xs px-3.5 py-2 rounded-lg font-bold shadow-xs transition flex items-center space-x-1.5">
+        <button onclick="descargarExcelProfesionalMultiHoja()" class="bg-rose-600 hover:bg-rose-700 text-white text-xs px-3.5 py-2 rounded-lg font-bold shadow-xs transition flex items-center space-x-1.5">
           <i class="fa-solid fa-file-excel"></i>
-          <span>Planilla Preceptoría (.xlsx)</span>
+          <span>Planilla Oficial Preceptoría (.xlsx)</span>
         </button>
       </div>
     </div>
@@ -171,7 +175,7 @@ ${xlsxCode}
           <i class="fa-solid fa-users"></i>
         </div>
         <div>
-          <p class="text-xs font-medium text-slate-500">Alumnos del Curso</p>
+          <p class="text-xs font-medium text-slate-500">Matrícula del Curso</p>
           <h3 id="stat-total-alumnos" class="text-2xl font-bold text-slate-800">0</h3>
         </div>
       </div>
@@ -181,7 +185,7 @@ ${xlsxCode}
           <i class="fa-solid fa-user-check"></i>
         </div>
         <div>
-          <p class="text-xs font-medium text-slate-500">% Asistencia del Curso</p>
+          <p class="text-xs font-medium text-slate-500">% Asistencia Promedio</p>
           <h3 id="stat-asistencia-promedio" class="text-2xl font-bold text-emerald-600">0%</h3>
         </div>
       </div>
@@ -191,7 +195,7 @@ ${xlsxCode}
           <i class="fa-solid fa-calendar-days"></i>
         </div>
         <div>
-          <p class="text-xs font-medium text-slate-500">Clases Dictadas</p>
+          <p class="text-xs font-medium text-slate-500">Clases del Período</p>
           <h3 id="stat-clases-dictadas" class="text-2xl font-bold text-blue-600">0</h3>
         </div>
       </div>
@@ -223,7 +227,7 @@ ${xlsxCode}
         <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
           <div>
             <h2 id="colegio-seleccionado-titulo" class="text-lg font-bold text-slate-900">Colegio</h2>
-            <p class="text-xs text-slate-500">Hacé clic en cualquier curso para ver el desglose y aviso de preceptoría</p>
+            <p class="text-xs text-slate-500">Hacé clic en cualquier curso para ver la planilla y las alertas</p>
           </div>
         </div>
         <div id="lista-cursos" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3"></div>
@@ -254,8 +258,8 @@ ${xlsxCode}
             <i class="fa-solid fa-xmark mr-1"></i> Todos Ausentes
           </button>
           
-          <button onclick="descargarInformeDetalladoExcel()" class="bg-slate-800 hover:bg-slate-900 text-white text-xs px-3 py-2 rounded-lg font-semibold shadow-sm transition">
-            <i class="fa-solid fa-download mr-1"></i> Descargar Excel Detallado
+          <button onclick="descargarExcelProfesionalMultiHoja()" class="btn-amber text-xs px-3.5 py-2 rounded-lg font-bold shadow-sm transition flex items-center space-x-1">
+            <i class="fa-solid fa-file-excel mr-1"></i> Descargar Planilla Pro
           </button>
         </div>
       </div>
@@ -267,10 +271,10 @@ ${xlsxCode}
             <tr class="bg-slate-50 text-slate-600 text-xs uppercase tracking-wider border-b border-slate-200">
               <th class="py-3 px-3 font-semibold text-center w-12">#</th>
               <th class="py-3 px-4 font-semibold">Apellido y Nombre</th>
-              <th class="py-3 px-4 font-semibold text-center">Estado del Día</th>
+              <th class="py-3 px-4 font-semibold text-center">Estado Hoy</th>
               <th class="py-3 px-4 font-semibold text-center">Clases / Asist.</th>
               <th class="py-3 px-4 font-semibold text-center">% Asistencia</th>
-              <th class="py-3 px-4 font-semibold text-center">Estado Preceptoría</th>
+              <th class="py-3 px-4 font-semibold text-center">Condición Preceptoría</th>
               <th class="py-3 px-4 font-semibold text-right">Acciones</th>
             </tr>
           </thead>
@@ -282,20 +286,20 @@ ${xlsxCode}
   </main>
 
   <footer class="bg-white border-t border-slate-200 py-4 text-center text-xs text-slate-500 mt-8">
-    <p>TuProfeWeb &copy; 2026 &middot; Sistema de Gestión Escolar con Control de Regularidad (&gt;= 70%)</p>
+    <p>TuProfeWeb &copy; 2026 &middot; Sistema de Gestión Escolar y Control de Regularidad &middot; Diseñado para Educación Técnica</p>
   </footer>
 
   <script>
     const INITIAL_STATE = ${JSON.stringify(initialData)};
 
-    let state = JSON.parse(localStorage.getItem('dashboard_docente_data_v4')) || INITIAL_STATE;
+    let state = JSON.parse(localStorage.getItem('dashboard_docente_data_v5')) || INITIAL_STATE;
     let colegioActivoId = 2; // Por defecto Tecnica N° 2 (donde está 4° 3 Montaje GB)
     let cursoActivoId = 10;  // 4° 3 Montaje GB
     let fechaHoy = new Date().toISOString().split('T')[0];
     let periodoSeleccionado = 'todo'; // 'todo' | 'p1' | 'p2'
 
     function guardarEstado() {
-      localStorage.setItem('dashboard_docente_data_v4', JSON.stringify(state));
+      localStorage.setItem('dashboard_docente_data_v5', JSON.stringify(state));
       actualizarKPIs();
     }
 
@@ -331,7 +335,6 @@ ${xlsxCode}
       actualizarKPIs();
     }
 
-    // Filtro de fechas según período
     function fechaCorrespondeAPeriodo(fechaIso) {
       if (periodoSeleccionado === 'todo') return true;
       if (periodoSeleccionado === 'p1') {
@@ -344,7 +347,6 @@ ${xlsxCode}
     }
 
     function obtenerFechasDictadasCurso(cursoId) {
-      const prefijo = cursoId;
       const fechasSet = new Set();
       Object.keys(state.asistencias).forEach(k => {
         const partes = k.split('_');
@@ -521,7 +523,7 @@ ${xlsxCode}
             '<div class="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center text-xl shrink-0"><i class="fa-solid fa-circle-check"></i></div>' +
             '<div>' +
               '<h4 class="font-bold text-emerald-900 text-sm">¡Excelente! Ningún estudiante tiene menos del 70% de asistencia</h4>' +
-              '<p class="text-xs text-emerald-700">Todos los alumnos del curso mantienen la regularidad en este período.</p>' +
+              '<p class="text-xs text-emerald-700">Todos los alumnos del curso mantienen la regularidad pedagógica en este período.</p>' +
             '</div>' +
           '</div>';
         return;
@@ -567,119 +569,312 @@ ${xlsxCode}
 
       const nomPeriodo = periodoSeleccionado === 'todo' ? 'Ciclo Completo' : (periodoSeleccionado === 'p1' ? '1° Período (Marzo - Julio)' : '2° Período (Agosto - Diciembre)');
 
-      let texto = '📋 *INFORME DE INASISTENCIAS PARA PRECEPTORÍA*\\n';
-      texto += '🏫 *Colegio:* ' + (col ? col.nombre : '') + '\\n';
+      let texto = '📋 *INFORME OFICIAL DE INASISTENCIAS PARA PRECEPTORÍA*\\n';
+      texto += '🏫 *Establecimiento:* ' + (col ? col.nombre : '') + '\\n';
       texto += '📘 *Curso:* ' + (cur ? cur.nombre : '') + '\\n';
       texto += '📅 *Período:* ' + nomPeriodo + '\\n';
-      texto += '👤 *Docente:* Prof. Facundo Casciano\\n';
+      texto += '👤 *Docente Titular:* Prof. Facundo Casciano\\n';
       texto += '------------------------------------------\\n';
-      texto += '⚠️ *Estudiantes con menos del 70% de asistencia:*\\n\\n';
+      texto += '⚠️ *ESTUDIANTES EN RIESGO PEDAGÓGICO (< 70% ASISTENCIA):*\\n\\n';
 
       if (enRiesgo.length === 0) {
-        texto += '✅ Todos los estudiantes cumplen con el 70% o más de asistencia.';
+        texto += '✅ *Sin observaciones:* Todos los estudiantes cumplen con la regularidad institucional (>= 70%).';
       } else {
         enRiesgo.forEach((item, i) => {
           texto += (i + 1) + '. *' + item.est.apellido + ' ' + (item.est.nombre !== '-' ? item.est.nombre : '') + '*\\n';
-          texto += '   - Asistencia: ' + item.stats.porcentaje + '% (' + item.stats.presentes + ' presentes de ' + item.stats.totalClases + ' clases)\\n';
-          texto += '   - Faltas (Ausentes): ' + item.stats.ausentes + '\\n';
+          texto += '   - Porcentaje Asistencia: *' + item.stats.porcentaje + '%*\\n';
+          texto += '   - Clases asistidas: ' + item.stats.presentes + ' de ' + item.stats.totalClases + ' clases\\n';
+          texto += '   - Total Faltas (Ausentes): *' + item.stats.ausentes + '*\\n';
+          texto += '   - Acción requerida: Citación a padres / Preceptoría\\n\\n';
         });
       }
 
-      texto += '\\n------------------------------------------\\n';
-      texto += '_Generado automáticamente por TuProfeWeb_';
+      texto += '------------------------------------------\\n';
+      texto += '_Generado y certificado automáticamente por TuProfeWeb_';
 
       navigator.clipboard.writeText(texto).then(() => {
-        alert("¡Mensaje copiado al portapapeles!\\n\\nYa podés pegarlo en WhatsApp o mandárselo a la preceptora.");
+        alert("¡Informe copiado al portapapeles con éxito!\\n\\nYa podés pegarlo directamente en WhatsApp para la preceptora.");
       }).catch(() => {
         prompt("Copiá este texto para la preceptora:", texto);
       });
     }
 
-    // ── DESCARGA DE EXCEL CON DETALLES COMPLETOS ──
-    function descargarInformeDetalladoExcel() {
+    // =========================================================================
+    // 🏆 GENERADOR PROFESIONAL DE LIBRO EXCEL MULTI-HOJA
+    // =========================================================================
+    function descargarExcelProfesionalMultiHoja() {
       const cur = state.cursos.find(c => c.id === cursoActivoId);
       const col = state.colegios.find(c => c.id === (cur ? cur.colegio_id : null));
       const alumnos = state.estudiantes.filter(e => e.curso_id === cursoActivoId);
       const fechas = obtenerFechasDictadasCurso(cursoActivoId);
 
-      const nomPeriodo = periodoSeleccionado === 'todo' ? 'Ciclo_Completo' : (periodoSeleccionado === 'p1' ? 'Periodo_1_Mar_Jul' : 'Periodo_2_Ago_Dic');
-
-      const dataFilas = alumnos.map((est, i) => {
-        const stats = calcularStatsEstudiante(est.id);
-        const fila = {
-          "#": i + 1,
-          "Colegio": col ? col.nombre : "",
-          "Curso": cur ? cur.nombre : "",
-          "Período": nomPeriodo,
-          "Apellido": est.apellido,
-          "Nombre": est.nombre !== '-' ? est.nombre : '',
-          "DNI": est.dni || '',
-          "Clases Dictadas": stats.totalClases,
-          "Presentes": stats.presentes,
-          "Ausentes (Faltas)": stats.ausentes,
-          "Justificadas": stats.justificadas,
-          "Tardes": stats.tardes,
-          "% Asistencia": stats.porcentaje + '%',
-          "Estado Regularidad": stats.enRiesgo ? "⚠️ EN RIESGO (< 70% - AVISAR PRECEPTORIA)" : "REGULAR"
-        };
-
-        // Agregar columna para cada fecha
-        fechas.forEach(f => {
-          const estado = state.asistencias[f + '_' + est.id] || 'P';
-          fila[f] = estado;
-        });
-
-        return fila;
-      });
+      const nomPeriodo = periodoSeleccionado === 'todo' ? 'Ciclo Lectivo Completo (Marzo - Diciembre)' : (periodoSeleccionado === 'p1' ? '1° Período (Marzo - Julio)' : '2° Período (Agosto - Diciembre)');
+      const archivoPeriodoTag = periodoSeleccionado === 'todo' ? 'Ciclo_Completo' : (periodoSeleccionado === 'p1' ? 'P1_Mar_Jul' : 'P2_Ago_Dic');
 
       const wb = XLSX.utils.book_new();
-      const ws = XLSX.utils.json_to_sheet(dataFilas);
 
-      // Ajustar ancho de columnas automáticamente
-      const wscols = [
-        { wch: 4 },  // #
-        { wch: 18 }, // Colegio
-        { wch: 18 }, // Curso
-        { wch: 18 }, // Período
-        { wch: 20 }, // Apellido
-        { wch: 20 }, // Nombre
-        { wch: 12 }, // DNI
-        { wch: 14 }, // Clases Dictadas
-        { wch: 10 }, // Presentes
-        { wch: 14 }, // Ausentes
-        { wch: 12 }, // Justificadas
-        { wch: 8 },  // Tardes
-        { wch: 14 }, // % Asistencia
-        { wch: 38 }  // Estado
-      ];
-      fechas.forEach(() => wscols.push({ wch: 12 }));
-      ws['!cols'] = wscols;
+      // ── HOJA 1: RESUMEN DE PRECEPTORÍA CON FORMATO INSTITUCIONAL ──
+      const s1 = [];
+      s1.push(['DIRECCIÓN GENERAL DE EDUCACIÓN TÉCNICA']);
+      s1.push(['PLANILLA OFICIAL DE ASISTENCIA Y CONTROL DE REGULARIDAD ESCOLAR']);
+      s1.push(['REGISTRO INSTITUCIONAL DE ASISTENCIAS — UMBRAL MÍNIMO EXIGIDO: 70%']);
+      s1.push([]);
+      s1.push(['ESTABLECIMIENTO:', col ? col.nombre : '', '', 'DOCENTE TITULAR:', 'Prof. Facundo Casciano']);
+      s1.push(['CURSO Y DIVISIÓN:', cur ? cur.nombre : '', '', 'CICLO LECTIVO:', '2026']);
+      s1.push(['PERÍODO EVALUADO:', nomPeriodo, '', 'FECHA DE EMISIÓN:', new Date().toLocaleDateString('es-AR') + ' ' + new Date().toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' })]);
+      s1.push(['TOTAL MATRÍCULA:', alumnos.length + ' Estudiantes', '', 'CLASES DICTADAS:', fechas.length + ' Clases']);
+      s1.push([]);
 
-      XLSX.utils.book_append_sheet(wb, ws, "Informe Asistencia");
-      const nombreArchivo = "Informe_Preceptoria_" + (cur ? cur.nombre.replace(/[^a-zA-Z0-9]/g, '_') : 'Curso') + "_" + nomPeriodo + ".xlsx";
-      XLSX.writeFile(wb, nombreArchivo);
-    }
+      // Cabecera de la tabla
+      s1.push([
+        'N°',
+        'ESTUDIANTE (APELLIDO Y NOMBRE)',
+        'DNI',
+        'CLASES DICTADAS',
+        'PRESENTES',
+        'FALTAS (AUSENCIAS)',
+        'JUSTIFICADAS',
+        'TARDES',
+        '% ASISTENCIA',
+        'CONDICIÓN DE REGULARIDAD',
+        'ACCIÓN PRECEPTORÍA'
+      ]);
 
-    function actualizarKPIs() {
-      const cur = state.cursos.find(c => c.id === cursoActivoId);
-      const alumnos = state.estudiantes.filter(e => e.curso_id === cursoActivoId);
-      const fechas = obtenerFechasDictadasCurso(cursoActivoId);
+      let sumaPresentesTotal = 0;
+      let sumaAusentesTotal = 0;
+      let totalAlumnosRiesgo = 0;
 
-      document.getElementById('stat-total-alumnos').innerText = alumnos.length;
-      document.getElementById('stat-clases-dictadas').innerText = fechas.length;
+      alumnos.forEach((est, idx) => {
+        const stats = calcularStatsEstudiante(est.id);
+        sumaPresentesTotal += stats.presentes;
+        sumaAusentesTotal += stats.ausentes;
+        if (stats.enRiesgo) totalAlumnosRiesgo++;
 
-      let sumaPorcentajes = 0;
-      let riesgoCount = 0;
+        const nombreCompleto = est.apellido + ' ' + (est.nombre && est.nombre !== '-' ? est.nombre : '');
+        const condicion = stats.enRiesgo ? '⚠️ EN RIESGO (< 70%)' : 'REGULAR';
+        const accion = stats.enRiesgo ? 'CITAR TUTOR / ACTA DE INASISTENCIA' : 'REGULAR - SIN OBSERVACIONES';
 
-      alumnos.forEach(e => {
-        const stats = calcularStatsEstudiante(e.id);
-        sumaPorcentajes += stats.porcentaje;
-        if (stats.enRiesgo) riesgoCount++;
+        s1.push([
+          idx + 1,
+          nombreCompleto,
+          est.dni || '-',
+          stats.totalClases,
+          stats.presentes,
+          stats.ausentes,
+          stats.justificadas,
+          stats.tardes,
+          stats.porcentaje + '%',
+          condicion,
+          accion
+        ]);
       });
 
-      const promedio = alumnos.length > 0 ? Math.round(sumaPorcentajes / alumnos.length) : 0;
-      document.getElementById('stat-asistencia-promedio').innerText = promedio + '%';
-      document.getElementById('stat-alumnos-riesgo').innerText = riesgoCount;
+      // Fila de resumen de curso
+      s1.push([]);
+      const promedioGeneral = alumnos.length > 0 && fechas.length > 0 
+        ? Math.round((sumaPresentesTotal / (alumnos.length * fechas.length)) * 100) : 0;
+
+      s1.push([
+        '',
+        'TOTALES Y PROMEDIO GENERAL DEL CURSO:',
+        '',
+        fechas.length,
+        sumaPresentesTotal,
+        sumaAusentesTotal,
+        '',
+        '',
+        promedioGeneral + '%',
+        totalAlumnosRiesgo > 0 ? (totalAlumnosRiesgo + ' ALUMNO(S) EN RIESGO') : 'CURSO 100% REGULAR',
+        totalAlumnosRiesgo > 0 ? 'SEGUIMIENTO PRECEPTORÍA URGENTE' : 'SITUACIÓN NORMAL'
+      ]);
+
+      // Bloque de Firmas Institucionales
+      s1.push([]);
+      s1.push([]);
+      s1.push(['', '_______________________________', '', '', '_______________________________', '', '', '_______________________________']);
+      s1.push(['', 'Prof. Facundo Casciano', '', '', 'Preceptor/a Responsable', '', '', 'Equipo Directivo']);
+      s1.push(['', 'Firma y Sello Docente', '', '', 'Firma y Sello Preceptoría', '', '', 'Visto Bueno Dirección']);
+
+      const ws1 = XLSX.utils.aoa_to_sheet(s1);
+      ws1['!merges'] = [
+        { s: { r: 0, c: 0 }, e: { r: 0, c: 10 } },
+        { s: { r: 1, c: 0 }, e: { r: 1, c: 10 } },
+        { s: { r: 2, c: 0 }, e: { r: 2, c: 10 } }
+      ];
+      ws1['!cols'] = [
+        { wch: 5 },  // N°
+        { wch: 32 }, // Apellido y Nombre
+        { wch: 14 }, // DNI
+        { wch: 16 }, // Clases Dictadas
+        { wch: 12 }, // Presentes
+        { wch: 18 }, // Faltas
+        { wch: 14 }, // Justificadas
+        { wch: 10 }, // Tardes
+        { wch: 16 }, // % Asistencia
+        { wch: 26 }, // Condición
+        { wch: 38 }  // Acción Preceptoría
+      ];
+      XLSX.utils.book_append_sheet(wb, ws1, '📋 Resumen Preceptoría');
+
+      // ── HOJA 2: MATRIZ CLASE POR CLASE (FECHA POR FECHA) ──
+      const s2 = [];
+      s2.push(['REGISTRO DIARIO CLASE POR CLASE — ' + (cur ? cur.nombre : '') + ' (' + nomPeriodo + ')']);
+      s2.push([]);
+
+      const cabeceraFechas = ['N°', 'ESTUDIANTE (APELLIDO Y NOMBRE)'];
+      fechas.forEach(f => {
+        // Formatear DD/MM
+        const p = f.split('-');
+        cabeceraFechas.push(p[2] + '/' + p[1]);
+      });
+      cabeceraFechas.push('TOTAL P', 'TOTAL A', '% ASIST.');
+      s2.push(cabeceraFechas);
+
+      const totalesDiariosP = {};
+      const totalesDiariosA = {};
+      fechas.forEach(f => { totalesDiariosP[f] = 0; totalesDiariosA[f] = 0; });
+
+      alumnos.forEach((est, idx) => {
+        const stats = calcularStatsEstudiante(est.id);
+        const fila = [idx + 1, est.apellido + ' ' + (est.nombre && est.nombre !== '-' ? est.nombre : '')];
+        fechas.forEach(f => {
+          const st = state.asistencias[f + '_' + est.id] || 'P';
+          fila.push(st);
+          if (st === 'P') totalesDiariosP[f]++;
+          else if (st === 'A') totalesDiariosA[f]++;
+        });
+        fila.push(stats.presentes, stats.ausentes, stats.porcentaje + '%');
+        s2.push(fila);
+      });
+
+      // Filas de totales por día
+      s2.push([]);
+      const filaTotalesP = ['', 'PRESENTES DEL DÍA:'];
+      const filaTotalesA = ['', 'AUSENTES DEL DÍA:'];
+      fechas.forEach(f => {
+        filaTotalesP.push(totalesDiariosP[f]);
+        filaTotalesA.push(totalesDiariosA[f]);
+      });
+      s2.push(filaTotalesP);
+      s2.push(filaTotalesA);
+
+      const ws2 = XLSX.utils.aoa_to_sheet(s2);
+      ws2['!merges'] = [{ s: { r: 0, c: 0 }, e: { r: 0, c: cabeceraFechas.length - 1 } }];
+      const cols2 = [{ wch: 5 }, { wch: 32 }];
+      fechas.forEach(() => cols2.push({ wch: 8 }));
+      cols2.push({ wch: 10 }, { wch: 10 }, { wch: 12 });
+      ws2['!cols'] = cols2;
+      XLSX.utils.book_append_sheet(wb, ws2, '📅 Matriz Día por Día');
+
+      // ── HOJA 3: SOLO CASOS EN RIESGO (< 70%) ──
+      const s3 = [];
+      s3.push(['ALERTA DE PRECEPTORÍA — ALUMNOS CON ASISTENCIA INFERIOR AL 70%']);
+      s3.push(['LISTADO PARA CITACIÓN DE TUTORES Y NOTIFICACIÓN PEDAGÓGICA']);
+      s3.push([]);
+      s3.push(['CURSO:', cur ? cur.nombre : '', 'PERÍODO:', nomPeriodo]);
+      s3.push([]);
+      s3.push(['N°', 'ESTUDIANTE', 'DNI', 'CLASES TOTALES', 'ASISTIÓ', 'FALTAS', '% ASISTENCIA', 'TUTOR / TELÉFONO DE CONTACTO', 'NOTIFICADO']);
+
+      let ordenRiesgo = 1;
+      alumnos.forEach(est => {
+        const stats = calcularStatsEstudiante(est.id);
+        if (stats.enRiesgo) {
+          s3.push([
+            ordenRiesgo++,
+            est.apellido + ' ' + (est.nombre && est.nombre !== '-' ? est.nombre : ''),
+            est.dni || '-',
+            stats.totalClases,
+            stats.presentes,
+            stats.ausentes,
+            stats.porcentaje + '%',
+            '_______________________',
+            '[  ] SI   [  ] NO'
+          ]);
+        }
+      });
+
+      if (ordenRiesgo === 1) {
+        s3.push(['', '¡Felicitaciones! Ningún alumno registra menos del 70% de asistencia en este período.', '', '', '', '', '', '', '']);
+      }
+
+      s3.push([]);
+      s3.push([]);
+      s3.push(['', '_______________________________', '', '_______________________________']);
+      s3.push(['', 'Firma Docente', '', 'Firma y Sello Preceptor/a']);
+
+      const ws3 = XLSX.utils.aoa_to_sheet(s3);
+      ws3['!merges'] = [
+        { s: { r: 0, c: 0 }, e: { r: 0, c: 8 } },
+        { s: { r: 1, c: 0 }, e: { r: 1, c: 8 } }
+      ];
+      ws3['!cols'] = [
+        { wch: 5 }, { wch: 32 }, { wch: 14 }, { wch: 16 }, { wch: 12 }, { wch: 12 }, { wch: 16 }, { wch: 32 }, { wch: 20 }
+      ];
+      XLSX.utils.book_append_sheet(wb, ws3, '⚠️ Solo Casos en Riesgo');
+
+      // Guardar el libro completo
+      const nomArchivo = 'Planilla_Oficial_Preceptoria_' + (cur ? cur.nombre.replace(/[^a-zA-Z0-9]/g, '_') : 'Curso') + '_' + archivoPeriodoTag + '.xlsx';
+      XLSX.writeFile(wb, nomArchivo);
+    }
+
+    // ── VISTA DE IMPRESIÓN / EXPORTAR A PDF OFICIAL ──
+    function imprimirActaOficialPDF() {
+      const cur = state.cursos.find(c => c.id === cursoActivoId);
+      const col = state.colegios.find(c => c.id === (cur ? cur.colegio_id : null));
+      const alumnos = state.estudiantes.filter(e => e.curso_id === cursoActivoId);
+      const fechas = obtenerFechasDictadasCurso(cursoActivoId);
+      const nomPeriodo = periodoSeleccionado === 'todo' ? 'Ciclo Completo (Marzo - Diciembre)' : (periodoSeleccionado === 'p1' ? '1° Período (Marzo - Julio)' : '2° Período (Agosto - Diciembre)');
+
+      let filasHtml = '';
+      alumnos.forEach((est, idx) => {
+        const stats = calcularStatsEstudiante(est.id);
+        const condicion = stats.enRiesgo ? '<b style="color:#b91c1c;">⚠️ EN RIESGO (< 70%)</b>' : '<span style="color:#15803d;">REGULAR</span>';
+        filasHtml += '<tr>' +
+          '<td style="text-align:center;padding:6px;border:1px solid #cbd5e1;">' + (idx + 1) + '</td>' +
+          '<td style="padding:6px;border:1px solid #cbd5e1;font-weight:bold;">' + est.apellido + ' ' + (est.nombre !== '-' ? est.nombre : '') + '</td>' +
+          '<td style="text-align:center;padding:6px;border:1px solid #cbd5e1;">' + (est.dni || '-') + '</td>' +
+          '<td style="text-align:center;padding:6px;border:1px solid #cbd5e1;">' + stats.totalClases + '</td>' +
+          '<td style="text-align:center;padding:6px;border:1px solid #cbd5e1;font-weight:bold;color:#15803d;">' + stats.presentes + '</td>' +
+          '<td style="text-align:center;padding:6px;border:1px solid #cbd5e1;font-weight:bold;color:#b91c1c;">' + stats.ausentes + '</td>' +
+          '<td style="text-align:center;padding:6px;border:1px solid #cbd5e1;font-weight:bold;">' + stats.porcentaje + '%</td>' +
+          '<td style="text-align:center;padding:6px;border:1px solid #cbd5e1;">' + condicion + '</td>' +
+        '</tr>';
+      });
+
+      const ventana = window.open('', '_blank');
+      ventana.document.write('<!DOCTYPE html><html><head><title>Informe Preceptoría - ' + (cur ? cur.nombre : '') + '</title>' +
+        '<style>' +
+          '@page { size: A4 landscape; margin: 12mm; }' +
+          'body { font-family: "Segoe UI", Arial, sans-serif; font-size: 11px; color: #1e293b; margin: 0; padding: 15px; }' +
+          'h1 { font-size: 15px; text-align: center; margin: 0 0 4px 0; text-transform: uppercase; letter-spacing: 0.5px; }' +
+          'h2 { font-size: 12px; text-align: center; margin: 0 0 14px 0; color: #475569; font-weight: normal; }' +
+          '.meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; background: #f8fafc; padding: 10px; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 11px; }' +
+          'table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 10.5px; }' +
+          'th { background-color: #0f172a; color: #ffffff; padding: 7px 5px; text-align: center; font-size: 10px; letter-spacing: 0.5px; border: 1px solid #0f172a; }' +
+          '.firmas { display: flex; justify-content: space-around; margin-top: 50px; text-align: center; page-break-inside: avoid; }' +
+          '.linea-firma { width: 220px; border-top: 1px solid #0f172a; padding-top: 6px; font-weight: bold; font-size: 10px; }' +
+        '</style>' +
+      '</head><body>' +
+        '<h1>Dirección General de Escuelas — Educación Técnica</h1>' +
+        '<h2>Planilla Oficial de Control de Regularidad Escolar &middot; Mínimo Obligatorio 70%</h2>' +
+        '<div class="meta-grid">' +
+          '<div><b>Establecimiento:</b> ' + (col ? col.nombre : '') + '<br><b>Curso y División:</b> ' + (cur ? cur.nombre : '') + ' (' + (cur ? cur.turno : 'Mañana') + ')</div>' +
+          '<div><b>Docente a Cargo:</b> Prof. Facundo Casciano<br><b>Período:</b> ' + nomPeriodo + ' &middot; <b>Fecha:</b> ' + new Date().toLocaleDateString('es-AR') + '</div>' +
+        '</div>' +
+        '<table>' +
+          '<thead><tr>' +
+            '<th style="width:30px;">#</th><th>Estudiante (Apellido y Nombre)</th><th style="width:80px;">DNI</th><th style="width:70px;">Clases</th><th style="width:70px;">Presentes</th><th style="width:70px;">Ausentes</th><th style="width:70px;">% Asist.</th><th style="width:140px;">Condición</th>' +
+          '</tr></thead>' +
+          '<tbody>' + filasHtml + '</tbody>' +
+        '</table>' +
+        '<div class="firmas">' +
+          '<div class="linea-firma">Prof. Facundo Casciano<br><span style="font-weight:normal;color:#64748b;">Firma y Sello Docente</span></div>' +
+          '<div class="linea-firma">Preceptor/a de Turno<br><span style="font-weight:normal;color:#64748b;">Recibido Preceptoría</span></div>' +
+          '<div class="linea-firma">Equipo Directivo<br><span style="font-weight:normal;color:#64748b;">Visto Bueno Dirección</span></div>' +
+        '</div>' +
+        '<script>window.onload = function() { window.print(); }<\\/script>' +
+      '</body></html>');
+      ventana.document.close();
     }
 
     function eliminarEstudiante(id) {
@@ -797,9 +992,31 @@ ${xlsxCode}
       };
       reader.readAsArrayBuffer(file);
     }
+
+    function actualizarKPIs() {
+      const cur = state.cursos.find(c => c.id === cursoActivoId);
+      const alumnos = state.estudiantes.filter(e => e.curso_id === cursoActivoId);
+      const fechas = obtenerFechasDictadasCurso(cursoActivoId);
+
+      document.getElementById('stat-total-alumnos').innerText = alumnos.length;
+      document.getElementById('stat-clases-dictadas').innerText = fechas.length;
+
+      let sumaPorcentajes = 0;
+      let riesgoCount = 0;
+
+      alumnos.forEach(e => {
+        const stats = calcularStatsEstudiante(e.id);
+        sumaPorcentajes += stats.porcentaje;
+        if (stats.enRiesgo) riesgoCount++;
+      });
+
+      const promedio = alumnos.length > 0 ? Math.round(sumaPorcentajes / alumnos.length) : 0;
+      document.getElementById('stat-asistencia-promedio').innerText = promedio + '%';
+      document.getElementById('stat-alumnos-riesgo').innerText = riesgoCount;
+    }
   </script>
 </body>
 </html>`;
 
-fs.writeFileSync('C:\\\\Users\\\\NuevoAdmin\\\\Desktop\\\\Dashboard_Docente.html', html, 'utf8');
-console.log('Saved updated Dashboard_Docente.html with period filter and preceptor alert!');
+fs.writeFileSync('C:\\Users\\NuevoAdmin\\Desktop\\Dashboard_Docente.html', html, 'utf8');
+console.log('Saved ultra-professional Dashboard_Docente.html successfully!');
