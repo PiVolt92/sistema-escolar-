@@ -38,7 +38,7 @@ const html = `<!DOCTYPE html>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard Escolar Profesional — Control de Regularidad (&gt;= 70%)</title>
+  <title>Dashboard Escolar — Deshacer / Rehacer y Copia de Seguridad</title>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- FontAwesome Icons -->
@@ -74,6 +74,11 @@ ${xlsxCode}
     .pulse-danger {
       animation: pulse-subtle 2s infinite ease-in-out;
     }
+    .btn-disabled {
+      opacity: 0.4;
+      cursor: not-allowed !important;
+      pointer-events: none;
+    }
   </style>
 </head>
 <body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col font-sans" id="body-app">
@@ -86,30 +91,43 @@ ${xlsxCode}
           <i class="fa-solid fa-graduation-cap"></i>
         </div>
         <div>
-          <h1 class="text-lg font-bold text-slate-900 leading-tight">TuProfeWeb <span class="text-xs bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full font-semibold ml-1">Edición Profesional</span></h1>
-          <p class="text-xs text-slate-500">Planillas de Preceptoría &middot; Prof. Facundo Casciano</p>
+          <h1 class="text-lg font-bold text-slate-900 leading-tight">TuProfeWeb <span class="text-xs bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full font-semibold ml-1">Pro + Backup</span></h1>
+          <p class="text-xs text-slate-500">Gestión Escolar Integral &middot; Prof. Facundo Casciano</p>
         </div>
       </div>
 
       <div class="flex items-center space-x-2 sm:space-x-3">
+        <!-- BOTONES DESHACER / REHACER EN NAVBAR -->
+        <div class="flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200">
+          <button id="btn-undo-nav" onclick="deshacer()" title="Deshacer último cambio (Ctrl + Z)" class="p-2 text-slate-600 hover:text-slate-900 hover:bg-white rounded-lg transition text-xs font-bold flex items-center space-x-1 btn-disabled">
+            <i class="fa-solid fa-rotate-left"></i>
+            <span class="hidden md:inline">Deshacer</span>
+          </button>
+          <button id="btn-redo-nav" onclick="rehacer()" title="Rehacer cambio (Ctrl + Y)" class="p-2 text-slate-600 hover:text-slate-900 hover:bg-white rounded-lg transition text-xs font-bold flex items-center space-x-1 btn-disabled">
+            <i class="fa-solid fa-rotate-right"></i>
+            <span class="hidden md:inline">Rehacer</span>
+          </button>
+        </div>
+
+        <!-- BOTÓN COPIA DE SEGURIDAD -->
+        <button onclick="abrirModalBackup()" class="bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm px-3.5 py-2 rounded-lg flex items-center space-x-1.5 shadow-sm font-bold transition">
+          <i class="fa-solid fa-shield-halved"></i>
+          <span>Copia de Seguridad</span>
+        </button>
+
+        <!-- SUBIR PLANILLA -->
         <button onclick="document.getElementById('file-upload-excel').click()" class="btn-amber text-xs sm:text-sm px-3.5 py-2 rounded-lg flex items-center space-x-1.5 shadow-sm cursor-pointer">
           <i class="fa-solid fa-file-arrow-up"></i>
-          <span>Subir Planilla</span>
-        </button>
-        <button onclick="descargarExcelProfesionalMultiHoja()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm px-3.5 py-2 rounded-lg flex items-center space-x-1.5 shadow-sm font-bold transition">
-          <i class="fa-solid fa-file-excel text-base"></i>
-          <span>Descargar Excel Oficial</span>
-        </button>
-        <button onclick="imprimirActaOficialPDF()" class="bg-slate-800 hover:bg-slate-900 text-white text-xs sm:text-sm px-3 py-2 rounded-lg flex items-center space-x-1.5 shadow-sm font-semibold transition" title="Imprimir o Guardar en PDF">
-          <i class="fa-solid fa-print"></i>
-          <span class="hidden md:inline">Imprimir / PDF</span>
+          <span class="hidden sm:inline">Subir Planilla</span>
         </button>
       </div>
     </div>
   </header>
 
-  <!-- INPUT FILE OCULTO DIRECTO -->
+  <!-- INPUT FILE OCULTO DIRECTO PARA EXCEL -->
   <input type="file" id="file-upload-excel" accept=".xlsx,.xls,.csv" class="hidden" onchange="manejarSubidaExcel(event)">
+  <!-- INPUT FILE OCULTO DIRECTO PARA RESTAURAR BACKUP -->
+  <input type="file" id="file-restore-backup" accept=".json,.backup" class="hidden" onchange="procesarArchivoBackup(event)">
 
   <!-- CONTENIDO -->
   <main class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full">
@@ -144,26 +162,24 @@ ${xlsxCode}
         </div>
         <div>
           <div class="flex items-center space-x-2">
-            <span class="text-xs font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-rose-600 text-white">Alerta Institucional</span>
-            <span id="alerta-conteo-alumnos" class="text-xs font-bold text-rose-800">Estudiantes en riesgo pedagógico por inasistencias</span>
+            <span class="text-xs font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-rose-600 text-white">Alerta Preceptoría</span>
+            <span id="alerta-conteo-alumnos" class="text-xs font-bold text-rose-800">Estudiantes en riesgo pedagógico (< 70%)</span>
           </div>
           <p id="alerta-descripcion-texto" class="text-xs text-rose-700 mt-1">
             Los siguientes alumnos no alcanzan el 70% de asistencia obligatoria y deben ser notificados por Preceptoría:
           </p>
-          <div id="alerta-chips-alumnos" class="flex flex-wrap gap-1.5 mt-2">
-            <!-- Nombres de alumnos en riesgo -->
-          </div>
+          <div id="alerta-chips-alumnos" class="flex flex-wrap gap-1.5 mt-2"></div>
         </div>
       </div>
 
       <div class="flex flex-wrap items-center gap-2 shrink-0">
         <button onclick="copiarInformePreceptoria()" class="bg-white hover:bg-slate-50 text-rose-700 border border-rose-300 text-xs px-3.5 py-2 rounded-lg font-bold shadow-xs transition flex items-center space-x-1.5">
           <i class="fa-brands fa-whatsapp text-emerald-600 text-base"></i>
-          <span>Copiar para Preceptora</span>
+          <span>Copiar Mensaje Preceptora</span>
         </button>
         <button onclick="descargarExcelProfesionalMultiHoja()" class="bg-rose-600 hover:bg-rose-700 text-white text-xs px-3.5 py-2 rounded-lg font-bold shadow-xs transition flex items-center space-x-1.5">
           <i class="fa-solid fa-file-excel"></i>
-          <span>Planilla Oficial Preceptoría (.xlsx)</span>
+          <span>Planilla Preceptoría (.xlsx)</span>
         </button>
       </div>
     </div>
@@ -243,8 +259,18 @@ ${xlsxCode}
           <p id="curso-activo-subtitulo" class="text-xs text-slate-500">Alumnos registrados</p>
         </div>
 
-        <!-- Controles de Asistencia Diaria -->
+        <!-- Barra de Herramientas y Asistencia -->
         <div class="flex flex-wrap items-center gap-2">
+          <!-- Deshacer / Rehacer Rápido -->
+          <div class="flex items-center bg-slate-100 p-1 rounded-lg border border-slate-200 mr-1">
+            <button onclick="deshacer()" id="btn-undo-toolbar" title="Deshacer (Ctrl+Z)" class="px-2 py-1 text-slate-600 hover:text-slate-900 rounded font-bold text-xs btn-disabled">
+              <i class="fa-solid fa-rotate-left"></i>
+            </button>
+            <button onclick="rehacer()" id="btn-redo-toolbar" title="Rehacer (Ctrl+Y)" class="px-2 py-1 text-slate-600 hover:text-slate-900 rounded font-bold text-xs btn-disabled">
+              <i class="fa-solid fa-rotate-right"></i>
+            </button>
+          </div>
+
           <div class="flex items-center bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200 text-xs">
             <i class="fa-regular fa-calendar-days text-slate-500 mr-2"></i>
             <input type="date" id="fecha-asistencia" class="bg-transparent font-bold text-slate-700 outline-none cursor-pointer" onchange="renderTablaEstudiantes()">
@@ -285,30 +311,290 @@ ${xlsxCode}
 
   </main>
 
+  <!-- MODAL DE COPIA DE SEGURIDAD -->
+  <div id="modal-backup" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-200">
+      <div class="flex items-center justify-between pb-4 border-b border-slate-100 mb-5">
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center text-xl font-bold">
+            <i class="fa-solid fa-shield-halved"></i>
+          </div>
+          <div>
+            <h3 class="text-base font-bold text-slate-900">Centro de Copia de Seguridad</h3>
+            <p class="text-xs text-slate-500">Respaldo total de datos, notas y asistencias</p>
+          </div>
+        </div>
+        <button onclick="cerrarModalBackup()" class="text-slate-400 hover:text-slate-600 text-lg p-1">&times;</button>
+      </div>
+
+      <div class="space-y-4">
+        <!-- Tarjeta Exportar Respaldo -->
+        <div class="p-4 rounded-xl border border-slate-200 hover:border-blue-400 bg-slate-50 transition flex items-center justify-between">
+          <div>
+            <h4 class="font-bold text-slate-800 text-sm">Crear Copia de Seguridad</h4>
+            <p class="text-xs text-slate-500 mt-0.5">Descarga un archivo con toda tu información para guardar en tu pendrive o nube.</p>
+          </div>
+          <button onclick="descargarCopiaSeguridadJSON()" class="bg-blue-600 hover:bg-blue-700 text-white text-xs px-4 py-2.5 rounded-lg font-bold shadow-sm transition whitespace-nowrap ml-3">
+            <i class="fa-solid fa-download mr-1"></i> Descargar Respaldo
+          </button>
+        </div>
+
+        <!-- Tarjeta Restaurar Respaldo -->
+        <div class="p-4 rounded-xl border border-slate-200 hover:border-emerald-400 bg-slate-50 transition flex items-center justify-between">
+          <div>
+            <h4 class="font-bold text-slate-800 text-sm">Restaurar Copia de Seguridad</h4>
+            <p class="text-xs text-slate-500 mt-0.5">Recupera todos tus datos desde un archivo de copia anterior (.json).</p>
+          </div>
+          <button onclick="document.getElementById('file-restore-backup').click()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs px-4 py-2.5 rounded-lg font-bold shadow-sm transition whitespace-nowrap ml-3">
+            <i class="fa-solid fa-upload mr-1"></i> Subir Respaldo
+          </button>
+        </div>
+
+        <!-- Tarjeta Snapshot en el Navegador -->
+        <div class="p-4 rounded-xl border border-amber-200 bg-amber-50/60 flex items-center justify-between">
+          <div>
+            <h4 class="font-bold text-amber-900 text-sm">Punto de Restauración Automático</h4>
+            <p class="text-xs text-amber-700 mt-0.5" id="snapshot-status-txt">Hay una copia guardada en este navegador.</p>
+          </div>
+          <button onclick="restaurarSnapshotNavegador()" class="bg-white hover:bg-amber-100 text-amber-900 border border-amber-300 text-xs px-3.5 py-2 rounded-lg font-bold transition whitespace-nowrap ml-3">
+            <i class="fa-solid fa-clock-rotate-left mr-1"></i> Restaurar Snapshot
+          </button>
+        </div>
+      </div>
+
+      <div class="mt-6 pt-4 border-t border-slate-100 flex justify-end">
+        <button onclick="cerrarModalBackup()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs px-4 py-2 rounded-lg font-semibold transition">
+          Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+
   <footer class="bg-white border-t border-slate-200 py-4 text-center text-xs text-slate-500 mt-8">
-    <p>TuProfeWeb &copy; 2026 &middot; Sistema de Gestión Escolar y Control de Regularidad &middot; Diseñado para Educación Técnica</p>
+    <p>TuProfeWeb &copy; 2026 &middot; Con Sistema de Deshacer/Rehacer (Ctrl+Z / Ctrl+Y) y Respaldo Total</p>
   </footer>
 
   <script>
     const INITIAL_STATE = ${JSON.stringify(initialData)};
 
-    let state = JSON.parse(localStorage.getItem('dashboard_docente_data_v5')) || INITIAL_STATE;
+    let state = JSON.parse(localStorage.getItem('dashboard_docente_data_v6')) || INITIAL_STATE;
     let colegioActivoId = 2; // Por defecto Tecnica N° 2 (donde está 4° 3 Montaje GB)
     let cursoActivoId = 10;  // 4° 3 Montaje GB
     let fechaHoy = new Date().toISOString().split('T')[0];
     let periodoSeleccionado = 'todo'; // 'todo' | 'p1' | 'p2'
 
-    function guardarEstado() {
-      localStorage.setItem('dashboard_docente_data_v5', JSON.stringify(state));
+    // =========================================================================
+    // ↶ MOTOR DE DESHACER (UNDO) / ↷ REHACER (REDO)
+    // =========================================================================
+    const historyStack = [];
+    const redoStack = [];
+    const MAX_HISTORY = 40;
+
+    function guardarEstado(registrarEnHistorial = true) {
+      if (registrarEnHistorial) {
+        // Guardar estado previo en la pila de historial
+        const snapshot = localStorage.getItem('dashboard_docente_data_v6') || JSON.stringify(INITIAL_STATE);
+        historyStack.push(snapshot);
+        if (historyStack.length > MAX_HISTORY) historyStack.shift();
+        redoStack.length = 0; // Limpiar pila de rehacer ante una nueva acción
+        actualizarBotonesUndoRedo();
+      }
+
+      localStorage.setItem('dashboard_docente_data_v6', JSON.stringify(state));
+      // Guardar también un snapshot de emergencia
+      localStorage.setItem('dashboard_backup_emergency_snapshot', JSON.stringify({
+        fecha: new Date().toLocaleString('es-AR'),
+        state: state
+      }));
+
       actualizarKPIs();
     }
 
+    function deshacer() {
+      if (historyStack.length === 0) return;
+      redoStack.push(JSON.stringify(state));
+      const anterior = historyStack.pop();
+      state = JSON.parse(anterior);
+      guardarEstado(false);
+      renderTablaEstudiantes();
+      actualizarKPIs();
+      actualizarBotonesUndoRedo();
+      mostrarToastRapido("↶ Acción deshecha con éxito");
+    }
+
+    function rehacer() {
+      if (redoStack.length === 0) return;
+      historyStack.push(JSON.stringify(state));
+      const siguiente = redoStack.pop();
+      state = JSON.parse(siguiente);
+      guardarEstado(false);
+      renderTablaEstudiantes();
+      actualizarKPIs();
+      actualizarBotonesUndoRedo();
+      mostrarToastRapido("↷ Acción rehecha con éxito");
+    }
+
+    function actualizarBotonesUndoRedo() {
+      const btnUndoNav = document.getElementById('btn-undo-nav');
+      const btnRedoNav = document.getElementById('btn-redo-nav');
+      const btnUndoTool = document.getElementById('btn-undo-toolbar');
+      const btnRedoTool = document.getElementById('btn-redo-toolbar');
+
+      if (historyStack.length > 0) {
+        btnUndoNav?.classList.remove('btn-disabled');
+        btnUndoTool?.classList.remove('btn-disabled');
+      } else {
+        btnUndoNav?.classList.add('btn-disabled');
+        btnUndoTool?.classList.add('btn-disabled');
+      }
+
+      if (redoStack.length > 0) {
+        btnRedoNav?.classList.remove('btn-disabled');
+        btnRedoTool?.classList.remove('btn-disabled');
+      } else {
+        btnRedoNav?.classList.add('btn-disabled');
+        btnRedoTool?.classList.add('btn-disabled');
+      }
+    }
+
+    // Atajos de teclado para Deshacer (Ctrl+Z) y Rehacer (Ctrl+Y / Ctrl+Shift+Z)
+    window.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'z') {
+        if (e.shiftKey) {
+          e.preventDefault();
+          rehacer();
+        } else {
+          e.preventDefault();
+          deshacer();
+        }
+      } else if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'y') {
+        e.preventDefault();
+        rehacer();
+      }
+    });
+
+    function mostrarToastRapido(msg) {
+      let t = document.getElementById('toast-feedback-rapido');
+      if (!t) {
+        t = document.createElement('div');
+        t.id = 'toast-feedback-rapido';
+        t.className = "fixed bottom-5 right-5 bg-slate-900 text-white text-xs font-bold px-4 py-2.5 rounded-xl shadow-lg z-50 transition transform duration-200 pointer-events-none";
+        document.body.appendChild(t);
+      }
+      t.innerText = msg;
+      t.style.opacity = '1';
+      t.style.transform = 'translateY(0)';
+      clearTimeout(t.timer);
+      t.timer = setTimeout(() => {
+        t.style.opacity = '0';
+        t.style.transform = 'translateY(10px)';
+      }, 1800);
+    }
+
+    // =========================================================================
+    // 🛡️ CENTRO DE COPIA DE SEGURIDAD Y RESTAURACIÓN
+    // =========================================================================
+    function abrirModalBackup() {
+      const snap = localStorage.getItem('dashboard_backup_emergency_snapshot');
+      if (snap) {
+        try {
+          const parsed = JSON.parse(snap);
+          document.getElementById('snapshot-status-txt').innerText = "Último punto guardado: " + parsed.fecha;
+        } catch(e) {}
+      }
+      document.getElementById('modal-backup').classList.remove('hidden');
+    }
+
+    function cerrarModalBackup() {
+      document.getElementById('modal-backup').classList.add('hidden');
+    }
+
+    function descargarCopiaSeguridadJSON() {
+      const backupData = {
+        version: "TuProfeWeb_2026_v1",
+        fechaExportacion: new Date().toISOString(),
+        fechaLegible: new Date().toLocaleString('es-AR'),
+        docente: "Prof. Facundo Casciano",
+        datos: state
+      };
+
+      const blob = new Blob([JSON.stringify(backupData, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      const fechaStr = new Date().toISOString().split('T')[0];
+      a.href = url;
+      a.download = "Copia_Seguridad_TuProfeWeb_" + fechaStr + ".json";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      mostrarToastRapido("✅ Copia de seguridad descargada");
+    }
+
+    function procesarArchivoBackup(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        try {
+          const json = JSON.parse(evt.target.result);
+          const datos = json.datos || json;
+
+          if (!datos.colegios || !datos.cursos || !datos.estudiantes) {
+            alert("El archivo seleccionado no tiene el formato válido de copia de seguridad de TuProfeWeb.");
+            return;
+          }
+
+          if (confirm("¿Estás seguro de restaurar esta copia de seguridad?\\n\\nSe reemplazarán los datos actuales por los contenidos en el archivo (" + (datos.estudiantes.length) + " estudiantes).")) {
+            guardarEstado(true); // Registrar estado actual en historial antes de restaurar
+            state = datos;
+            guardarEstado(false);
+            seleccionarColegio(colegioActivoId);
+            seleccionarCurso(cursoActivoId);
+            cerrarModalBackup();
+            alert("¡Copia de seguridad restaurada con total éxito!");
+          }
+        } catch(err) {
+          alert("Error al leer el archivo de respaldo: " + err.message);
+        }
+      };
+      reader.readAsText(file);
+      e.target.value = '';
+    }
+
+    function restaurarSnapshotNavegador() {
+      const snap = localStorage.getItem('dashboard_backup_emergency_snapshot');
+      if (!snap) {
+        alert("No hay ningún punto de restauración guardado aún.");
+        return;
+      }
+      try {
+        const parsed = JSON.parse(snap);
+        if (confirm("¿Deseas volver al punto de restauración del " + parsed.fecha + "?")) {
+          guardarEstado(true);
+          state = parsed.state;
+          guardarEstado(false);
+          seleccionarColegio(colegioActivoId);
+          seleccionarCurso(cursoActivoId);
+          cerrarModalBackup();
+          alert("¡Punto de restauración recuperado con éxito!");
+        }
+      } catch(e) {
+        alert("Error al restaurar: " + e.message);
+      }
+    }
+
+    // =========================================================================
+    // INICIALIZACIÓN
+    // =========================================================================
     window.addEventListener('DOMContentLoaded', () => {
       document.getElementById('fecha-asistencia').value = fechaHoy;
       renderColegios();
       seleccionarColegio(colegioActivoId);
       seleccionarCurso(cursoActivoId);
       actualizarKPIs();
+      actualizarBotonesUndoRedo();
     });
 
     function cambiarPeriodo(periodo) {
@@ -542,7 +828,7 @@ ${xlsxCode}
     function marcarIndividual(estId, estado) {
       const fecha = document.getElementById('fecha-asistencia').value || fechaHoy;
       state.asistencias[fecha + '_' + estId] = estado;
-      guardarEstado();
+      guardarEstado(true); // Se registra en historial para permitir Deshacer
       renderTablaEstudiantes();
     }
 
@@ -552,8 +838,9 @@ ${xlsxCode}
       alumnos.forEach(est => {
         state.asistencias[fecha + '_' + est.id] = estado;
       });
-      guardarEstado();
+      guardarEstado(true); // Se registra en historial para permitir Deshacer
       renderTablaEstudiantes();
+      mostrarToastRapido("Marcados todos como " + (estado === 'P' ? 'Presentes' : 'Ausentes'));
     }
 
     function copiarInformePreceptoria() {
@@ -723,7 +1010,6 @@ ${xlsxCode}
 
       const cabeceraFechas = ['N°', 'ESTUDIANTE (APELLIDO Y NOMBRE)'];
       fechas.forEach(f => {
-        // Formatear DD/MM
         const p = f.split('-');
         cabeceraFechas.push(p[2] + '/' + p[1]);
       });
@@ -747,7 +1033,6 @@ ${xlsxCode}
         s2.push(fila);
       });
 
-      // Filas de totales por día
       s2.push([]);
       const filaTotalesP = ['', 'PRESENTES DEL DÍA:'];
       const filaTotalesA = ['', 'AUSENTES DEL DÍA:'];
@@ -812,76 +1097,17 @@ ${xlsxCode}
       ];
       XLSX.utils.book_append_sheet(wb, ws3, '⚠️ Solo Casos en Riesgo');
 
-      // Guardar el libro completo
       const nomArchivo = 'Planilla_Oficial_Preceptoria_' + (cur ? cur.nombre.replace(/[^a-zA-Z0-9]/g, '_') : 'Curso') + '_' + archivoPeriodoTag + '.xlsx';
       XLSX.writeFile(wb, nomArchivo);
     }
 
-    // ── VISTA DE IMPRESIÓN / EXPORTAR A PDF OFICIAL ──
-    function imprimirActaOficialPDF() {
-      const cur = state.cursos.find(c => c.id === cursoActivoId);
-      const col = state.colegios.find(c => c.id === (cur ? cur.colegio_id : null));
-      const alumnos = state.estudiantes.filter(e => e.curso_id === cursoActivoId);
-      const fechas = obtenerFechasDictadasCurso(cursoActivoId);
-      const nomPeriodo = periodoSeleccionado === 'todo' ? 'Ciclo Completo (Marzo - Diciembre)' : (periodoSeleccionado === 'p1' ? '1° Período (Marzo - Julio)' : '2° Período (Agosto - Diciembre)');
-
-      let filasHtml = '';
-      alumnos.forEach((est, idx) => {
-        const stats = calcularStatsEstudiante(est.id);
-        const condicion = stats.enRiesgo ? '<b style="color:#b91c1c;">⚠️ EN RIESGO (< 70%)</b>' : '<span style="color:#15803d;">REGULAR</span>';
-        filasHtml += '<tr>' +
-          '<td style="text-align:center;padding:6px;border:1px solid #cbd5e1;">' + (idx + 1) + '</td>' +
-          '<td style="padding:6px;border:1px solid #cbd5e1;font-weight:bold;">' + est.apellido + ' ' + (est.nombre !== '-' ? est.nombre : '') + '</td>' +
-          '<td style="text-align:center;padding:6px;border:1px solid #cbd5e1;">' + (est.dni || '-') + '</td>' +
-          '<td style="text-align:center;padding:6px;border:1px solid #cbd5e1;">' + stats.totalClases + '</td>' +
-          '<td style="text-align:center;padding:6px;border:1px solid #cbd5e1;font-weight:bold;color:#15803d;">' + stats.presentes + '</td>' +
-          '<td style="text-align:center;padding:6px;border:1px solid #cbd5e1;font-weight:bold;color:#b91c1c;">' + stats.ausentes + '</td>' +
-          '<td style="text-align:center;padding:6px;border:1px solid #cbd5e1;font-weight:bold;">' + stats.porcentaje + '%</td>' +
-          '<td style="text-align:center;padding:6px;border:1px solid #cbd5e1;">' + condicion + '</td>' +
-        '</tr>';
-      });
-
-      const ventana = window.open('', '_blank');
-      ventana.document.write('<!DOCTYPE html><html><head><title>Informe Preceptoría - ' + (cur ? cur.nombre : '') + '</title>' +
-        '<style>' +
-          '@page { size: A4 landscape; margin: 12mm; }' +
-          'body { font-family: "Segoe UI", Arial, sans-serif; font-size: 11px; color: #1e293b; margin: 0; padding: 15px; }' +
-          'h1 { font-size: 15px; text-align: center; margin: 0 0 4px 0; text-transform: uppercase; letter-spacing: 0.5px; }' +
-          'h2 { font-size: 12px; text-align: center; margin: 0 0 14px 0; color: #475569; font-weight: normal; }' +
-          '.meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; background: #f8fafc; padding: 10px; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 11px; }' +
-          'table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 10.5px; }' +
-          'th { background-color: #0f172a; color: #ffffff; padding: 7px 5px; text-align: center; font-size: 10px; letter-spacing: 0.5px; border: 1px solid #0f172a; }' +
-          '.firmas { display: flex; justify-content: space-around; margin-top: 50px; text-align: center; page-break-inside: avoid; }' +
-          '.linea-firma { width: 220px; border-top: 1px solid #0f172a; padding-top: 6px; font-weight: bold; font-size: 10px; }' +
-        '</style>' +
-      '</head><body>' +
-        '<h1>Dirección General de Escuelas — Educación Técnica</h1>' +
-        '<h2>Planilla Oficial de Control de Regularidad Escolar &middot; Mínimo Obligatorio 70%</h2>' +
-        '<div class="meta-grid">' +
-          '<div><b>Establecimiento:</b> ' + (col ? col.nombre : '') + '<br><b>Curso y División:</b> ' + (cur ? cur.nombre : '') + ' (' + (cur ? cur.turno : 'Mañana') + ')</div>' +
-          '<div><b>Docente a Cargo:</b> Prof. Facundo Casciano<br><b>Período:</b> ' + nomPeriodo + ' &middot; <b>Fecha:</b> ' + new Date().toLocaleDateString('es-AR') + '</div>' +
-        '</div>' +
-        '<table>' +
-          '<thead><tr>' +
-            '<th style="width:30px;">#</th><th>Estudiante (Apellido y Nombre)</th><th style="width:80px;">DNI</th><th style="width:70px;">Clases</th><th style="width:70px;">Presentes</th><th style="width:70px;">Ausentes</th><th style="width:70px;">% Asist.</th><th style="width:140px;">Condición</th>' +
-          '</tr></thead>' +
-          '<tbody>' + filasHtml + '</tbody>' +
-        '</table>' +
-        '<div class="firmas">' +
-          '<div class="linea-firma">Prof. Facundo Casciano<br><span style="font-weight:normal;color:#64748b;">Firma y Sello Docente</span></div>' +
-          '<div class="linea-firma">Preceptor/a de Turno<br><span style="font-weight:normal;color:#64748b;">Recibido Preceptoría</span></div>' +
-          '<div class="linea-firma">Equipo Directivo<br><span style="font-weight:normal;color:#64748b;">Visto Bueno Dirección</span></div>' +
-        '</div>' +
-        '<script>window.onload = function() { window.print(); }<\\/script>' +
-      '</body></html>');
-      ventana.document.close();
-    }
-
     function eliminarEstudiante(id) {
       if (confirm("¿Estás seguro de eliminar este estudiante del curso?")) {
+        guardarEstado(true); // Guarda en historial para permitir Deshacer
         state.estudiantes = state.estudiantes.filter(e => e.id !== id);
-        guardarEstado();
+        guardarEstado(false);
         seleccionarCurso(cursoActivoId);
+        mostrarToastRapido("Estudiante eliminado (podés Deshacer con Ctrl+Z)");
       }
     }
 
@@ -932,6 +1158,8 @@ ${xlsxCode}
             targetCursoId = cursoMatch.id;
           }
 
+          guardarEstado(true); // Guardar estado en historial antes de cargar
+
           for (let r = 1; r < rows.length; r++) {
             const row = rows[r];
             if (!row || !row[0]) continue;
@@ -979,7 +1207,7 @@ ${xlsxCode}
             }
           }
 
-          guardarEstado();
+          guardarEstado(false);
           seleccionarCurso(targetCursoId);
 
           const nomCurso = (state.cursos.find(c => c.id === targetCursoId) || {}).nombre || '';
@@ -1019,4 +1247,4 @@ ${xlsxCode}
 </html>`;
 
 fs.writeFileSync('C:\\Users\\NuevoAdmin\\Desktop\\Dashboard_Docente.html', html, 'utf8');
-console.log('Saved ultra-professional Dashboard_Docente.html successfully!');
+console.log('Saved Dashboard_Docente.html with Undo/Redo and Backup successfully!');
