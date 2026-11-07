@@ -1798,6 +1798,35 @@ const html = `<!DOCTYPE html>
       });
     }
 
+    function obtenerClasesRestantesCurso(cursoId) {
+      const fechas = obtenerFechasDictadasCurso(cursoId);
+      const distDias = {};
+      fechas.forEach(f => {
+        const d = new Date(f + 'T12:00:00Z');
+        const day = d.getUTCDay();
+        distDias[day] = (distDias[day] || 0) + 1;
+      });
+
+      const diasClase = Object.keys(distDias).map(Number).filter(d => distDias[d] >= 2);
+      if (diasClase.length === 0) diasClase.push(2);
+
+      const FERIADOS = ['2026-11-20', '2026-11-23', '2026-12-08'];
+      const start = new Date('2026-11-07T12:00:00Z');
+      const end = new Date('2026-12-18T12:00:00Z');
+
+      let count = 0;
+      let temp = new Date(start);
+      temp.setUTCDate(temp.getUTCDate() + 1);
+      while (temp <= end) {
+        const iso = temp.toISOString().split('T')[0];
+        if (diasClase.includes(temp.getUTCDay()) && !FERIADOS.includes(iso)) {
+          count++;
+        }
+        temp.setUTCDate(temp.getUTCDate() + 1);
+      }
+      return count;
+    }
+
     function calcularStatsEstudiante(estId) {
       const fechas = obtenerFechasDictadasCurso(cursoActivoId);
       let presentes = 0;
@@ -1824,7 +1853,40 @@ const html = `<!DOCTYPE html>
       const porcentaje = totalClases > 0 ? Math.round((presentes / totalClases) * 100) : 100;
       const enRiesgo = totalClases > 0 && porcentaje < 70;
 
-      return { totalClases, presentes, ausentes, justificadas, tardes, porcentaje, enRiesgo };
+      const clasesRestantes = obtenerClasesRestantesCurso(cursoActivoId);
+      const totalAnualProyectado = totalClases + clasesRestantes;
+      const maxPresPosibles = presentes + clasesRestantes;
+      const maxPctPosible = totalAnualProyectado > 0 ? Math.round((maxPresPosibles / totalAnualProyectado) * 100) : 100;
+      const presMinimosNecesarios = Math.ceil(0.70 * totalAnualProyectado) - presentes;
+      const faltasPermitidas = clasesRestantes - presMinimosNecesarios;
+
+      let estadoProyeccion = 'REGULAR';
+      if (enRiesgo) {
+        if (maxPctPosible >= 70) {
+          estadoProyeccion = 'PUEDE_LLEGAR';
+        } else {
+          estadoProyeccion = 'NO_LLEGA_LIBRE';
+        }
+      } else if (faltasPermitidas <= 1 && clasesRestantes > 0) {
+        estadoProyeccion = 'CORNISA';
+      }
+
+      return {
+        totalClases,
+        presentes,
+        ausentes,
+        justificadas,
+        tardes,
+        porcentaje,
+        enRiesgo,
+        clasesRestantes,
+        totalAnualProyectado,
+        maxPresPosibles,
+        maxPctPosible,
+        presMinimosNecesarios,
+        faltasPermitidas,
+        estadoProyeccion
+      };
     }
 
     // =========================================================================
@@ -1943,9 +2005,31 @@ const html = `<!DOCTYPE html>
             + '</div>';
         }
 
-        const badgeCondicion = stats.enRiesgo
-          ? '<span class="inline-flex items-center text-xs font-extrabold text-rose-700 bg-rose-100 px-2.5 py-0.5 rounded-full"><i class="fa-solid fa-triangle-exclamation mr-1"></i> AVISAR PRECEPTORA</span>'
-          : '<span class="inline-flex items-center text-xs font-medium text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-full">Regular</span>';
+        let badgeCondicion = '';
+        if (stats.estadoProyeccion === 'PUEDE_LLEGAR') {
+          badgeCondicion = '<div class="text-center">'
+            + '<span class="inline-flex items-center text-xs font-black text-amber-950 bg-amber-300 border-2 border-amber-500 px-2.5 py-0.5 rounded-full shadow-2xs">'
+            + '  🟡 PUEDE LLEGAR'
+            + '</span>'
+            + '<div class="text-[10px] text-amber-900 font-bold mt-0.5">Asist. Perfecta (' + stats.clasesRestantes + ' clases rest.)</div>'
+            + '</div>';
+        } else if (stats.estadoProyeccion === 'NO_LLEGA_LIBRE') {
+          badgeCondicion = '<div class="text-center">'
+            + '<span class="inline-flex items-center text-xs font-extrabold text-rose-800 bg-rose-100 border border-rose-300 px-2.5 py-0.5 rounded-full shadow-2xs">'
+            + '  🔴 QUEDA LIBRE'
+            + '</span>'
+            + '<div class="text-[10px] text-rose-700 font-bold mt-0.5">Máx posible ' + stats.maxPctPosible + '%</div>'
+            + '</div>';
+        } else if (stats.estadoProyeccion === 'CORNISA') {
+          badgeCondicion = '<div class="text-center">'
+            + '<span class="inline-flex items-center text-xs font-bold text-amber-800 bg-amber-50 border border-amber-300 px-2 py-0.5 rounded-full">'
+            + '  ⚠️ En la cornisa'
+            + '</span>'
+            + '<div class="text-[10px] text-amber-700 font-medium mt-0.5">Tolera ' + stats.faltasPermitidas + ' falta máx</div>'
+            + '</div>';
+        } else {
+          badgeCondicion = '<span class="inline-flex items-center text-xs font-medium text-emerald-700 bg-emerald-100 px-2.5 py-0.5 rounded-full">🟢 Regular</span>';
+        }
 
         const colorPorcentaje = stats.porcentaje >= 80 ? 'text-emerald-600' : (stats.porcentaje >= 70 ? 'text-amber-600' : 'text-rose-600 font-extrabold');
 
@@ -2004,28 +2088,52 @@ const html = `<!DOCTYPE html>
       chipsCont.innerHTML = '';
 
       const alumnos = state.estudiantes.filter(e => e.curso_id === cursoActivoId);
-      const enRiesgo = [];
+      const noLlegan = [];
+      const puedenSalvarse = [];
 
       alumnos.forEach(e => {
         const stats = calcularStatsEstudiante(e.id);
-        if (stats.enRiesgo) enRiesgo.push({ est: e, stats });
+        if (stats.enRiesgo) {
+          if (stats.estadoProyeccion === 'PUEDE_LLEGAR') puedenSalvarse.push({ est: e, stats: stats });
+          else noLlegan.push({ est: e, stats: stats });
+        }
       });
 
-      if (enRiesgo.length === 0) {
+      const totalRiesgo = noLlegan.length + puedenSalvarse.length;
+      if (totalRiesgo === 0) {
         cont.classList.add('hidden');
         return;
       }
 
       cont.classList.remove('hidden');
-      conteoTxt.textContent = enRiesgo.length;
+      conteoTxt.textContent = totalRiesgo;
 
-      enRiesgo.forEach(item => {
-        const chip = document.createElement('span');
-        chip.className = 'inline-flex items-center text-xs font-bold bg-white text-rose-800 border border-rose-300 px-2.5 py-1 rounded-lg shadow-2xs';
-        chip.innerHTML = '<span class="mr-1.5">' + item.est.apellido.toUpperCase() + '</span>'
-          + '<span class="bg-rose-600 text-white font-extrabold text-[10px] px-1.5 py-0.2 rounded-full">' + item.stats.porcentaje + '%</span>';
-        chipsCont.appendChild(chip);
-      });
+      let htmlChips = '';
+      if (puedenSalvarse.length > 0) {
+        htmlChips += '<div class="w-full flex flex-wrap items-center gap-1.5 mb-1.5">'
+          + '<span class="text-[11px] font-black text-amber-950 bg-amber-300 px-2 py-0.5 rounded-md border border-amber-500 shadow-2xs">🟡 PUEDEN LLEGAR (Asistencia Perfecta):</span>';
+        puedenSalvarse.forEach(item => {
+          htmlChips += '<span class="inline-flex items-center text-xs font-bold bg-amber-100 text-amber-950 border-2 border-amber-400 px-2.5 py-1 rounded-lg shadow-2xs">'
+            + '<span class="mr-1.5 font-black">' + item.est.apellido.toUpperCase() + '</span>'
+            + '<span class="bg-amber-500 text-slate-950 font-black text-[10px] px-1.5 py-0.2 rounded-full">Actual ' + item.stats.porcentaje + '% • Máx ' + item.stats.maxPctPosible + '%</span>'
+            + '</span>';
+        });
+        htmlChips += '</div>';
+      }
+
+      if (noLlegan.length > 0) {
+        htmlChips += '<div class="w-full flex flex-wrap items-center gap-1.5">'
+          + '<span class="text-[11px] font-black text-rose-900 bg-rose-200 px-2 py-0.5 rounded-md border border-rose-300 shadow-2xs">🔴 QUEDAN LIBRES (No llegan al 70%):</span>';
+        noLlegan.forEach(item => {
+          htmlChips += '<span class="inline-flex items-center text-xs font-bold bg-white text-rose-800 border border-rose-300 px-2.5 py-1 rounded-lg shadow-2xs">'
+            + '<span class="mr-1.5 font-bold">' + item.est.apellido.toUpperCase() + '</span>'
+            + '<span class="bg-rose-600 text-white font-extrabold text-[10px] px-1.5 py-0.2 rounded-full">Actual ' + item.stats.porcentaje + '%</span>'
+            + '</span>';
+        });
+        htmlChips += '</div>';
+      }
+
+      chipsCont.innerHTML = htmlChips;
     }
 
     function actualizarEstadisticas() {
