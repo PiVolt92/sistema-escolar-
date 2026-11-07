@@ -382,6 +382,7 @@ function renderCursos() {
         <div class="course-actions-grid">
           <button class="btn-action btn-act-yellow" onclick="showAsistenciaModal('${id}')">Registrar / Modificar Asistencia</button>
           <button class="btn-action btn-act-gray" onclick="showHistorialAsistenciaModal('${id}')">Historial de Asistencia</button>
+          <button class="btn-action btn-act-green" style="font-weight:700;" onclick="showAddEstudianteModal('${id}')">📂 Cargar Alumnos (Excel)</button>
           <button class="btn-action btn-act-red" style="font-weight:600;" onclick="abrirModalFormatearFaltas('${id}')" title="Formatear o reiniciar las faltas de este curso a cero">🧹 Formatear Faltas</button>
           <button class="btn-action btn-act-green" onclick="showCalificacionesDiariasModal('${id}')">Calificaciones diarias</button>
           <button class="btn-action btn-act-blue-bold" onclick="showCalificacionesAnualesModal('${id}')">Calificaciones Anuales</button>
@@ -459,43 +460,68 @@ async function saveNewCurso() {
 // GESTIÓN DE ESTUDIANTES (ESTILO EXCEL)
 // =============================================
 let excelRowsCounter = 0;
+let currentExcelWorkbook = null;
 
 function cambiarModoCarga(modo) {
+  const btnFile = document.getElementById('tab-btn-file');
   const btnGrid = document.getElementById('tab-btn-grid');
   const btnPaste = document.getElementById('tab-btn-paste');
-  const divGrid = document.getElementById('modo-carga-grid');
+  const divFile = document.getElementById('modo-carga-file');
   const divPaste = document.getElementById('modo-carga-paste');
+  const divGrid = document.getElementById('modo-carga-grid');
 
-  if (modo === 'grid') {
-    btnGrid.className = 'btn-action btn-act-blue-bold';
-    btnPaste.className = 'btn-action btn-act-gray';
-    divGrid.classList.remove('hidden');
-    divPaste.classList.add('hidden');
-  } else {
-    btnGrid.className = 'btn-action btn-act-gray';
-    btnPaste.className = 'btn-action btn-act-blue-bold';
-    divGrid.classList.add('hidden');
-    divPaste.classList.remove('hidden');
-    document.getElementById('excel-paste-area').focus();
+  if (modo === 'file') {
+    if (btnFile) btnFile.className = 'btn-action btn-act-blue-bold';
+    if (btnGrid) btnGrid.className = 'btn-action btn-act-gray';
+    if (btnPaste) btnPaste.className = 'btn-action btn-act-gray';
+    if (divFile) divFile.classList.remove('hidden');
+    if (divPaste) divPaste.classList.add('hidden');
+    if (divGrid) divGrid.classList.remove('hidden');
+  } else if (modo === 'grid') {
+    if (btnFile) btnFile.className = 'btn-action btn-act-gray';
+    if (btnGrid) btnGrid.className = 'btn-action btn-act-blue-bold';
+    if (btnPaste) btnPaste.className = 'btn-action btn-act-gray';
+    if (divFile) divFile.classList.add('hidden');
+    if (divPaste) divPaste.classList.add('hidden');
+    if (divGrid) divGrid.classList.remove('hidden');
+  } else if (modo === 'paste') {
+    if (btnFile) btnFile.className = 'btn-action btn-act-gray';
+    if (btnGrid) btnGrid.className = 'btn-action btn-act-gray';
+    if (btnPaste) btnPaste.className = 'btn-action btn-act-blue-bold';
+    if (divFile) divFile.classList.add('hidden');
+    if (divPaste) divPaste.classList.remove('hidden');
+    if (divGrid) divGrid.classList.remove('hidden');
+    const area = document.getElementById('excel-paste-area');
+    if (area) area.focus();
   }
 }
 
-function showAddEstudianteModal() {
+async function showAddEstudianteModal(targetCursoId = null) {
   openModal('modal-add-estudiante');
-  cambiarModoCarga('grid');
+  cambiarModoCarga('file');
+  resetExcelUpload();
 
   const selectColegio = document.getElementById('select-est-colegio');
   const selectCurso = document.getElementById('select-est-curso');
   const colegiosList = Array.isArray(App.colegios) ? App.colegios : [];
 
+  let colegioIdInicial = App.selectedColegio ? (App.selectedColegio.id || App.selectedColegio._id) : '';
+
+  if (targetCursoId) {
+    const cursoObj = App.cursos.find(c => (c.id || c._id) == targetCursoId);
+    if (cursoObj && cursoObj.colegio_id) {
+      colegioIdInicial = cursoObj.colegio_id;
+    }
+  }
+
   selectColegio.innerHTML = '<option value="">-- Seleccione colegio --</option>' +
     colegiosList.map(c => {
       const id = c.id || c._id;
-      const isSel = App.selectedColegio && (App.selectedColegio.id || App.selectedColegio._id) == id;
+      const isSel = colegioIdInicial == id;
       return `<option value="${id}" ${isSel ? 'selected' : ''}>${c.nombre}</option>`;
     }).join('');
 
-  const actualizarCursos = async (cId) => {
+  const actualizarCursos = async (cId, cursoSeleccionado = null) => {
     if (!cId) {
       selectCurso.innerHTML = '<option value="">-- Primero seleccione colegio --</option>';
       return;
@@ -509,7 +535,8 @@ function showAddEstudianteModal() {
       }
       selectCurso.innerHTML = cursos.map((c, i) => {
         const id = c.id || c._id;
-        return `<option value="${id}">${c.nombre}</option>`;
+        const isSel = cursoSeleccionado ? (id == cursoSeleccionado) : (i === 0);
+        return `<option value="${id}" ${isSel ? 'selected' : ''}>${c.nombre}</option>`;
       }).join('');
     } catch {
       selectCurso.innerHTML = '<option value="">Error al cargar cursos</option>';
@@ -520,8 +547,8 @@ function showAddEstudianteModal() {
     actualizarCursos(this.value);
   };
 
-  if (App.selectedColegio) {
-    actualizarCursos(App.selectedColegio.id || App.selectedColegio._id);
+  if (colegioIdInicial) {
+    await actualizarCursos(colegioIdInicial, targetCursoId);
   }
 
   // Inicializar grilla con 5 filas si está vacía
@@ -531,6 +558,228 @@ function showAddEstudianteModal() {
   } else {
     actualizarContadorFilas();
   }
+}
+
+// ── Controladores de Drag & Drop y lectura de archivo Excel ──
+function handleExcelDragOver(e) {
+  e.preventDefault();
+  e.stopPropagation();
+  const dz = document.getElementById('dropzone-excel');
+  if (dz) {
+    dz.style.borderColor = '#198754';
+    dz.style.background = 'rgba(25, 135, 84, 0.08)';
+  }
+}
+
+function handleExcelDragLeave(e) {
+  e.preventDefault();
+  e.stopPropagation();
+  const dz = document.getElementById('dropzone-excel');
+  if (dz) {
+    dz.style.borderColor = '#0d6efd';
+    dz.style.background = 'rgba(13, 110, 253, 0.03)';
+  }
+}
+
+function handleExcelDrop(e) {
+  e.preventDefault();
+  e.stopPropagation();
+  handleExcelDragLeave(e);
+  const files = e.dataTransfer ? e.dataTransfer.files : null;
+  if (files && files.length > 0) {
+    procesarArchivoExcel(files[0]);
+  }
+}
+
+function handleExcelFileInput(e) {
+  const files = e.target.files;
+  if (files && files.length > 0) {
+    procesarArchivoExcel(files[0]);
+  }
+}
+
+function resetExcelUpload() {
+  currentExcelWorkbook = null;
+  const input = document.getElementById('input-excel-file');
+  if (input) input.value = '';
+  const statusDiv = document.getElementById('excel-file-status');
+  if (statusDiv) statusDiv.classList.add('hidden');
+  const sheetContainer = document.getElementById('excel-sheet-selector-container');
+  if (sheetContainer) sheetContainer.classList.add('hidden');
+}
+
+function procesarArchivoExcel(file) {
+  if (!file) return;
+
+  const validExts = ['.xlsx', '.xls', '.csv'];
+  const ext = file.name.substring(file.name.lastIndexOf('.')).toLowerCase();
+  if (!validExts.includes(ext)) {
+    showToast('Por favor selecciona un archivo Excel (.xlsx, .xls) o .csv válido.', 'warning');
+    return;
+  }
+
+  if (typeof XLSX === 'undefined') {
+    showToast('Cargando motor de lectura Excel, por favor espere...', 'info');
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js';
+    script.onload = () => procesarArchivoExcel(file);
+    script.onerror = () => showToast('No se pudo cargar la librería para leer Excel.', 'error');
+    document.head.appendChild(script);
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const data = new Uint8Array(e.target.result);
+      const workbook = XLSX.read(data, { type: 'array' });
+      currentExcelWorkbook = { workbook, fileName: file.name };
+
+      const sheetContainer = document.getElementById('excel-sheet-selector-container');
+      const sheetSelect = document.getElementById('excel-sheet-select');
+      if (workbook.SheetNames.length > 1) {
+        sheetSelect.innerHTML = workbook.SheetNames.map((s, idx) => 
+          `<option value="${idx}">${s}</option>`
+        ).join('');
+        if (sheetContainer) sheetContainer.classList.remove('hidden');
+      } else {
+        if (sheetContainer) sheetContainer.classList.add('hidden');
+      }
+
+      cargarHojaExcel(workbook.SheetNames[0], file.name);
+
+    } catch (err) {
+      console.error('Error al leer Excel:', err);
+      showToast('Error al procesar el archivo Excel: ' + err.message, 'error');
+    }
+  };
+  reader.onerror = function() {
+    showToast('Error al leer el archivo desde el disco.', 'error');
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+function handleExcelSheetChange() {
+  if (!currentExcelWorkbook) return;
+  const sheetSelect = document.getElementById('excel-sheet-select');
+  const sheetIndex = parseInt(sheetSelect.value, 10);
+  const sheetName = currentExcelWorkbook.workbook.SheetNames[sheetIndex];
+  cargarHojaExcel(sheetName, currentExcelWorkbook.fileName);
+}
+
+function cargarHojaExcel(sheetName, fileName) {
+  if (!currentExcelWorkbook) return;
+  const sheet = currentExcelWorkbook.workbook.Sheets[sheetName];
+  if (!sheet) return;
+
+  const rawRows = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+  if (!rawRows || rawRows.length === 0) {
+    showToast('La hoja seleccionada está vacía.', 'warning');
+    return;
+  }
+
+  // Detectar fila de cabecera e índices de columnas
+  let headerRowIdx = -1;
+  let studentColIdx = -1;
+  let apellidoColIdx = -1;
+  let nombreColIdx = -1;
+  let dniColIdx = -1;
+
+  for (let r = 0; r < Math.min(10, rawRows.length); r++) {
+    const row = rawRows[r];
+    if (!row) continue;
+    for (let c = 0; c < row.length; c++) {
+      const val = String(row[c] || '').trim().toLowerCase();
+      if (val.includes('estudiante') || val.includes('alumno') || val.includes('apellido y nombre') || val.includes('nombre y apellido') || val.includes('nómina') || val.includes('nomina')) {
+        headerRowIdx = r;
+        studentColIdx = c;
+        break;
+      }
+      if (val === 'apellido' || val === 'apellidos') {
+        headerRowIdx = r;
+        apellidoColIdx = c;
+      }
+      if (val === 'nombre' || val === 'nombres') {
+        nombreColIdx = c;
+      }
+      if (val.includes('dni') || val.includes('documento')) {
+        dniColIdx = c;
+      }
+    }
+    if (headerRowIdx !== -1) break;
+  }
+
+  const startRow = headerRowIdx !== -1 ? headerRowIdx + 1 : 0;
+  const colEst = studentColIdx !== -1 ? studentColIdx : (apellidoColIdx !== -1 ? apellidoColIdx : 0);
+
+  const estudiantesExtraidos = [];
+
+  for (let r = startRow; r < rawRows.length; r++) {
+    const row = rawRows[r];
+    if (!row || row.length === 0) continue;
+
+    let apellido = '';
+    let nombre = '';
+    let dni = dniColIdx !== -1 ? String(row[dniColIdx] || '').trim() : '';
+
+    if (apellidoColIdx !== -1 && nombreColIdx !== -1) {
+      apellido = String(row[apellidoColIdx] || '').trim();
+      nombre = String(row[nombreColIdx] || '').trim();
+    } else {
+      const fullText = String(row[colEst] || '').trim();
+      if (!fullText) continue;
+      const lower = fullText.toLowerCase();
+      if (lower.includes('total') || lower.includes('promedio') || lower.includes('porcentaje') || lower === 'estudiante' || lower === 'alumno' || lower === 'nombres' || lower === 'apellidos') continue;
+
+      if (fullText.includes(',')) {
+        const parts = fullText.split(',');
+        apellido = parts[0].trim();
+        nombre = parts.slice(1).join(' ').trim();
+      } else {
+        const words = fullText.split(/\s+/);
+        if (words.length === 1) {
+          apellido = words[0];
+          nombre = '';
+        } else {
+          apellido = words[0];
+          nombre = words.slice(1).join(' ');
+        }
+      }
+    }
+
+    // Limpieza de caracteres residuales
+    apellido = apellido.replace(/^[,;.\s]+|[,;.\s]+$/g, '');
+    nombre = nombre.replace(/^[,;.\s]+|[,;.\s]+$/g, '');
+    dni = dni.replace(/[^0-9.]/g, '');
+
+    if (apellido || nombre) {
+      estudiantesExtraidos.push({ apellido, nombre, dni });
+    }
+  }
+
+  if (estudiantesExtraidos.length === 0) {
+    showToast('No se encontraron filas con nombres de estudiantes en esta hoja.', 'warning');
+    return;
+  }
+
+  // Poblar grilla interactiva
+  const tbody = document.getElementById('excel-grid-tbody');
+  tbody.innerHTML = '';
+  estudiantesExtraidos.forEach(est => {
+    agregarFilaExcel(est.apellido, est.nombre, est.dni);
+  });
+
+  // Mostrar resumen en UI
+  const statusDiv = document.getElementById('excel-file-status');
+  const nameEl = document.getElementById('excel-loaded-filename');
+  const summaryEl = document.getElementById('excel-loaded-summary');
+
+  if (nameEl) nameEl.textContent = fileName + (sheetName ? ` [Hoja: ${sheetName}]` : '');
+  if (summaryEl) summaryEl.textContent = `¡${estudiantesExtraidos.length} estudiante(s) leídos exitosamente! Revisa la grilla abajo y haz clic en "Guardar Alumnos en el Curso".`;
+  if (statusDiv) statusDiv.classList.remove('hidden');
+
+  actualizarContadorFilas();
+  showToast(`✅ ¡${estudiantesExtraidos.length} estudiantes cargados del archivo Excel!`, 'success');
 }
 
 function agregarFilaExcel(apellido = '', nombre = '', dni = '') {
@@ -758,6 +1007,7 @@ async function saveNewEstudiante() {
 
     closeModal('modal-add-estudiante');
     limpiarFilasExcel();
+    resetExcelUpload();
     showToast(`✅ ${estudiantes.length} estudiante(s) guardado(s) correctamente`, 'success');
 
     if (App.selectedColegio && (App.selectedColegio.id || App.selectedColegio._id) == colegioId) {

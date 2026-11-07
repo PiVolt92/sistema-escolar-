@@ -97,7 +97,7 @@
         <div class="navbar-buttons-group">
           <button class="btn-nav btn-nav-green" onclick="showAddColegioModal()">Agregar Colegio</button>
           <button class="btn-nav btn-nav-blue" onclick="showAddCursoModal()">Agregar Curso</button>
-          <button class="btn-nav btn-nav-cyan" onclick="showAddEstudianteModal()">Agregar Estudiante</button>
+          <button class="btn-nav btn-nav-cyan" onclick="showAddEstudianteModal()" style="font-weight:700;">📂 Cargar Alumnos (Excel)</button>
           <button class="btn-nav btn-nav-yellow" onclick="showHorarioModal()">Horario</button>
           <button class="btn-nav btn-nav-blue" onclick="showCalendarioModal()">
             Calendario
@@ -224,7 +224,7 @@
   <div id="modal-add-estudiante" class="modal-overlay">
     <div class="modal-card modal-card-xl">
       <div class="modal-header-bar">
-        <h2>👤 Carga de Estudiantes (Modo Planilla Excel)</h2>
+        <h2>📂 Carga de Estudiantes (Planilla Excel o Manual)</h2>
         <button class="modal-btn-close" onclick="closeModal('modal-add-estudiante')">&times;</button>
       </div>
       <div class="modal-body-scroll">
@@ -241,21 +241,85 @@
         </div>
 
         <!-- Pestañas de modo de carga -->
-        <div style="display:flex;gap:10px;margin-bottom:14px;border-bottom:1px solid var(--border-light);padding-bottom:10px;">
-          <button type="button" id="tab-btn-grid" class="btn-action btn-act-blue-bold" onclick="cambiarModoCarga('grid')">
-            📊 Grilla Interactiva (Fila por Fila)
+        <div style="display:flex;gap:10px;margin-bottom:14px;border-bottom:1px solid var(--border-light);padding-bottom:10px;flex-wrap:wrap;">
+          <button type="button" id="tab-btn-file" class="btn-action btn-act-blue-bold" onclick="cambiarModoCarga('file')">
+            📁 Subir Archivo Excel (.xlsx / .xls)
+          </button>
+          <button type="button" id="tab-btn-grid" class="btn-action btn-act-gray" onclick="cambiarModoCarga('grid')">
+            📊 Grilla Manual (Fila por Fila)
           </button>
           <button type="button" id="tab-btn-paste" class="btn-action btn-act-gray" onclick="cambiarModoCarga('paste')">
             📋 Pegar Masivo desde Excel (Ctrl + V)
           </button>
         </div>
 
-        <!-- MODO A: Grilla interactiva estilo Excel -->
-        <div id="modo-carga-grid">
-          <p style="color:var(--text-muted);font-size:0.84rem;margin-bottom:10px;">
-            Escribe en las celdas directamente. También puedes copiar filas en Excel y presionar <b>Ctrl + V</b> aquí.
+        <!-- MODO ARCHIVO: Subir archivo Excel directo -->
+        <div id="modo-carga-file">
+          <div id="dropzone-excel" class="excel-dropzone" 
+               ondragover="handleExcelDragOver(event)" 
+               ondragleave="handleExcelDragLeave(event)" 
+               ondrop="handleExcelDrop(event)"
+               onclick="document.getElementById('input-excel-file').click()" 
+               style="border:2px dashed #0d6efd;border-radius:10px;padding:34px 20px;text-align:center;background:rgba(13,110,253,0.03);cursor:pointer;transition:all 0.2s ease;">
+            <div style="font-size:3rem;margin-bottom:8px;">📊</div>
+            <div style="font-weight:700;font-size:1.15rem;color:var(--c-navy);margin-bottom:6px;">
+              Arrastra y suelta tu archivo Excel aquí o haz clic para seleccionarlo
+            </div>
+            <div style="font-size:0.88rem;color:var(--text-muted);margin-bottom:16px;">
+              Formatos soportados: <b>.xlsx, .xls, .csv</b>
+              <br>Detecta automáticamente las columnas: <b>Apellido y Nombre</b>, <b>Estudiante</b>, <b>DNI</b>, etc.
+            </div>
+            <button type="button" class="btn-nav btn-nav-blue" style="pointer-events:none;padding:9px 24px;font-weight:700;font-size:0.95rem;">
+              📁 Seleccionar Archivo Excel desde la Computadora
+            </button>
+            <input type="file" id="input-excel-file" accept=".xlsx, .xls, .csv" style="display:none;" onchange="handleExcelFileInput(event)">
+          </div>
+
+          <div id="excel-file-status" class="hidden" style="margin-top:14px;padding:12px 18px;background:#e8f5e9;border:1px solid #a5d6a7;border-radius:8px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+            <div style="display:flex;align-items:center;gap:12px;">
+              <span style="font-size:1.6rem;">✅</span>
+              <div>
+                <strong id="excel-loaded-filename" style="color:#2e7d32;font-size:0.98rem;"></strong>
+                <div id="excel-loaded-summary" style="font-size:0.86rem;color:#1b5e20;"></div>
+              </div>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center;">
+              <span id="excel-sheet-selector-container" class="hidden" style="display:inline-flex;align-items:center;gap:6px;font-size:0.85rem;">
+                <b>Hoja:</b>
+                <select id="excel-sheet-select" class="form-select" style="font-size:0.82rem;padding:4px 8px;" onchange="handleExcelSheetChange()"></select>
+              </span>
+              <button type="button" class="btn-action btn-act-gray" onclick="resetExcelUpload()" style="font-size:0.82rem;padding:5px 12px;">Cambiar archivo</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- MODO B: Pegar texto directo de Excel -->
+        <div id="modo-carga-paste" class="hidden">
+          <p style="color:var(--text-muted);font-size:0.86rem;margin-bottom:8px;">
+            Copia tus celdas en Excel o planilla (columnas: <b>Apellido | Nombre | DNI</b> o <b>Apellido y Nombre</b>) y pégalas aquí:
           </p>
-          <div class="table-responsive" style="max-height:360px;overflow-y:auto;">
+          <textarea id="excel-paste-area" class="form-textarea" rows="8" placeholder="Ejemplo de lo que puedes pegar:
+Alvarez	Mateo	45123890
+Benítez	Sofía	45342112
+Castro	Lucas	44981234
+Díaz	Valentina	45678901"></textarea>
+          <div style="margin-top:10px;">
+            <button type="button" class="btn-nav btn-nav-blue" onclick="procesarPegadoExcel()">
+              ⚡ Convertir y Cargar en la Grilla
+            </button>
+          </div>
+        </div>
+
+        <!-- Grilla interactiva / Vista previa de estudiantes a guardar -->
+        <div id="modo-carga-grid" style="margin-top:16px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+            <strong style="font-size:0.92rem;color:var(--c-navy);">
+              📋 Estudiantes a Registrar en el Curso:
+            </strong>
+            <span id="excel-filas-count" style="font-size:0.85rem;color:var(--text-muted);font-weight:600;"></span>
+          </div>
+
+          <div class="table-responsive" style="max-height:360px;overflow-y:auto;border:1px solid var(--border-light);border-radius:6px;">
             <table class="table-custom">
               <thead>
                 <tr>
@@ -277,31 +341,14 @@
               <button type="button" class="btn-action btn-act-cyan" onclick="agregarMultiplesFilas(5)">+ 5 Filas</button>
               <button type="button" class="btn-action btn-act-gray" onclick="limpiarFilasExcel()">Limpiar Todo</button>
             </div>
-            <span id="excel-filas-count" style="font-size:0.85rem;color:var(--text-muted);font-weight:600;"></span>
-          </div>
-        </div>
-
-        <!-- MODO B: Pegar texto directo de Excel -->
-        <div id="modo-carga-paste" class="hidden">
-          <p style="color:var(--text-muted);font-size:0.86rem;margin-bottom:8px;">
-            Copia tus celdas en Excel o planilla (columnas: <b>Apellido | Nombre | DNI</b> o <b>Apellido y Nombre</b>) y pégalas aquí:
-          </p>
-          <textarea id="excel-paste-area" class="form-textarea" rows="8" placeholder="Ejemplo de lo que puedes pegar:
-Alvarez	Mateo	45123890
-Benítez	Sofía	45342112
-Castro	Lucas	44981234
-Díaz	Valentina	45678901"></textarea>
-          <div style="margin-top:10px;">
-            <button type="button" class="btn-nav btn-nav-blue" onclick="procesarPegadoExcel()">
-              ⚡ Convertir y Cargar en la Grilla
-            </button>
+            <span style="font-size:0.8rem;color:var(--text-muted);">Puedes editar o corregir cualquier nombre directamente antes de guardar</span>
           </div>
         </div>
 
       </div>
       <div class="modal-footer-bar">
         <button class="btn-nav btn-nav-gray" onclick="closeModal('modal-add-estudiante')">Cancelar</button>
-        <button class="btn-nav btn-nav-green" onclick="saveNewEstudiante()" style="font-weight:700;padding:10px 24px;font-size:0.95rem;">
+        <button class="btn-nav btn-nav-green" onclick="saveNewEstudiante()" style="font-weight:700;padding:10px 26px;font-size:1rem;background:#198754;border-color:#198754;">
           💾 Guardar Alumnos en el Curso
         </button>
       </div>
@@ -1241,6 +1288,8 @@ Díaz	Valentina	45678901"></textarea>
 
   <div id="toast-container" class="toast-container"></div>
 
+  <!-- Librería SheetJS para importar archivos Excel directamente -->
+  <script src="js/xlsx.full.min.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

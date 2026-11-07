@@ -92,6 +92,12 @@ router.post('/:id/estudiantes', (req, res) => {
     const insert = db.prepare(
       'INSERT INTO estudiantes (nombre, apellido, dni, curso_id) VALUES (?, ?, ?, ?)'
     );
+    const checkExistente = db.prepare(
+      'SELECT id, dni FROM estudiantes WHERE curso_id = ? AND lower(trim(apellido)) = lower(trim(?)) AND lower(trim(nombre)) = lower(trim(?))'
+    );
+    const updateDni = db.prepare(
+      'UPDATE estudiantes SET dni = ? WHERE id = ?'
+    );
 
     const guardarLote = db.transaction(() => {
       for (const item of list) {
@@ -99,8 +105,16 @@ router.post('/:id/estudiantes', (req, res) => {
         const apellido = (item.apellido || '').trim();
         const dni = (item.dni || '').trim();
         if (nombre && apellido) {
-          const resultado = insert.run(nombre, apellido, dni || null, req.params.id);
-          creados.push({ id: resultado.lastInsertRowid, nombre, apellido, dni });
+          const existente = checkExistente.get(req.params.id, apellido, nombre);
+          if (existente) {
+            if (dni && (!existente.dni || existente.dni.trim() === '')) {
+              updateDni.run(dni, existente.id);
+            }
+            creados.push({ id: existente.id, nombre, apellido, dni: dni || existente.dni, existia: true });
+          } else {
+            const resultado = insert.run(nombre, apellido, dni || null, req.params.id);
+            creados.push({ id: resultado.lastInsertRowid, nombre, apellido, dni, existia: false });
+          }
         }
       }
     });
