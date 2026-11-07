@@ -51,7 +51,7 @@
       "anio": null,
       "division": null,
       "turno": "Mañana",
-      "clases_dictadas": 20
+      "clases_dictadas": null
     },
     {
       "id": 11,
@@ -83,18 +83,158 @@
   ],
   "estudiantes": [
     {
-      "id": 120,
-      "nombre": "ABIGAIL",
-      "apellido": "ARAYA",
-      "dni": "",
-      "curso_id": 8
+      "id": 24,
+      "nombre": "JUAN",
+      "apellido": "GONZALES",
+      "dni": "45123456",
+      "curso_id": 7
     },
     {
-      "id": 121,
-      "nombre": "VALENTIN",
-      "apellido": "ARTAZA",
-      "dni": "",
-      "curso_id": 8
+      "id": 25,
+      "nombre": "SEBASTIAN",
+      "apellido": "IBARRA",
+      "dni": null,
+      "curso_id": 7
+    },
+    {
+      "id": 26,
+      "nombre": "BENJAMIN",
+      "apellido": "MOCETTI",
+      "dni": null,
+      "curso_id": 7
+    },
+    {
+      "id": 27,
+      "nombre": "TOBIAS",
+      "apellido": "OVIEDO",
+      "dni": null,
+      "curso_id": 7
+    },
+    {
+      "id": 28,
+      "nombre": "ALEXIS",
+      "apellido": "PAREDES",
+      "dni": null,
+      "curso_id": 7
+    },
+    {
+      "id": 29,
+      "nombre": "SANTIAGO",
+      "apellido": "PEÑA",
+      "dni": null,
+      "curso_id": 7
+    },
+    {
+      "id": 30,
+      "nombre": "JOSE",
+      "apellido": "REYES",
+      "dni": null,
+      "curso_id": 7
+    },
+    {
+      "id": 31,
+      "nombre": "CAMILA",
+      "apellido": "RUIZ DIAZ",
+      "dni": null,
+      "curso_id": 7
+    },
+    {
+      "id": 32,
+      "nombre": "EMILIANO",
+      "apellido": "SALVATIERRA",
+      "dni": null,
+      "curso_id": 7
+    },
+    {
+      "id": 33,
+      "nombre": "NICOLAS",
+      "apellido": "URQUIZA",
+      "dni": null,
+      "curso_id": 7
+    },
+    {
+      "id": 34,
+      "nombre": "LUCIA",
+      "apellido": "VERA",
+      "dni": null,
+      "curso_id": 7
+    },
+    {
+      "id": 57,
+      "nombre": "JUAN",
+      "apellido": "GONZALES",
+      "dni": null,
+      "curso_id": 9
+    },
+    {
+      "id": 58,
+      "nombre": "SEBASTIAN",
+      "apellido": "IBARRA",
+      "dni": null,
+      "curso_id": 9
+    },
+    {
+      "id": 59,
+      "nombre": "BENJAMIN",
+      "apellido": "MOCETTI",
+      "dni": null,
+      "curso_id": 9
+    },
+    {
+      "id": 60,
+      "nombre": "TOBIAS",
+      "apellido": "OVIEDO",
+      "dni": null,
+      "curso_id": 9
+    },
+    {
+      "id": 61,
+      "nombre": "ALEXIS",
+      "apellido": "PAREDES",
+      "dni": null,
+      "curso_id": 9
+    },
+    {
+      "id": 62,
+      "nombre": "SANTIAGO",
+      "apellido": "PEÑA",
+      "dni": null,
+      "curso_id": 9
+    },
+    {
+      "id": 63,
+      "nombre": "JOSE",
+      "apellido": "REYES",
+      "dni": null,
+      "curso_id": 9
+    },
+    {
+      "id": 64,
+      "nombre": "CAMILA",
+      "apellido": "RUIZ DIAZ",
+      "dni": null,
+      "curso_id": 9
+    },
+    {
+      "id": 65,
+      "nombre": "EMILIANO",
+      "apellido": "SALVATIERRA",
+      "dni": null,
+      "curso_id": 9
+    },
+    {
+      "id": 66,
+      "nombre": "NICOLAS",
+      "apellido": "URQUIZA",
+      "dni": null,
+      "curso_id": 9
+    },
+    {
+      "id": 67,
+      "nombre": "LUCIA",
+      "apellido": "VERA",
+      "dni": null,
+      "curso_id": 9
     },
     {
       "id": 68,
@@ -104,11 +244,235 @@
       "curso_id": 13
     },
     {
-      "id": 122,
-      "nombre": "ALEXIS",
-      "apellido": "BARBACIC",
+      "id": 69,
+      "nombre": "SANTINO",
+      "apellido": "LOPEZ MONTERO",
+      "dni": null,
+      "curso_id": 13
+    },
+    {
+      "id": 70,
+      "nombre": "LUCIANO IGNACIO",
+      "apellido": "MIGLIOLO",
+      "dni": null,
+      "curso_id": 13
+    },
+    {
+      "id": 71,
+      "nombre": "ROMAN IGNACIO",
+      "apellido": "MOLINA",
+      "dni": null,
+      "curso_id": 13
+    },
+    {
+      "id": 72,
+      "nombre": "THIAGO NICOLAS",
+      "apellido": "OLLIOQUI",
+      "dni": null,
+      "curso_id": 13
+    },
+    {
+      "id": 73,
+      "nombre": "MATEO EZEQUIEL",
+      "apellido": "OPRESNIK",
+      "dni": null,
+      "curso_id": 13
+    },
+    {
+      "id": 74,
+      "nombre": "CIRO ANDRES",
+      "apellido": "PAZ",
+      "dni": null,
+      "curso_id": 13
+    },
+    {
+      "id": 75,
+      "nombre": "THIAGO MISAEL",
+      "apellido": "PIRIZ OYOS",
+      "dni": null,
+      "curso_id": 13
+    },
+    {
+      "id": 76,
+      "nombre": "MAXIMILIANO",
+      "apellido": "PROVASI",
+      "dni": null,
+      "curso_id": 13
+    },
+    {
+      "id": 77,
+      "nombre": "MATIAS MARTIN",
+      "apellido": "RONGOLINO VILLALBA",
+      "dni": null,
+      "curso_id": 13
+    },
+    {
+      "id": 78,
+      "nombre": "VALENTINO",
+      "apellido": "SPACCAROTELLA",
+      "dni": null,
+      "curso_id": 13
+    },
+    {
+      "id": 79,
+      "nombre": "TOMAS",
+      "apellido": "TORRE",
+      "dni": null,
+      "curso_id": 13
+    },
+    {
+      "id": 80,
+      "nombre": "MATEO",
+      "apellido": "JANNON",
       "dni": "",
-      "curso_id": 8
+      "curso_id": 10
+    },
+    {
+      "id": 81,
+      "nombre": "LARA",
+      "apellido": "LAVIN",
+      "dni": "",
+      "curso_id": 10
+    },
+    {
+      "id": 82,
+      "nombre": "PAULA",
+      "apellido": "OJEDA",
+      "dni": "",
+      "curso_id": 10
+    },
+    {
+      "id": 83,
+      "nombre": "LEANDRO EZEQUIEL",
+      "apellido": "ORTIZ",
+      "dni": "",
+      "curso_id": 10
+    },
+    {
+      "id": 84,
+      "nombre": "AGUSTINA",
+      "apellido": "PEREZ",
+      "dni": "",
+      "curso_id": 10
+    },
+    {
+      "id": 85,
+      "nombre": "VALENTINO",
+      "apellido": "PEREZ",
+      "dni": "",
+      "curso_id": 10
+    },
+    {
+      "id": 86,
+      "nombre": "BRUNO AGUSTIN",
+      "apellido": "SACCO",
+      "dni": "",
+      "curso_id": 10
+    },
+    {
+      "id": 87,
+      "nombre": "AXEL URIEL",
+      "apellido": "SALINAS RUIZ",
+      "dni": "",
+      "curso_id": 10
+    },
+    {
+      "id": 88,
+      "nombre": "ROMAN",
+      "apellido": "SOLA",
+      "dni": "",
+      "curso_id": 10
+    },
+    {
+      "id": 89,
+      "nombre": "-",
+      "apellido": "TABELA",
+      "dni": "",
+      "curso_id": 10
+    },
+    {
+      "id": 90,
+      "nombre": "MATEO ELIAS",
+      "apellido": "TAHUIL",
+      "dni": "",
+      "curso_id": 10
+    },
+    {
+      "id": 91,
+      "nombre": "TOBIA",
+      "apellido": "TOCCI",
+      "dni": "",
+      "curso_id": 10
+    },
+    {
+      "id": 92,
+      "nombre": "LAUTARO EZEQUIEL",
+      "apellido": "VILLAGRA",
+      "dni": "",
+      "curso_id": 10
+    },
+    {
+      "id": 93,
+      "nombre": "BRUNO",
+      "apellido": "GOMEZ",
+      "dni": "",
+      "curso_id": 11
+    },
+    {
+      "id": 94,
+      "nombre": "RICARDO",
+      "apellido": "GONZALES",
+      "dni": "",
+      "curso_id": 11
+    },
+    {
+      "id": 95,
+      "nombre": "BENJAMIN",
+      "apellido": "JALLER",
+      "dni": "",
+      "curso_id": 11
+    },
+    {
+      "id": 96,
+      "nombre": "LIONEL",
+      "apellido": "LOPEZ",
+      "dni": "",
+      "curso_id": 11
+    },
+    {
+      "id": 97,
+      "nombre": "MAXIMILIANO",
+      "apellido": "MULLER",
+      "dni": "",
+      "curso_id": 11
+    },
+    {
+      "id": 98,
+      "nombre": "MATEO",
+      "apellido": "NIEVA",
+      "dni": "",
+      "curso_id": 11
+    },
+    {
+      "id": 99,
+      "nombre": "PHILLIPE",
+      "apellido": "NIEVA",
+      "dni": "",
+      "curso_id": 11
+    },
+    {
+      "id": 100,
+      "nombre": "BENJAMIN",
+      "apellido": "SAGUIERO",
+      "dni": "",
+      "curso_id": 11
+    },
+    {
+      "id": 101,
+      "nombre": "JOSUE",
+      "apellido": "SANCHEZ",
+      "dni": "",
+      "curso_id": 11
     },
     {
       "id": 102,
@@ -160,13 +524,6 @@
       "curso_id": 12
     },
     {
-      "id": 123,
-      "nombre": "LIAM",
-      "apellido": "DIAS",
-      "dni": "",
-      "curso_id": 8
-    },
-    {
       "id": 109,
       "nombre": "MAURO",
       "apellido": "GALLO",
@@ -181,32 +538,32 @@
       "curso_id": 12
     },
     {
-      "id": 93,
-      "nombre": "BRUNO",
-      "apellido": "GOMEZ",
+      "id": 120,
+      "nombre": "ABIGAIL",
+      "apellido": "ARAYA",
       "dni": "",
-      "curso_id": 11
+      "curso_id": 8
     },
     {
-      "id": 24,
-      "nombre": "JUAN",
-      "apellido": "GONZALES",
-      "dni": null,
-      "curso_id": 7
-    },
-    {
-      "id": 57,
-      "nombre": "JUAN",
-      "apellido": "GONZALES",
-      "dni": null,
-      "curso_id": 9
-    },
-    {
-      "id": 94,
-      "nombre": "RICARDO",
-      "apellido": "GONZALES",
+      "id": 121,
+      "nombre": "VALENTIN",
+      "apellido": "ARTAZA",
       "dni": "",
-      "curso_id": 11
+      "curso_id": 8
+    },
+    {
+      "id": 122,
+      "nombre": "ALEXIS",
+      "apellido": "BARBACIC",
+      "dni": "",
+      "curso_id": 8
+    },
+    {
+      "id": 123,
+      "nombre": "LIAM",
+      "apellido": "DIAS",
+      "dni": "",
+      "curso_id": 8
     },
     {
       "id": 124,
@@ -223,60 +580,11 @@
       "curso_id": 8
     },
     {
-      "id": 25,
-      "nombre": "SEBASTIAN",
-      "apellido": "IBARRA",
-      "dni": null,
-      "curso_id": 7
-    },
-    {
-      "id": 58,
-      "nombre": "SEBASTIAN",
-      "apellido": "IBARRA",
-      "dni": null,
-      "curso_id": 9
-    },
-    {
       "id": 126,
       "nombre": "ANABELLA",
       "apellido": "IRIARTE",
       "dni": "",
       "curso_id": 8
-    },
-    {
-      "id": 95,
-      "nombre": "BENJAMIN",
-      "apellido": "JALLER",
-      "dni": "",
-      "curso_id": 11
-    },
-    {
-      "id": 80,
-      "nombre": "MATEO",
-      "apellido": "JANNON",
-      "dni": "",
-      "curso_id": 10
-    },
-    {
-      "id": 81,
-      "nombre": "LARA",
-      "apellido": "LAVIN",
-      "dni": "",
-      "curso_id": 10
-    },
-    {
-      "id": 96,
-      "nombre": "LIONEL",
-      "apellido": "LOPEZ",
-      "dni": "",
-      "curso_id": 11
-    },
-    {
-      "id": 69,
-      "nombre": "SANTINO",
-      "apellido": "LOPEZ MONTERO",
-      "dni": null,
-      "curso_id": 13
     },
     {
       "id": 127,
@@ -286,319 +594,18 @@
       "curso_id": 8
     },
     {
-      "id": 70,
-      "nombre": "LUCIANO IGNACIO",
-      "apellido": "MIGLIOLO",
-      "dni": null,
-      "curso_id": 13
-    },
-    {
-      "id": 26,
-      "nombre": "BENJAMIN",
-      "apellido": "MOCETTI",
-      "dni": null,
-      "curso_id": 7
-    },
-    {
-      "id": 59,
-      "nombre": "BENJAMIN",
-      "apellido": "MOCETTI",
-      "dni": null,
-      "curso_id": 9
-    },
-    {
-      "id": 71,
-      "nombre": "ROMAN IGNACIO",
-      "apellido": "MOLINA",
-      "dni": null,
-      "curso_id": 13
-    },
-    {
-      "id": 97,
-      "nombre": "MAXIMILIANO",
-      "apellido": "MULLER",
-      "dni": "",
-      "curso_id": 11
-    },
-    {
-      "id": 98,
-      "nombre": "MATEO",
-      "apellido": "NIEVA",
-      "dni": "",
-      "curso_id": 11
-    },
-    {
-      "id": 99,
-      "nombre": "PHILLIPE",
-      "apellido": "NIEVA",
-      "dni": "",
-      "curso_id": 11
-    },
-    {
-      "id": 82,
-      "nombre": "PAULA",
-      "apellido": "OJEDA",
-      "dni": "",
-      "curso_id": 10
-    },
-    {
-      "id": 72,
-      "nombre": "THIAGO NICOLAS",
-      "apellido": "OLLIOQUI",
-      "dni": null,
-      "curso_id": 13
-    },
-    {
-      "id": 73,
-      "nombre": "MATEO EZEQUIEL",
-      "apellido": "OPRESNIK",
-      "dni": null,
-      "curso_id": 13
-    },
-    {
-      "id": 83,
-      "nombre": "LEANDRO EZEQUIEL",
-      "apellido": "ORTIZ",
-      "dni": "",
-      "curso_id": 10
-    },
-    {
-      "id": 27,
-      "nombre": "TOBIAS",
-      "apellido": "OVIEDO",
-      "dni": null,
-      "curso_id": 7
-    },
-    {
-      "id": 60,
-      "nombre": "TOBIAS",
-      "apellido": "OVIEDO",
-      "dni": null,
-      "curso_id": 9
-    },
-    {
-      "id": 28,
-      "nombre": "ALEXIS",
-      "apellido": "PAREDES",
-      "dni": null,
-      "curso_id": 7
-    },
-    {
-      "id": 61,
-      "nombre": "ALEXIS",
-      "apellido": "PAREDES",
-      "dni": null,
-      "curso_id": 9
-    },
-    {
-      "id": 74,
-      "nombre": "CIRO ANDRES",
-      "apellido": "PAZ",
-      "dni": null,
-      "curso_id": 13
-    },
-    {
-      "id": 84,
-      "nombre": "AGUSTINA",
-      "apellido": "PEREZ",
-      "dni": "",
-      "curso_id": 10
-    },
-    {
-      "id": 85,
-      "nombre": "VALENTINO",
-      "apellido": "PEREZ",
-      "dni": "",
-      "curso_id": 10
-    },
-    {
-      "id": 29,
-      "nombre": "SANTIAGO",
-      "apellido": "PEÑA",
-      "dni": null,
-      "curso_id": 7
-    },
-    {
-      "id": 62,
-      "nombre": "SANTIAGO",
-      "apellido": "PEÑA",
-      "dni": null,
-      "curso_id": 9
-    },
-    {
-      "id": 75,
-      "nombre": "THIAGO MISAEL",
-      "apellido": "PIRIZ OYOS",
-      "dni": null,
-      "curso_id": 13
-    },
-    {
-      "id": 76,
-      "nombre": "MAXIMILIANO",
-      "apellido": "PROVASI",
-      "dni": null,
-      "curso_id": 13
-    },
-    {
-      "id": 30,
-      "nombre": "JOSE",
-      "apellido": "REYES",
-      "dni": null,
-      "curso_id": 7
-    },
-    {
-      "id": 63,
-      "nombre": "JOSE",
-      "apellido": "REYES",
-      "dni": null,
-      "curso_id": 9
-    },
-    {
-      "id": 77,
-      "nombre": "MATIAS MARTIN",
-      "apellido": "RONGOLINO VILLALBA",
-      "dni": null,
-      "curso_id": 13
-    },
-    {
-      "id": 31,
-      "nombre": "CAMILA",
-      "apellido": "RUIZ DIAZ",
-      "dni": null,
-      "curso_id": 7
-    },
-    {
-      "id": 64,
-      "nombre": "CAMILA",
-      "apellido": "RUIZ DIAZ",
-      "dni": null,
-      "curso_id": 9
-    },
-    {
-      "id": 86,
-      "nombre": "BRUNO AGUSTIN",
-      "apellido": "SACCO",
-      "dni": "",
-      "curso_id": 10
-    },
-    {
-      "id": 100,
-      "nombre": "BENJAMIN",
-      "apellido": "SAGUIERO",
-      "dni": "",
-      "curso_id": 11
-    },
-    {
-      "id": 87,
-      "nombre": "AXEL URIEL",
-      "apellido": "SALINAS RUIZ",
-      "dni": "",
-      "curso_id": 10
-    },
-    {
-      "id": 32,
-      "nombre": "EMILIANO",
-      "apellido": "SALVATIERRA",
-      "dni": null,
-      "curso_id": 7
-    },
-    {
-      "id": 65,
-      "nombre": "EMILIANO",
-      "apellido": "SALVATIERRA",
-      "dni": null,
-      "curso_id": 9
-    },
-    {
-      "id": 101,
-      "nombre": "JOSUE",
-      "apellido": "SANCHEZ",
-      "dni": "",
-      "curso_id": 11
-    },
-    {
-      "id": 88,
-      "nombre": "ROMAN",
-      "apellido": "SOLA",
-      "dni": "",
-      "curso_id": 10
-    },
-    {
-      "id": 78,
-      "nombre": "VALENTINO",
-      "apellido": "SPACCAROTELLA",
-      "dni": null,
-      "curso_id": 13
-    },
-    {
-      "id": 89,
-      "nombre": "-",
-      "apellido": "TABELA",
-      "dni": "",
-      "curso_id": 10
-    },
-    {
-      "id": 90,
-      "nombre": "MATEO ELIAS",
-      "apellido": "TAHUIL",
-      "dni": "",
-      "curso_id": 10
-    },
-    {
-      "id": 91,
-      "nombre": "TOBIA",
-      "apellido": "TOCCI",
-      "dni": "",
-      "curso_id": 10
-    },
-    {
-      "id": 79,
-      "nombre": "TOMAS",
-      "apellido": "TORRE",
-      "dni": null,
-      "curso_id": 13
-    },
-    {
-      "id": 33,
-      "nombre": "NICOLAS",
-      "apellido": "URQUIZA",
-      "dni": null,
-      "curso_id": 7
-    },
-    {
-      "id": 66,
-      "nombre": "NICOLAS",
-      "apellido": "URQUIZA",
-      "dni": null,
-      "curso_id": 9
-    },
-    {
-      "id": 34,
-      "nombre": "LUCIA",
-      "apellido": "VERA",
-      "dni": null,
-      "curso_id": 7
-    },
-    {
-      "id": 67,
-      "nombre": "LUCIA",
-      "apellido": "VERA",
-      "dni": null,
-      "curso_id": 9
-    },
-    {
-      "id": 92,
-      "nombre": "LAUTARO EZEQUIEL",
-      "apellido": "VILLAGRA",
-      "dni": "",
-      "curso_id": 10
-    },
-    {
       "id": 128,
       "nombre": "ROSAS",
       "apellido": "YOHALBERTH",
       "dni": "",
       "curso_id": 8
+    },
+    {
+      "id": 131,
+      "nombre": "RUIZ AXEL URIEL",
+      "apellido": "SALINAS",
+      "dni": null,
+      "curso_id": 10
     }
   ],
   "asistencia": [
@@ -4593,1826 +4600,6 @@
       "estado": "presente"
     },
     {
-      "id": 964,
-      "estudiante_id": 80,
-      "curso_id": 10,
-      "fecha": "2026-03-31",
-      "estado": "presente"
-    },
-    {
-      "id": 965,
-      "estudiante_id": 80,
-      "curso_id": 10,
-      "fecha": "2026-04-07",
-      "estado": "presente"
-    },
-    {
-      "id": 966,
-      "estudiante_id": 80,
-      "curso_id": 10,
-      "fecha": "2026-04-14",
-      "estado": "presente"
-    },
-    {
-      "id": 967,
-      "estudiante_id": 80,
-      "curso_id": 10,
-      "fecha": "2026-04-28",
-      "estado": "presente"
-    },
-    {
-      "id": 968,
-      "estudiante_id": 80,
-      "curso_id": 10,
-      "fecha": "2026-05-05",
-      "estado": "presente"
-    },
-    {
-      "id": 969,
-      "estudiante_id": 80,
-      "curso_id": 10,
-      "fecha": "2026-05-12",
-      "estado": "ausente"
-    },
-    {
-      "id": 970,
-      "estudiante_id": 80,
-      "curso_id": 10,
-      "fecha": "2026-05-26",
-      "estado": "presente"
-    },
-    {
-      "id": 971,
-      "estudiante_id": 80,
-      "curso_id": 10,
-      "fecha": "2026-06-02",
-      "estado": "ausente"
-    },
-    {
-      "id": 972,
-      "estudiante_id": 80,
-      "curso_id": 10,
-      "fecha": "2026-06-16",
-      "estado": "presente"
-    },
-    {
-      "id": 973,
-      "estudiante_id": 80,
-      "curso_id": 10,
-      "fecha": "2026-06-23",
-      "estado": "presente"
-    },
-    {
-      "id": 974,
-      "estudiante_id": 80,
-      "curso_id": 10,
-      "fecha": "2026-07-07",
-      "estado": "ausente"
-    },
-    {
-      "id": 975,
-      "estudiante_id": 80,
-      "curso_id": 10,
-      "fecha": "2026-08-11",
-      "estado": "presente"
-    },
-    {
-      "id": 976,
-      "estudiante_id": 80,
-      "curso_id": 10,
-      "fecha": "2026-08-18",
-      "estado": "presente"
-    },
-    {
-      "id": 977,
-      "estudiante_id": 80,
-      "curso_id": 10,
-      "fecha": "2026-08-25",
-      "estado": "presente"
-    },
-    {
-      "id": 978,
-      "estudiante_id": 80,
-      "curso_id": 10,
-      "fecha": "2026-09-01",
-      "estado": "presente"
-    },
-    {
-      "id": 979,
-      "estudiante_id": 80,
-      "curso_id": 10,
-      "fecha": "2026-09-15",
-      "estado": "presente"
-    },
-    {
-      "id": 980,
-      "estudiante_id": 80,
-      "curso_id": 10,
-      "fecha": "2026-09-29",
-      "estado": "presente"
-    },
-    {
-      "id": 981,
-      "estudiante_id": 80,
-      "curso_id": 10,
-      "fecha": "2026-10-06",
-      "estado": "presente"
-    },
-    {
-      "id": 982,
-      "estudiante_id": 80,
-      "curso_id": 10,
-      "fecha": "2026-10-13",
-      "estado": "presente"
-    },
-    {
-      "id": 983,
-      "estudiante_id": 80,
-      "curso_id": 10,
-      "fecha": "2026-10-27",
-      "estado": "presente"
-    },
-    {
-      "id": 984,
-      "estudiante_id": 81,
-      "curso_id": 10,
-      "fecha": "2026-03-31",
-      "estado": "presente"
-    },
-    {
-      "id": 985,
-      "estudiante_id": 81,
-      "curso_id": 10,
-      "fecha": "2026-04-07",
-      "estado": "presente"
-    },
-    {
-      "id": 986,
-      "estudiante_id": 81,
-      "curso_id": 10,
-      "fecha": "2026-04-14",
-      "estado": "presente"
-    },
-    {
-      "id": 987,
-      "estudiante_id": 81,
-      "curso_id": 10,
-      "fecha": "2026-04-28",
-      "estado": "presente"
-    },
-    {
-      "id": 988,
-      "estudiante_id": 81,
-      "curso_id": 10,
-      "fecha": "2026-05-05",
-      "estado": "presente"
-    },
-    {
-      "id": 989,
-      "estudiante_id": 81,
-      "curso_id": 10,
-      "fecha": "2026-05-12",
-      "estado": "presente"
-    },
-    {
-      "id": 990,
-      "estudiante_id": 81,
-      "curso_id": 10,
-      "fecha": "2026-05-26",
-      "estado": "presente"
-    },
-    {
-      "id": 991,
-      "estudiante_id": 81,
-      "curso_id": 10,
-      "fecha": "2026-06-02",
-      "estado": "ausente"
-    },
-    {
-      "id": 992,
-      "estudiante_id": 81,
-      "curso_id": 10,
-      "fecha": "2026-06-16",
-      "estado": "presente"
-    },
-    {
-      "id": 993,
-      "estudiante_id": 81,
-      "curso_id": 10,
-      "fecha": "2026-06-23",
-      "estado": "presente"
-    },
-    {
-      "id": 994,
-      "estudiante_id": 81,
-      "curso_id": 10,
-      "fecha": "2026-07-07",
-      "estado": "ausente"
-    },
-    {
-      "id": 995,
-      "estudiante_id": 81,
-      "curso_id": 10,
-      "fecha": "2026-08-11",
-      "estado": "ausente"
-    },
-    {
-      "id": 996,
-      "estudiante_id": 81,
-      "curso_id": 10,
-      "fecha": "2026-08-18",
-      "estado": "ausente"
-    },
-    {
-      "id": 997,
-      "estudiante_id": 81,
-      "curso_id": 10,
-      "fecha": "2026-08-25",
-      "estado": "presente"
-    },
-    {
-      "id": 998,
-      "estudiante_id": 81,
-      "curso_id": 10,
-      "fecha": "2026-09-01",
-      "estado": "presente"
-    },
-    {
-      "id": 999,
-      "estudiante_id": 81,
-      "curso_id": 10,
-      "fecha": "2026-09-15",
-      "estado": "ausente"
-    },
-    {
-      "id": 1000,
-      "estudiante_id": 81,
-      "curso_id": 10,
-      "fecha": "2026-09-29",
-      "estado": "ausente"
-    },
-    {
-      "id": 1001,
-      "estudiante_id": 81,
-      "curso_id": 10,
-      "fecha": "2026-10-06",
-      "estado": "presente"
-    },
-    {
-      "id": 1002,
-      "estudiante_id": 81,
-      "curso_id": 10,
-      "fecha": "2026-10-13",
-      "estado": "presente"
-    },
-    {
-      "id": 1003,
-      "estudiante_id": 81,
-      "curso_id": 10,
-      "fecha": "2026-10-27",
-      "estado": "ausente"
-    },
-    {
-      "id": 1004,
-      "estudiante_id": 82,
-      "curso_id": 10,
-      "fecha": "2026-03-31",
-      "estado": "presente"
-    },
-    {
-      "id": 1005,
-      "estudiante_id": 82,
-      "curso_id": 10,
-      "fecha": "2026-04-07",
-      "estado": "presente"
-    },
-    {
-      "id": 1006,
-      "estudiante_id": 82,
-      "curso_id": 10,
-      "fecha": "2026-04-14",
-      "estado": "presente"
-    },
-    {
-      "id": 1007,
-      "estudiante_id": 82,
-      "curso_id": 10,
-      "fecha": "2026-04-28",
-      "estado": "ausente"
-    },
-    {
-      "id": 1008,
-      "estudiante_id": 82,
-      "curso_id": 10,
-      "fecha": "2026-05-05",
-      "estado": "presente"
-    },
-    {
-      "id": 1009,
-      "estudiante_id": 82,
-      "curso_id": 10,
-      "fecha": "2026-05-12",
-      "estado": "presente"
-    },
-    {
-      "id": 1010,
-      "estudiante_id": 82,
-      "curso_id": 10,
-      "fecha": "2026-05-26",
-      "estado": "presente"
-    },
-    {
-      "id": 1011,
-      "estudiante_id": 82,
-      "curso_id": 10,
-      "fecha": "2026-06-02",
-      "estado": "ausente"
-    },
-    {
-      "id": 1012,
-      "estudiante_id": 82,
-      "curso_id": 10,
-      "fecha": "2026-06-16",
-      "estado": "presente"
-    },
-    {
-      "id": 1013,
-      "estudiante_id": 82,
-      "curso_id": 10,
-      "fecha": "2026-06-23",
-      "estado": "presente"
-    },
-    {
-      "id": 1014,
-      "estudiante_id": 82,
-      "curso_id": 10,
-      "fecha": "2026-07-07",
-      "estado": "presente"
-    },
-    {
-      "id": 1015,
-      "estudiante_id": 82,
-      "curso_id": 10,
-      "fecha": "2026-08-11",
-      "estado": "presente"
-    },
-    {
-      "id": 1016,
-      "estudiante_id": 82,
-      "curso_id": 10,
-      "fecha": "2026-08-18",
-      "estado": "ausente"
-    },
-    {
-      "id": 1017,
-      "estudiante_id": 82,
-      "curso_id": 10,
-      "fecha": "2026-08-25",
-      "estado": "ausente"
-    },
-    {
-      "id": 1018,
-      "estudiante_id": 82,
-      "curso_id": 10,
-      "fecha": "2026-09-01",
-      "estado": "presente"
-    },
-    {
-      "id": 1019,
-      "estudiante_id": 82,
-      "curso_id": 10,
-      "fecha": "2026-09-15",
-      "estado": "ausente"
-    },
-    {
-      "id": 1020,
-      "estudiante_id": 82,
-      "curso_id": 10,
-      "fecha": "2026-09-29",
-      "estado": "presente"
-    },
-    {
-      "id": 1021,
-      "estudiante_id": 82,
-      "curso_id": 10,
-      "fecha": "2026-10-06",
-      "estado": "presente"
-    },
-    {
-      "id": 1022,
-      "estudiante_id": 82,
-      "curso_id": 10,
-      "fecha": "2026-10-13",
-      "estado": "presente"
-    },
-    {
-      "id": 1023,
-      "estudiante_id": 82,
-      "curso_id": 10,
-      "fecha": "2026-10-27",
-      "estado": "presente"
-    },
-    {
-      "id": 1024,
-      "estudiante_id": 83,
-      "curso_id": 10,
-      "fecha": "2026-03-31",
-      "estado": "presente"
-    },
-    {
-      "id": 1025,
-      "estudiante_id": 83,
-      "curso_id": 10,
-      "fecha": "2026-04-07",
-      "estado": "presente"
-    },
-    {
-      "id": 1026,
-      "estudiante_id": 83,
-      "curso_id": 10,
-      "fecha": "2026-04-14",
-      "estado": "presente"
-    },
-    {
-      "id": 1027,
-      "estudiante_id": 83,
-      "curso_id": 10,
-      "fecha": "2026-04-28",
-      "estado": "ausente"
-    },
-    {
-      "id": 1028,
-      "estudiante_id": 83,
-      "curso_id": 10,
-      "fecha": "2026-05-05",
-      "estado": "presente"
-    },
-    {
-      "id": 1029,
-      "estudiante_id": 83,
-      "curso_id": 10,
-      "fecha": "2026-05-12",
-      "estado": "presente"
-    },
-    {
-      "id": 1030,
-      "estudiante_id": 83,
-      "curso_id": 10,
-      "fecha": "2026-05-26",
-      "estado": "presente"
-    },
-    {
-      "id": 1031,
-      "estudiante_id": 83,
-      "curso_id": 10,
-      "fecha": "2026-06-02",
-      "estado": "presente"
-    },
-    {
-      "id": 1032,
-      "estudiante_id": 83,
-      "curso_id": 10,
-      "fecha": "2026-06-16",
-      "estado": "presente"
-    },
-    {
-      "id": 1033,
-      "estudiante_id": 83,
-      "curso_id": 10,
-      "fecha": "2026-06-23",
-      "estado": "presente"
-    },
-    {
-      "id": 1034,
-      "estudiante_id": 83,
-      "curso_id": 10,
-      "fecha": "2026-07-07",
-      "estado": "presente"
-    },
-    {
-      "id": 1035,
-      "estudiante_id": 83,
-      "curso_id": 10,
-      "fecha": "2026-08-11",
-      "estado": "ausente"
-    },
-    {
-      "id": 1036,
-      "estudiante_id": 83,
-      "curso_id": 10,
-      "fecha": "2026-08-18",
-      "estado": "presente"
-    },
-    {
-      "id": 1037,
-      "estudiante_id": 83,
-      "curso_id": 10,
-      "fecha": "2026-08-25",
-      "estado": "presente"
-    },
-    {
-      "id": 1038,
-      "estudiante_id": 83,
-      "curso_id": 10,
-      "fecha": "2026-09-01",
-      "estado": "presente"
-    },
-    {
-      "id": 1039,
-      "estudiante_id": 83,
-      "curso_id": 10,
-      "fecha": "2026-09-15",
-      "estado": "presente"
-    },
-    {
-      "id": 1040,
-      "estudiante_id": 83,
-      "curso_id": 10,
-      "fecha": "2026-09-29",
-      "estado": "ausente"
-    },
-    {
-      "id": 1041,
-      "estudiante_id": 83,
-      "curso_id": 10,
-      "fecha": "2026-10-06",
-      "estado": "ausente"
-    },
-    {
-      "id": 1042,
-      "estudiante_id": 83,
-      "curso_id": 10,
-      "fecha": "2026-10-13",
-      "estado": "ausente"
-    },
-    {
-      "id": 1043,
-      "estudiante_id": 83,
-      "curso_id": 10,
-      "fecha": "2026-10-27",
-      "estado": "presente"
-    },
-    {
-      "id": 1044,
-      "estudiante_id": 84,
-      "curso_id": 10,
-      "fecha": "2026-03-31",
-      "estado": "presente"
-    },
-    {
-      "id": 1045,
-      "estudiante_id": 84,
-      "curso_id": 10,
-      "fecha": "2026-04-07",
-      "estado": "presente"
-    },
-    {
-      "id": 1046,
-      "estudiante_id": 84,
-      "curso_id": 10,
-      "fecha": "2026-04-14",
-      "estado": "presente"
-    },
-    {
-      "id": 1047,
-      "estudiante_id": 84,
-      "curso_id": 10,
-      "fecha": "2026-04-28",
-      "estado": "presente"
-    },
-    {
-      "id": 1048,
-      "estudiante_id": 84,
-      "curso_id": 10,
-      "fecha": "2026-05-05",
-      "estado": "ausente"
-    },
-    {
-      "id": 1049,
-      "estudiante_id": 84,
-      "curso_id": 10,
-      "fecha": "2026-05-12",
-      "estado": "presente"
-    },
-    {
-      "id": 1050,
-      "estudiante_id": 84,
-      "curso_id": 10,
-      "fecha": "2026-05-26",
-      "estado": "presente"
-    },
-    {
-      "id": 1051,
-      "estudiante_id": 84,
-      "curso_id": 10,
-      "fecha": "2026-06-02",
-      "estado": "presente"
-    },
-    {
-      "id": 1052,
-      "estudiante_id": 84,
-      "curso_id": 10,
-      "fecha": "2026-06-16",
-      "estado": "presente"
-    },
-    {
-      "id": 1053,
-      "estudiante_id": 84,
-      "curso_id": 10,
-      "fecha": "2026-06-23",
-      "estado": "presente"
-    },
-    {
-      "id": 1054,
-      "estudiante_id": 84,
-      "curso_id": 10,
-      "fecha": "2026-07-07",
-      "estado": "ausente"
-    },
-    {
-      "id": 1055,
-      "estudiante_id": 84,
-      "curso_id": 10,
-      "fecha": "2026-08-11",
-      "estado": "presente"
-    },
-    {
-      "id": 1056,
-      "estudiante_id": 84,
-      "curso_id": 10,
-      "fecha": "2026-08-18",
-      "estado": "ausente"
-    },
-    {
-      "id": 1057,
-      "estudiante_id": 84,
-      "curso_id": 10,
-      "fecha": "2026-08-25",
-      "estado": "ausente"
-    },
-    {
-      "id": 1058,
-      "estudiante_id": 84,
-      "curso_id": 10,
-      "fecha": "2026-09-01",
-      "estado": "presente"
-    },
-    {
-      "id": 1059,
-      "estudiante_id": 84,
-      "curso_id": 10,
-      "fecha": "2026-09-15",
-      "estado": "presente"
-    },
-    {
-      "id": 1060,
-      "estudiante_id": 84,
-      "curso_id": 10,
-      "fecha": "2026-09-29",
-      "estado": "ausente"
-    },
-    {
-      "id": 1061,
-      "estudiante_id": 84,
-      "curso_id": 10,
-      "fecha": "2026-10-06",
-      "estado": "presente"
-    },
-    {
-      "id": 1062,
-      "estudiante_id": 84,
-      "curso_id": 10,
-      "fecha": "2026-10-13",
-      "estado": "ausente"
-    },
-    {
-      "id": 1063,
-      "estudiante_id": 84,
-      "curso_id": 10,
-      "fecha": "2026-10-27",
-      "estado": "ausente"
-    },
-    {
-      "id": 1064,
-      "estudiante_id": 85,
-      "curso_id": 10,
-      "fecha": "2026-03-31",
-      "estado": "presente"
-    },
-    {
-      "id": 1065,
-      "estudiante_id": 85,
-      "curso_id": 10,
-      "fecha": "2026-04-07",
-      "estado": "presente"
-    },
-    {
-      "id": 1066,
-      "estudiante_id": 85,
-      "curso_id": 10,
-      "fecha": "2026-04-14",
-      "estado": "ausente"
-    },
-    {
-      "id": 1067,
-      "estudiante_id": 85,
-      "curso_id": 10,
-      "fecha": "2026-04-28",
-      "estado": "presente"
-    },
-    {
-      "id": 1068,
-      "estudiante_id": 85,
-      "curso_id": 10,
-      "fecha": "2026-05-05",
-      "estado": "presente"
-    },
-    {
-      "id": 1069,
-      "estudiante_id": 85,
-      "curso_id": 10,
-      "fecha": "2026-05-12",
-      "estado": "ausente"
-    },
-    {
-      "id": 1070,
-      "estudiante_id": 85,
-      "curso_id": 10,
-      "fecha": "2026-05-26",
-      "estado": "ausente"
-    },
-    {
-      "id": 1071,
-      "estudiante_id": 85,
-      "curso_id": 10,
-      "fecha": "2026-06-02",
-      "estado": "presente"
-    },
-    {
-      "id": 1072,
-      "estudiante_id": 85,
-      "curso_id": 10,
-      "fecha": "2026-06-16",
-      "estado": "presente"
-    },
-    {
-      "id": 1073,
-      "estudiante_id": 85,
-      "curso_id": 10,
-      "fecha": "2026-06-23",
-      "estado": "ausente"
-    },
-    {
-      "id": 1074,
-      "estudiante_id": 85,
-      "curso_id": 10,
-      "fecha": "2026-07-07",
-      "estado": "presente"
-    },
-    {
-      "id": 1075,
-      "estudiante_id": 85,
-      "curso_id": 10,
-      "fecha": "2026-08-11",
-      "estado": "ausente"
-    },
-    {
-      "id": 1076,
-      "estudiante_id": 85,
-      "curso_id": 10,
-      "fecha": "2026-08-18",
-      "estado": "presente"
-    },
-    {
-      "id": 1077,
-      "estudiante_id": 85,
-      "curso_id": 10,
-      "fecha": "2026-08-25",
-      "estado": "ausente"
-    },
-    {
-      "id": 1078,
-      "estudiante_id": 85,
-      "curso_id": 10,
-      "fecha": "2026-09-01",
-      "estado": "ausente"
-    },
-    {
-      "id": 1079,
-      "estudiante_id": 85,
-      "curso_id": 10,
-      "fecha": "2026-09-15",
-      "estado": "presente"
-    },
-    {
-      "id": 1080,
-      "estudiante_id": 85,
-      "curso_id": 10,
-      "fecha": "2026-09-29",
-      "estado": "ausente"
-    },
-    {
-      "id": 1081,
-      "estudiante_id": 85,
-      "curso_id": 10,
-      "fecha": "2026-10-06",
-      "estado": "presente"
-    },
-    {
-      "id": 1082,
-      "estudiante_id": 85,
-      "curso_id": 10,
-      "fecha": "2026-10-13",
-      "estado": "presente"
-    },
-    {
-      "id": 1083,
-      "estudiante_id": 85,
-      "curso_id": 10,
-      "fecha": "2026-10-27",
-      "estado": "presente"
-    },
-    {
-      "id": 1084,
-      "estudiante_id": 86,
-      "curso_id": 10,
-      "fecha": "2026-03-31",
-      "estado": "presente"
-    },
-    {
-      "id": 1085,
-      "estudiante_id": 86,
-      "curso_id": 10,
-      "fecha": "2026-04-07",
-      "estado": "presente"
-    },
-    {
-      "id": 1086,
-      "estudiante_id": 86,
-      "curso_id": 10,
-      "fecha": "2026-04-14",
-      "estado": "ausente"
-    },
-    {
-      "id": 1087,
-      "estudiante_id": 86,
-      "curso_id": 10,
-      "fecha": "2026-04-28",
-      "estado": "presente"
-    },
-    {
-      "id": 1088,
-      "estudiante_id": 86,
-      "curso_id": 10,
-      "fecha": "2026-05-05",
-      "estado": "presente"
-    },
-    {
-      "id": 1089,
-      "estudiante_id": 86,
-      "curso_id": 10,
-      "fecha": "2026-05-12",
-      "estado": "presente"
-    },
-    {
-      "id": 1090,
-      "estudiante_id": 86,
-      "curso_id": 10,
-      "fecha": "2026-05-26",
-      "estado": "presente"
-    },
-    {
-      "id": 1091,
-      "estudiante_id": 86,
-      "curso_id": 10,
-      "fecha": "2026-06-02",
-      "estado": "presente"
-    },
-    {
-      "id": 1092,
-      "estudiante_id": 86,
-      "curso_id": 10,
-      "fecha": "2026-06-16",
-      "estado": "presente"
-    },
-    {
-      "id": 1093,
-      "estudiante_id": 86,
-      "curso_id": 10,
-      "fecha": "2026-06-23",
-      "estado": "presente"
-    },
-    {
-      "id": 1094,
-      "estudiante_id": 86,
-      "curso_id": 10,
-      "fecha": "2026-07-07",
-      "estado": "ausente"
-    },
-    {
-      "id": 1095,
-      "estudiante_id": 86,
-      "curso_id": 10,
-      "fecha": "2026-08-11",
-      "estado": "ausente"
-    },
-    {
-      "id": 1096,
-      "estudiante_id": 86,
-      "curso_id": 10,
-      "fecha": "2026-08-18",
-      "estado": "presente"
-    },
-    {
-      "id": 1097,
-      "estudiante_id": 86,
-      "curso_id": 10,
-      "fecha": "2026-08-25",
-      "estado": "presente"
-    },
-    {
-      "id": 1098,
-      "estudiante_id": 86,
-      "curso_id": 10,
-      "fecha": "2026-09-01",
-      "estado": "presente"
-    },
-    {
-      "id": 1099,
-      "estudiante_id": 86,
-      "curso_id": 10,
-      "fecha": "2026-09-15",
-      "estado": "presente"
-    },
-    {
-      "id": 1100,
-      "estudiante_id": 86,
-      "curso_id": 10,
-      "fecha": "2026-09-29",
-      "estado": "presente"
-    },
-    {
-      "id": 1101,
-      "estudiante_id": 86,
-      "curso_id": 10,
-      "fecha": "2026-10-06",
-      "estado": "presente"
-    },
-    {
-      "id": 1102,
-      "estudiante_id": 86,
-      "curso_id": 10,
-      "fecha": "2026-10-13",
-      "estado": "presente"
-    },
-    {
-      "id": 1103,
-      "estudiante_id": 86,
-      "curso_id": 10,
-      "fecha": "2026-10-27",
-      "estado": "presente"
-    },
-    {
-      "id": 1104,
-      "estudiante_id": 87,
-      "curso_id": 10,
-      "fecha": "2026-03-31",
-      "estado": "presente"
-    },
-    {
-      "id": 1105,
-      "estudiante_id": 87,
-      "curso_id": 10,
-      "fecha": "2026-04-07",
-      "estado": "presente"
-    },
-    {
-      "id": 1106,
-      "estudiante_id": 87,
-      "curso_id": 10,
-      "fecha": "2026-04-14",
-      "estado": "presente"
-    },
-    {
-      "id": 1107,
-      "estudiante_id": 87,
-      "curso_id": 10,
-      "fecha": "2026-04-28",
-      "estado": "presente"
-    },
-    {
-      "id": 1108,
-      "estudiante_id": 87,
-      "curso_id": 10,
-      "fecha": "2026-05-05",
-      "estado": "presente"
-    },
-    {
-      "id": 1109,
-      "estudiante_id": 87,
-      "curso_id": 10,
-      "fecha": "2026-05-12",
-      "estado": "presente"
-    },
-    {
-      "id": 1110,
-      "estudiante_id": 87,
-      "curso_id": 10,
-      "fecha": "2026-05-26",
-      "estado": "presente"
-    },
-    {
-      "id": 1111,
-      "estudiante_id": 87,
-      "curso_id": 10,
-      "fecha": "2026-06-02",
-      "estado": "presente"
-    },
-    {
-      "id": 1112,
-      "estudiante_id": 87,
-      "curso_id": 10,
-      "fecha": "2026-06-16",
-      "estado": "presente"
-    },
-    {
-      "id": 1113,
-      "estudiante_id": 87,
-      "curso_id": 10,
-      "fecha": "2026-06-23",
-      "estado": "presente"
-    },
-    {
-      "id": 1114,
-      "estudiante_id": 87,
-      "curso_id": 10,
-      "fecha": "2026-07-07",
-      "estado": "ausente"
-    },
-    {
-      "id": 1115,
-      "estudiante_id": 87,
-      "curso_id": 10,
-      "fecha": "2026-08-11",
-      "estado": "presente"
-    },
-    {
-      "id": 1116,
-      "estudiante_id": 87,
-      "curso_id": 10,
-      "fecha": "2026-08-18",
-      "estado": "presente"
-    },
-    {
-      "id": 1117,
-      "estudiante_id": 87,
-      "curso_id": 10,
-      "fecha": "2026-08-25",
-      "estado": "presente"
-    },
-    {
-      "id": 1118,
-      "estudiante_id": 87,
-      "curso_id": 10,
-      "fecha": "2026-09-01",
-      "estado": "presente"
-    },
-    {
-      "id": 1119,
-      "estudiante_id": 87,
-      "curso_id": 10,
-      "fecha": "2026-09-15",
-      "estado": "presente"
-    },
-    {
-      "id": 1120,
-      "estudiante_id": 87,
-      "curso_id": 10,
-      "fecha": "2026-09-29",
-      "estado": "ausente"
-    },
-    {
-      "id": 1121,
-      "estudiante_id": 87,
-      "curso_id": 10,
-      "fecha": "2026-10-06",
-      "estado": "presente"
-    },
-    {
-      "id": 1122,
-      "estudiante_id": 87,
-      "curso_id": 10,
-      "fecha": "2026-10-13",
-      "estado": "presente"
-    },
-    {
-      "id": 1123,
-      "estudiante_id": 87,
-      "curso_id": 10,
-      "fecha": "2026-10-27",
-      "estado": "presente"
-    },
-    {
-      "id": 1124,
-      "estudiante_id": 88,
-      "curso_id": 10,
-      "fecha": "2026-03-31",
-      "estado": "presente"
-    },
-    {
-      "id": 1125,
-      "estudiante_id": 88,
-      "curso_id": 10,
-      "fecha": "2026-04-07",
-      "estado": "ausente"
-    },
-    {
-      "id": 1126,
-      "estudiante_id": 88,
-      "curso_id": 10,
-      "fecha": "2026-04-14",
-      "estado": "presente"
-    },
-    {
-      "id": 1127,
-      "estudiante_id": 88,
-      "curso_id": 10,
-      "fecha": "2026-04-28",
-      "estado": "presente"
-    },
-    {
-      "id": 1128,
-      "estudiante_id": 88,
-      "curso_id": 10,
-      "fecha": "2026-05-05",
-      "estado": "presente"
-    },
-    {
-      "id": 1129,
-      "estudiante_id": 88,
-      "curso_id": 10,
-      "fecha": "2026-05-12",
-      "estado": "presente"
-    },
-    {
-      "id": 1130,
-      "estudiante_id": 88,
-      "curso_id": 10,
-      "fecha": "2026-05-26",
-      "estado": "presente"
-    },
-    {
-      "id": 1131,
-      "estudiante_id": 88,
-      "curso_id": 10,
-      "fecha": "2026-06-02",
-      "estado": "presente"
-    },
-    {
-      "id": 1132,
-      "estudiante_id": 88,
-      "curso_id": 10,
-      "fecha": "2026-06-16",
-      "estado": "presente"
-    },
-    {
-      "id": 1133,
-      "estudiante_id": 88,
-      "curso_id": 10,
-      "fecha": "2026-06-23",
-      "estado": "presente"
-    },
-    {
-      "id": 1134,
-      "estudiante_id": 88,
-      "curso_id": 10,
-      "fecha": "2026-07-07",
-      "estado": "presente"
-    },
-    {
-      "id": 1135,
-      "estudiante_id": 88,
-      "curso_id": 10,
-      "fecha": "2026-08-11",
-      "estado": "presente"
-    },
-    {
-      "id": 1136,
-      "estudiante_id": 88,
-      "curso_id": 10,
-      "fecha": "2026-08-18",
-      "estado": "ausente"
-    },
-    {
-      "id": 1137,
-      "estudiante_id": 88,
-      "curso_id": 10,
-      "fecha": "2026-08-25",
-      "estado": "ausente"
-    },
-    {
-      "id": 1138,
-      "estudiante_id": 88,
-      "curso_id": 10,
-      "fecha": "2026-09-01",
-      "estado": "presente"
-    },
-    {
-      "id": 1139,
-      "estudiante_id": 88,
-      "curso_id": 10,
-      "fecha": "2026-09-15",
-      "estado": "ausente"
-    },
-    {
-      "id": 1140,
-      "estudiante_id": 88,
-      "curso_id": 10,
-      "fecha": "2026-09-29",
-      "estado": "presente"
-    },
-    {
-      "id": 1141,
-      "estudiante_id": 88,
-      "curso_id": 10,
-      "fecha": "2026-10-06",
-      "estado": "ausente"
-    },
-    {
-      "id": 1142,
-      "estudiante_id": 88,
-      "curso_id": 10,
-      "fecha": "2026-10-13",
-      "estado": "presente"
-    },
-    {
-      "id": 1143,
-      "estudiante_id": 88,
-      "curso_id": 10,
-      "fecha": "2026-10-27",
-      "estado": "presente"
-    },
-    {
-      "id": 1144,
-      "estudiante_id": 89,
-      "curso_id": 10,
-      "fecha": "2026-03-31",
-      "estado": "ausente"
-    },
-    {
-      "id": 1145,
-      "estudiante_id": 89,
-      "curso_id": 10,
-      "fecha": "2026-04-07",
-      "estado": "ausente"
-    },
-    {
-      "id": 1146,
-      "estudiante_id": 89,
-      "curso_id": 10,
-      "fecha": "2026-04-14",
-      "estado": "ausente"
-    },
-    {
-      "id": 1147,
-      "estudiante_id": 89,
-      "curso_id": 10,
-      "fecha": "2026-04-28",
-      "estado": "ausente"
-    },
-    {
-      "id": 1148,
-      "estudiante_id": 89,
-      "curso_id": 10,
-      "fecha": "2026-05-05",
-      "estado": "ausente"
-    },
-    {
-      "id": 1149,
-      "estudiante_id": 89,
-      "curso_id": 10,
-      "fecha": "2026-05-12",
-      "estado": "ausente"
-    },
-    {
-      "id": 1150,
-      "estudiante_id": 89,
-      "curso_id": 10,
-      "fecha": "2026-05-26",
-      "estado": "presente"
-    },
-    {
-      "id": 1151,
-      "estudiante_id": 89,
-      "curso_id": 10,
-      "fecha": "2026-06-02",
-      "estado": "ausente"
-    },
-    {
-      "id": 1152,
-      "estudiante_id": 89,
-      "curso_id": 10,
-      "fecha": "2026-06-16",
-      "estado": "ausente"
-    },
-    {
-      "id": 1153,
-      "estudiante_id": 89,
-      "curso_id": 10,
-      "fecha": "2026-06-23",
-      "estado": "ausente"
-    },
-    {
-      "id": 1154,
-      "estudiante_id": 89,
-      "curso_id": 10,
-      "fecha": "2026-07-07",
-      "estado": "ausente"
-    },
-    {
-      "id": 1155,
-      "estudiante_id": 89,
-      "curso_id": 10,
-      "fecha": "2026-08-11",
-      "estado": "ausente"
-    },
-    {
-      "id": 1156,
-      "estudiante_id": 89,
-      "curso_id": 10,
-      "fecha": "2026-08-18",
-      "estado": "ausente"
-    },
-    {
-      "id": 1157,
-      "estudiante_id": 89,
-      "curso_id": 10,
-      "fecha": "2026-08-25",
-      "estado": "ausente"
-    },
-    {
-      "id": 1158,
-      "estudiante_id": 89,
-      "curso_id": 10,
-      "fecha": "2026-09-01",
-      "estado": "ausente"
-    },
-    {
-      "id": 1159,
-      "estudiante_id": 89,
-      "curso_id": 10,
-      "fecha": "2026-09-15",
-      "estado": "ausente"
-    },
-    {
-      "id": 1160,
-      "estudiante_id": 89,
-      "curso_id": 10,
-      "fecha": "2026-09-29",
-      "estado": "ausente"
-    },
-    {
-      "id": 1161,
-      "estudiante_id": 89,
-      "curso_id": 10,
-      "fecha": "2026-10-06",
-      "estado": "ausente"
-    },
-    {
-      "id": 1162,
-      "estudiante_id": 89,
-      "curso_id": 10,
-      "fecha": "2026-10-13",
-      "estado": "ausente"
-    },
-    {
-      "id": 1163,
-      "estudiante_id": 89,
-      "curso_id": 10,
-      "fecha": "2026-10-27",
-      "estado": "ausente"
-    },
-    {
-      "id": 1164,
-      "estudiante_id": 90,
-      "curso_id": 10,
-      "fecha": "2026-03-31",
-      "estado": "presente"
-    },
-    {
-      "id": 1165,
-      "estudiante_id": 90,
-      "curso_id": 10,
-      "fecha": "2026-04-07",
-      "estado": "presente"
-    },
-    {
-      "id": 1166,
-      "estudiante_id": 90,
-      "curso_id": 10,
-      "fecha": "2026-04-14",
-      "estado": "presente"
-    },
-    {
-      "id": 1167,
-      "estudiante_id": 90,
-      "curso_id": 10,
-      "fecha": "2026-04-28",
-      "estado": "presente"
-    },
-    {
-      "id": 1168,
-      "estudiante_id": 90,
-      "curso_id": 10,
-      "fecha": "2026-05-05",
-      "estado": "presente"
-    },
-    {
-      "id": 1169,
-      "estudiante_id": 90,
-      "curso_id": 10,
-      "fecha": "2026-05-12",
-      "estado": "presente"
-    },
-    {
-      "id": 1170,
-      "estudiante_id": 90,
-      "curso_id": 10,
-      "fecha": "2026-05-26",
-      "estado": "presente"
-    },
-    {
-      "id": 1171,
-      "estudiante_id": 90,
-      "curso_id": 10,
-      "fecha": "2026-06-02",
-      "estado": "presente"
-    },
-    {
-      "id": 1172,
-      "estudiante_id": 90,
-      "curso_id": 10,
-      "fecha": "2026-06-16",
-      "estado": "presente"
-    },
-    {
-      "id": 1173,
-      "estudiante_id": 90,
-      "curso_id": 10,
-      "fecha": "2026-06-23",
-      "estado": "presente"
-    },
-    {
-      "id": 1174,
-      "estudiante_id": 90,
-      "curso_id": 10,
-      "fecha": "2026-07-07",
-      "estado": "ausente"
-    },
-    {
-      "id": 1175,
-      "estudiante_id": 90,
-      "curso_id": 10,
-      "fecha": "2026-08-11",
-      "estado": "ausente"
-    },
-    {
-      "id": 1176,
-      "estudiante_id": 90,
-      "curso_id": 10,
-      "fecha": "2026-08-18",
-      "estado": "presente"
-    },
-    {
-      "id": 1177,
-      "estudiante_id": 90,
-      "curso_id": 10,
-      "fecha": "2026-08-25",
-      "estado": "presente"
-    },
-    {
-      "id": 1178,
-      "estudiante_id": 90,
-      "curso_id": 10,
-      "fecha": "2026-09-01",
-      "estado": "ausente"
-    },
-    {
-      "id": 1179,
-      "estudiante_id": 90,
-      "curso_id": 10,
-      "fecha": "2026-09-15",
-      "estado": "presente"
-    },
-    {
-      "id": 1180,
-      "estudiante_id": 90,
-      "curso_id": 10,
-      "fecha": "2026-09-29",
-      "estado": "ausente"
-    },
-    {
-      "id": 1181,
-      "estudiante_id": 90,
-      "curso_id": 10,
-      "fecha": "2026-10-06",
-      "estado": "presente"
-    },
-    {
-      "id": 1182,
-      "estudiante_id": 90,
-      "curso_id": 10,
-      "fecha": "2026-10-13",
-      "estado": "presente"
-    },
-    {
-      "id": 1183,
-      "estudiante_id": 90,
-      "curso_id": 10,
-      "fecha": "2026-10-27",
-      "estado": "presente"
-    },
-    {
-      "id": 1184,
-      "estudiante_id": 91,
-      "curso_id": 10,
-      "fecha": "2026-03-31",
-      "estado": "ausente"
-    },
-    {
-      "id": 1185,
-      "estudiante_id": 91,
-      "curso_id": 10,
-      "fecha": "2026-04-07",
-      "estado": "presente"
-    },
-    {
-      "id": 1186,
-      "estudiante_id": 91,
-      "curso_id": 10,
-      "fecha": "2026-04-14",
-      "estado": "presente"
-    },
-    {
-      "id": 1187,
-      "estudiante_id": 91,
-      "curso_id": 10,
-      "fecha": "2026-04-28",
-      "estado": "presente"
-    },
-    {
-      "id": 1188,
-      "estudiante_id": 91,
-      "curso_id": 10,
-      "fecha": "2026-05-05",
-      "estado": "presente"
-    },
-    {
-      "id": 1189,
-      "estudiante_id": 91,
-      "curso_id": 10,
-      "fecha": "2026-05-12",
-      "estado": "presente"
-    },
-    {
-      "id": 1190,
-      "estudiante_id": 91,
-      "curso_id": 10,
-      "fecha": "2026-05-26",
-      "estado": "presente"
-    },
-    {
-      "id": 1191,
-      "estudiante_id": 91,
-      "curso_id": 10,
-      "fecha": "2026-06-02",
-      "estado": "presente"
-    },
-    {
-      "id": 1192,
-      "estudiante_id": 91,
-      "curso_id": 10,
-      "fecha": "2026-06-16",
-      "estado": "presente"
-    },
-    {
-      "id": 1193,
-      "estudiante_id": 91,
-      "curso_id": 10,
-      "fecha": "2026-06-23",
-      "estado": "ausente"
-    },
-    {
-      "id": 1194,
-      "estudiante_id": 91,
-      "curso_id": 10,
-      "fecha": "2026-07-07",
-      "estado": "ausente"
-    },
-    {
-      "id": 1195,
-      "estudiante_id": 91,
-      "curso_id": 10,
-      "fecha": "2026-08-11",
-      "estado": "ausente"
-    },
-    {
-      "id": 1196,
-      "estudiante_id": 91,
-      "curso_id": 10,
-      "fecha": "2026-08-18",
-      "estado": "presente"
-    },
-    {
-      "id": 1197,
-      "estudiante_id": 91,
-      "curso_id": 10,
-      "fecha": "2026-08-25",
-      "estado": "presente"
-    },
-    {
-      "id": 1198,
-      "estudiante_id": 91,
-      "curso_id": 10,
-      "fecha": "2026-09-01",
-      "estado": "ausente"
-    },
-    {
-      "id": 1199,
-      "estudiante_id": 91,
-      "curso_id": 10,
-      "fecha": "2026-09-15",
-      "estado": "presente"
-    },
-    {
-      "id": 1200,
-      "estudiante_id": 91,
-      "curso_id": 10,
-      "fecha": "2026-09-29",
-      "estado": "ausente"
-    },
-    {
-      "id": 1201,
-      "estudiante_id": 91,
-      "curso_id": 10,
-      "fecha": "2026-10-06",
-      "estado": "presente"
-    },
-    {
-      "id": 1202,
-      "estudiante_id": 91,
-      "curso_id": 10,
-      "fecha": "2026-10-13",
-      "estado": "presente"
-    },
-    {
-      "id": 1203,
-      "estudiante_id": 91,
-      "curso_id": 10,
-      "fecha": "2026-10-27",
-      "estado": "presente"
-    },
-    {
-      "id": 1204,
-      "estudiante_id": 92,
-      "curso_id": 10,
-      "fecha": "2026-03-31",
-      "estado": "presente"
-    },
-    {
-      "id": 1205,
-      "estudiante_id": 92,
-      "curso_id": 10,
-      "fecha": "2026-04-07",
-      "estado": "presente"
-    },
-    {
-      "id": 1206,
-      "estudiante_id": 92,
-      "curso_id": 10,
-      "fecha": "2026-04-14",
-      "estado": "presente"
-    },
-    {
-      "id": 1207,
-      "estudiante_id": 92,
-      "curso_id": 10,
-      "fecha": "2026-04-28",
-      "estado": "presente"
-    },
-    {
-      "id": 1208,
-      "estudiante_id": 92,
-      "curso_id": 10,
-      "fecha": "2026-05-05",
-      "estado": "presente"
-    },
-    {
-      "id": 1209,
-      "estudiante_id": 92,
-      "curso_id": 10,
-      "fecha": "2026-05-12",
-      "estado": "ausente"
-    },
-    {
-      "id": 1210,
-      "estudiante_id": 92,
-      "curso_id": 10,
-      "fecha": "2026-05-26",
-      "estado": "presente"
-    },
-    {
-      "id": 1211,
-      "estudiante_id": 92,
-      "curso_id": 10,
-      "fecha": "2026-06-02",
-      "estado": "presente"
-    },
-    {
-      "id": 1212,
-      "estudiante_id": 92,
-      "curso_id": 10,
-      "fecha": "2026-06-16",
-      "estado": "presente"
-    },
-    {
-      "id": 1213,
-      "estudiante_id": 92,
-      "curso_id": 10,
-      "fecha": "2026-06-23",
-      "estado": "presente"
-    },
-    {
-      "id": 1214,
-      "estudiante_id": 92,
-      "curso_id": 10,
-      "fecha": "2026-07-07",
-      "estado": "presente"
-    },
-    {
-      "id": 1215,
-      "estudiante_id": 92,
-      "curso_id": 10,
-      "fecha": "2026-08-11",
-      "estado": "ausente"
-    },
-    {
-      "id": 1216,
-      "estudiante_id": 92,
-      "curso_id": 10,
-      "fecha": "2026-08-18",
-      "estado": "presente"
-    },
-    {
-      "id": 1217,
-      "estudiante_id": 92,
-      "curso_id": 10,
-      "fecha": "2026-08-25",
-      "estado": "presente"
-    },
-    {
-      "id": 1218,
-      "estudiante_id": 92,
-      "curso_id": 10,
-      "fecha": "2026-09-01",
-      "estado": "presente"
-    },
-    {
-      "id": 1219,
-      "estudiante_id": 92,
-      "curso_id": 10,
-      "fecha": "2026-09-15",
-      "estado": "presente"
-    },
-    {
-      "id": 1220,
-      "estudiante_id": 92,
-      "curso_id": 10,
-      "fecha": "2026-09-29",
-      "estado": "ausente"
-    },
-    {
-      "id": 1221,
-      "estudiante_id": 92,
-      "curso_id": 10,
-      "fecha": "2026-10-06",
-      "estado": "presente"
-    },
-    {
-      "id": 1222,
-      "estudiante_id": 92,
-      "curso_id": 10,
-      "fecha": "2026-10-13",
-      "estado": "ausente"
-    },
-    {
-      "id": 1223,
-      "estudiante_id": 92,
-      "curso_id": 10,
-      "fecha": "2026-10-27",
-      "estado": "presente"
-    },
-    {
       "id": 1224,
       "estudiante_id": 93,
       "curso_id": 11,
@@ -10170,6 +8357,1917 @@
       "curso_id": 9,
       "fecha": "2026-10-30",
       "estado": "presente"
+    },
+    {
+      "id": 1923,
+      "estudiante_id": 80,
+      "curso_id": 10,
+      "fecha": "2026-03-31",
+      "estado": "presente"
+    },
+    {
+      "id": 1924,
+      "estudiante_id": 80,
+      "curso_id": 10,
+      "fecha": "2026-04-07",
+      "estado": "presente"
+    },
+    {
+      "id": 1925,
+      "estudiante_id": 80,
+      "curso_id": 10,
+      "fecha": "2026-04-14",
+      "estado": "presente"
+    },
+    {
+      "id": 1926,
+      "estudiante_id": 80,
+      "curso_id": 10,
+      "fecha": "2026-04-28",
+      "estado": "presente"
+    },
+    {
+      "id": 1927,
+      "estudiante_id": 80,
+      "curso_id": 10,
+      "fecha": "2026-05-05",
+      "estado": "presente"
+    },
+    {
+      "id": 1928,
+      "estudiante_id": 80,
+      "curso_id": 10,
+      "fecha": "2026-05-12",
+      "estado": "ausente"
+    },
+    {
+      "id": 1929,
+      "estudiante_id": 80,
+      "curso_id": 10,
+      "fecha": "2026-05-26",
+      "estado": "presente"
+    },
+    {
+      "id": 1930,
+      "estudiante_id": 80,
+      "curso_id": 10,
+      "fecha": "2026-06-02",
+      "estado": "ausente"
+    },
+    {
+      "id": 1931,
+      "estudiante_id": 80,
+      "curso_id": 10,
+      "fecha": "2026-06-16",
+      "estado": "presente"
+    },
+    {
+      "id": 1932,
+      "estudiante_id": 80,
+      "curso_id": 10,
+      "fecha": "2026-06-23",
+      "estado": "presente"
+    },
+    {
+      "id": 1933,
+      "estudiante_id": 80,
+      "curso_id": 10,
+      "fecha": "2026-07-07",
+      "estado": "ausente"
+    },
+    {
+      "id": 1934,
+      "estudiante_id": 80,
+      "curso_id": 10,
+      "fecha": "2026-08-11",
+      "estado": "presente"
+    },
+    {
+      "id": 1935,
+      "estudiante_id": 80,
+      "curso_id": 10,
+      "fecha": "2026-08-18",
+      "estado": "presente"
+    },
+    {
+      "id": 1936,
+      "estudiante_id": 80,
+      "curso_id": 10,
+      "fecha": "2026-08-25",
+      "estado": "presente"
+    },
+    {
+      "id": 1937,
+      "estudiante_id": 80,
+      "curso_id": 10,
+      "fecha": "2026-09-01",
+      "estado": "presente"
+    },
+    {
+      "id": 1938,
+      "estudiante_id": 80,
+      "curso_id": 10,
+      "fecha": "2026-09-15",
+      "estado": "presente"
+    },
+    {
+      "id": 1939,
+      "estudiante_id": 80,
+      "curso_id": 10,
+      "fecha": "2026-09-29",
+      "estado": "presente"
+    },
+    {
+      "id": 1940,
+      "estudiante_id": 80,
+      "curso_id": 10,
+      "fecha": "2026-10-06",
+      "estado": "presente"
+    },
+    {
+      "id": 1941,
+      "estudiante_id": 80,
+      "curso_id": 10,
+      "fecha": "2026-10-13",
+      "estado": "presente"
+    },
+    {
+      "id": 1942,
+      "estudiante_id": 80,
+      "curso_id": 10,
+      "fecha": "2026-10-27",
+      "estado": "presente"
+    },
+    {
+      "id": 1943,
+      "estudiante_id": 80,
+      "curso_id": 10,
+      "fecha": "2026-11-03",
+      "estado": "presente"
+    },
+    {
+      "id": 1944,
+      "estudiante_id": 81,
+      "curso_id": 10,
+      "fecha": "2026-03-31",
+      "estado": "presente"
+    },
+    {
+      "id": 1945,
+      "estudiante_id": 81,
+      "curso_id": 10,
+      "fecha": "2026-04-07",
+      "estado": "presente"
+    },
+    {
+      "id": 1946,
+      "estudiante_id": 81,
+      "curso_id": 10,
+      "fecha": "2026-04-14",
+      "estado": "presente"
+    },
+    {
+      "id": 1947,
+      "estudiante_id": 81,
+      "curso_id": 10,
+      "fecha": "2026-04-28",
+      "estado": "presente"
+    },
+    {
+      "id": 1948,
+      "estudiante_id": 81,
+      "curso_id": 10,
+      "fecha": "2026-05-05",
+      "estado": "presente"
+    },
+    {
+      "id": 1949,
+      "estudiante_id": 81,
+      "curso_id": 10,
+      "fecha": "2026-05-12",
+      "estado": "presente"
+    },
+    {
+      "id": 1950,
+      "estudiante_id": 81,
+      "curso_id": 10,
+      "fecha": "2026-05-26",
+      "estado": "presente"
+    },
+    {
+      "id": 1951,
+      "estudiante_id": 81,
+      "curso_id": 10,
+      "fecha": "2026-06-02",
+      "estado": "ausente"
+    },
+    {
+      "id": 1952,
+      "estudiante_id": 81,
+      "curso_id": 10,
+      "fecha": "2026-06-16",
+      "estado": "presente"
+    },
+    {
+      "id": 1953,
+      "estudiante_id": 81,
+      "curso_id": 10,
+      "fecha": "2026-06-23",
+      "estado": "presente"
+    },
+    {
+      "id": 1954,
+      "estudiante_id": 81,
+      "curso_id": 10,
+      "fecha": "2026-07-07",
+      "estado": "ausente"
+    },
+    {
+      "id": 1955,
+      "estudiante_id": 81,
+      "curso_id": 10,
+      "fecha": "2026-08-11",
+      "estado": "ausente"
+    },
+    {
+      "id": 1956,
+      "estudiante_id": 81,
+      "curso_id": 10,
+      "fecha": "2026-08-18",
+      "estado": "ausente"
+    },
+    {
+      "id": 1957,
+      "estudiante_id": 81,
+      "curso_id": 10,
+      "fecha": "2026-08-25",
+      "estado": "presente"
+    },
+    {
+      "id": 1958,
+      "estudiante_id": 81,
+      "curso_id": 10,
+      "fecha": "2026-09-01",
+      "estado": "presente"
+    },
+    {
+      "id": 1959,
+      "estudiante_id": 81,
+      "curso_id": 10,
+      "fecha": "2026-09-15",
+      "estado": "ausente"
+    },
+    {
+      "id": 1960,
+      "estudiante_id": 81,
+      "curso_id": 10,
+      "fecha": "2026-09-29",
+      "estado": "ausente"
+    },
+    {
+      "id": 1961,
+      "estudiante_id": 81,
+      "curso_id": 10,
+      "fecha": "2026-10-06",
+      "estado": "presente"
+    },
+    {
+      "id": 1962,
+      "estudiante_id": 81,
+      "curso_id": 10,
+      "fecha": "2026-10-13",
+      "estado": "presente"
+    },
+    {
+      "id": 1963,
+      "estudiante_id": 81,
+      "curso_id": 10,
+      "fecha": "2026-10-27",
+      "estado": "ausente"
+    },
+    {
+      "id": 1964,
+      "estudiante_id": 81,
+      "curso_id": 10,
+      "fecha": "2026-11-03",
+      "estado": "ausente"
+    },
+    {
+      "id": 1965,
+      "estudiante_id": 82,
+      "curso_id": 10,
+      "fecha": "2026-03-31",
+      "estado": "presente"
+    },
+    {
+      "id": 1966,
+      "estudiante_id": 82,
+      "curso_id": 10,
+      "fecha": "2026-04-07",
+      "estado": "presente"
+    },
+    {
+      "id": 1967,
+      "estudiante_id": 82,
+      "curso_id": 10,
+      "fecha": "2026-04-14",
+      "estado": "presente"
+    },
+    {
+      "id": 1968,
+      "estudiante_id": 82,
+      "curso_id": 10,
+      "fecha": "2026-04-28",
+      "estado": "ausente"
+    },
+    {
+      "id": 1969,
+      "estudiante_id": 82,
+      "curso_id": 10,
+      "fecha": "2026-05-05",
+      "estado": "presente"
+    },
+    {
+      "id": 1970,
+      "estudiante_id": 82,
+      "curso_id": 10,
+      "fecha": "2026-05-12",
+      "estado": "presente"
+    },
+    {
+      "id": 1971,
+      "estudiante_id": 82,
+      "curso_id": 10,
+      "fecha": "2026-05-26",
+      "estado": "presente"
+    },
+    {
+      "id": 1972,
+      "estudiante_id": 82,
+      "curso_id": 10,
+      "fecha": "2026-06-02",
+      "estado": "ausente"
+    },
+    {
+      "id": 1973,
+      "estudiante_id": 82,
+      "curso_id": 10,
+      "fecha": "2026-06-16",
+      "estado": "presente"
+    },
+    {
+      "id": 1974,
+      "estudiante_id": 82,
+      "curso_id": 10,
+      "fecha": "2026-06-23",
+      "estado": "presente"
+    },
+    {
+      "id": 1975,
+      "estudiante_id": 82,
+      "curso_id": 10,
+      "fecha": "2026-07-07",
+      "estado": "presente"
+    },
+    {
+      "id": 1976,
+      "estudiante_id": 82,
+      "curso_id": 10,
+      "fecha": "2026-08-11",
+      "estado": "presente"
+    },
+    {
+      "id": 1977,
+      "estudiante_id": 82,
+      "curso_id": 10,
+      "fecha": "2026-08-18",
+      "estado": "ausente"
+    },
+    {
+      "id": 1978,
+      "estudiante_id": 82,
+      "curso_id": 10,
+      "fecha": "2026-08-25",
+      "estado": "ausente"
+    },
+    {
+      "id": 1979,
+      "estudiante_id": 82,
+      "curso_id": 10,
+      "fecha": "2026-09-01",
+      "estado": "presente"
+    },
+    {
+      "id": 1980,
+      "estudiante_id": 82,
+      "curso_id": 10,
+      "fecha": "2026-09-15",
+      "estado": "ausente"
+    },
+    {
+      "id": 1981,
+      "estudiante_id": 82,
+      "curso_id": 10,
+      "fecha": "2026-09-29",
+      "estado": "presente"
+    },
+    {
+      "id": 1982,
+      "estudiante_id": 82,
+      "curso_id": 10,
+      "fecha": "2026-10-06",
+      "estado": "presente"
+    },
+    {
+      "id": 1983,
+      "estudiante_id": 82,
+      "curso_id": 10,
+      "fecha": "2026-10-13",
+      "estado": "presente"
+    },
+    {
+      "id": 1984,
+      "estudiante_id": 82,
+      "curso_id": 10,
+      "fecha": "2026-10-27",
+      "estado": "presente"
+    },
+    {
+      "id": 1985,
+      "estudiante_id": 82,
+      "curso_id": 10,
+      "fecha": "2026-11-03",
+      "estado": "presente"
+    },
+    {
+      "id": 1986,
+      "estudiante_id": 83,
+      "curso_id": 10,
+      "fecha": "2026-03-31",
+      "estado": "presente"
+    },
+    {
+      "id": 1987,
+      "estudiante_id": 83,
+      "curso_id": 10,
+      "fecha": "2026-04-07",
+      "estado": "presente"
+    },
+    {
+      "id": 1988,
+      "estudiante_id": 83,
+      "curso_id": 10,
+      "fecha": "2026-04-14",
+      "estado": "presente"
+    },
+    {
+      "id": 1989,
+      "estudiante_id": 83,
+      "curso_id": 10,
+      "fecha": "2026-04-28",
+      "estado": "ausente"
+    },
+    {
+      "id": 1990,
+      "estudiante_id": 83,
+      "curso_id": 10,
+      "fecha": "2026-05-05",
+      "estado": "presente"
+    },
+    {
+      "id": 1991,
+      "estudiante_id": 83,
+      "curso_id": 10,
+      "fecha": "2026-05-12",
+      "estado": "presente"
+    },
+    {
+      "id": 1992,
+      "estudiante_id": 83,
+      "curso_id": 10,
+      "fecha": "2026-05-26",
+      "estado": "presente"
+    },
+    {
+      "id": 1993,
+      "estudiante_id": 83,
+      "curso_id": 10,
+      "fecha": "2026-06-02",
+      "estado": "presente"
+    },
+    {
+      "id": 1994,
+      "estudiante_id": 83,
+      "curso_id": 10,
+      "fecha": "2026-06-16",
+      "estado": "presente"
+    },
+    {
+      "id": 1995,
+      "estudiante_id": 83,
+      "curso_id": 10,
+      "fecha": "2026-06-23",
+      "estado": "presente"
+    },
+    {
+      "id": 1996,
+      "estudiante_id": 83,
+      "curso_id": 10,
+      "fecha": "2026-07-07",
+      "estado": "presente"
+    },
+    {
+      "id": 1997,
+      "estudiante_id": 83,
+      "curso_id": 10,
+      "fecha": "2026-08-11",
+      "estado": "ausente"
+    },
+    {
+      "id": 1998,
+      "estudiante_id": 83,
+      "curso_id": 10,
+      "fecha": "2026-08-18",
+      "estado": "presente"
+    },
+    {
+      "id": 1999,
+      "estudiante_id": 83,
+      "curso_id": 10,
+      "fecha": "2026-08-25",
+      "estado": "presente"
+    },
+    {
+      "id": 2000,
+      "estudiante_id": 83,
+      "curso_id": 10,
+      "fecha": "2026-09-01",
+      "estado": "presente"
+    },
+    {
+      "id": 2001,
+      "estudiante_id": 83,
+      "curso_id": 10,
+      "fecha": "2026-09-15",
+      "estado": "presente"
+    },
+    {
+      "id": 2002,
+      "estudiante_id": 83,
+      "curso_id": 10,
+      "fecha": "2026-09-29",
+      "estado": "ausente"
+    },
+    {
+      "id": 2003,
+      "estudiante_id": 83,
+      "curso_id": 10,
+      "fecha": "2026-10-06",
+      "estado": "ausente"
+    },
+    {
+      "id": 2004,
+      "estudiante_id": 83,
+      "curso_id": 10,
+      "fecha": "2026-10-13",
+      "estado": "ausente"
+    },
+    {
+      "id": 2005,
+      "estudiante_id": 83,
+      "curso_id": 10,
+      "fecha": "2026-10-27",
+      "estado": "presente"
+    },
+    {
+      "id": 2006,
+      "estudiante_id": 83,
+      "curso_id": 10,
+      "fecha": "2026-11-03",
+      "estado": "presente"
+    },
+    {
+      "id": 2007,
+      "estudiante_id": 84,
+      "curso_id": 10,
+      "fecha": "2026-03-31",
+      "estado": "presente"
+    },
+    {
+      "id": 2008,
+      "estudiante_id": 84,
+      "curso_id": 10,
+      "fecha": "2026-04-07",
+      "estado": "presente"
+    },
+    {
+      "id": 2009,
+      "estudiante_id": 84,
+      "curso_id": 10,
+      "fecha": "2026-04-14",
+      "estado": "presente"
+    },
+    {
+      "id": 2010,
+      "estudiante_id": 84,
+      "curso_id": 10,
+      "fecha": "2026-04-28",
+      "estado": "presente"
+    },
+    {
+      "id": 2011,
+      "estudiante_id": 84,
+      "curso_id": 10,
+      "fecha": "2026-05-05",
+      "estado": "ausente"
+    },
+    {
+      "id": 2012,
+      "estudiante_id": 84,
+      "curso_id": 10,
+      "fecha": "2026-05-12",
+      "estado": "presente"
+    },
+    {
+      "id": 2013,
+      "estudiante_id": 84,
+      "curso_id": 10,
+      "fecha": "2026-05-26",
+      "estado": "presente"
+    },
+    {
+      "id": 2014,
+      "estudiante_id": 84,
+      "curso_id": 10,
+      "fecha": "2026-06-02",
+      "estado": "presente"
+    },
+    {
+      "id": 2015,
+      "estudiante_id": 84,
+      "curso_id": 10,
+      "fecha": "2026-06-16",
+      "estado": "presente"
+    },
+    {
+      "id": 2016,
+      "estudiante_id": 84,
+      "curso_id": 10,
+      "fecha": "2026-06-23",
+      "estado": "presente"
+    },
+    {
+      "id": 2017,
+      "estudiante_id": 84,
+      "curso_id": 10,
+      "fecha": "2026-07-07",
+      "estado": "ausente"
+    },
+    {
+      "id": 2018,
+      "estudiante_id": 84,
+      "curso_id": 10,
+      "fecha": "2026-08-11",
+      "estado": "presente"
+    },
+    {
+      "id": 2019,
+      "estudiante_id": 84,
+      "curso_id": 10,
+      "fecha": "2026-08-18",
+      "estado": "ausente"
+    },
+    {
+      "id": 2020,
+      "estudiante_id": 84,
+      "curso_id": 10,
+      "fecha": "2026-08-25",
+      "estado": "ausente"
+    },
+    {
+      "id": 2021,
+      "estudiante_id": 84,
+      "curso_id": 10,
+      "fecha": "2026-09-01",
+      "estado": "presente"
+    },
+    {
+      "id": 2022,
+      "estudiante_id": 84,
+      "curso_id": 10,
+      "fecha": "2026-09-15",
+      "estado": "presente"
+    },
+    {
+      "id": 2023,
+      "estudiante_id": 84,
+      "curso_id": 10,
+      "fecha": "2026-09-29",
+      "estado": "ausente"
+    },
+    {
+      "id": 2024,
+      "estudiante_id": 84,
+      "curso_id": 10,
+      "fecha": "2026-10-06",
+      "estado": "presente"
+    },
+    {
+      "id": 2025,
+      "estudiante_id": 84,
+      "curso_id": 10,
+      "fecha": "2026-10-13",
+      "estado": "ausente"
+    },
+    {
+      "id": 2026,
+      "estudiante_id": 84,
+      "curso_id": 10,
+      "fecha": "2026-10-27",
+      "estado": "ausente"
+    },
+    {
+      "id": 2027,
+      "estudiante_id": 84,
+      "curso_id": 10,
+      "fecha": "2026-11-03",
+      "estado": "ausente"
+    },
+    {
+      "id": 2028,
+      "estudiante_id": 84,
+      "curso_id": 10,
+      "fecha": "2026-03-31",
+      "estado": "presente"
+    },
+    {
+      "id": 2029,
+      "estudiante_id": 84,
+      "curso_id": 10,
+      "fecha": "2026-04-07",
+      "estado": "presente"
+    },
+    {
+      "id": 2030,
+      "estudiante_id": 84,
+      "curso_id": 10,
+      "fecha": "2026-04-14",
+      "estado": "ausente"
+    },
+    {
+      "id": 2031,
+      "estudiante_id": 84,
+      "curso_id": 10,
+      "fecha": "2026-04-28",
+      "estado": "presente"
+    },
+    {
+      "id": 2032,
+      "estudiante_id": 84,
+      "curso_id": 10,
+      "fecha": "2026-05-05",
+      "estado": "presente"
+    },
+    {
+      "id": 2033,
+      "estudiante_id": 84,
+      "curso_id": 10,
+      "fecha": "2026-05-12",
+      "estado": "ausente"
+    },
+    {
+      "id": 2034,
+      "estudiante_id": 84,
+      "curso_id": 10,
+      "fecha": "2026-05-26",
+      "estado": "ausente"
+    },
+    {
+      "id": 2035,
+      "estudiante_id": 84,
+      "curso_id": 10,
+      "fecha": "2026-06-02",
+      "estado": "presente"
+    },
+    {
+      "id": 2036,
+      "estudiante_id": 84,
+      "curso_id": 10,
+      "fecha": "2026-06-16",
+      "estado": "presente"
+    },
+    {
+      "id": 2037,
+      "estudiante_id": 84,
+      "curso_id": 10,
+      "fecha": "2026-06-23",
+      "estado": "ausente"
+    },
+    {
+      "id": 2038,
+      "estudiante_id": 84,
+      "curso_id": 10,
+      "fecha": "2026-07-07",
+      "estado": "presente"
+    },
+    {
+      "id": 2039,
+      "estudiante_id": 84,
+      "curso_id": 10,
+      "fecha": "2026-08-11",
+      "estado": "ausente"
+    },
+    {
+      "id": 2040,
+      "estudiante_id": 84,
+      "curso_id": 10,
+      "fecha": "2026-08-18",
+      "estado": "presente"
+    },
+    {
+      "id": 2041,
+      "estudiante_id": 84,
+      "curso_id": 10,
+      "fecha": "2026-08-25",
+      "estado": "ausente"
+    },
+    {
+      "id": 2042,
+      "estudiante_id": 84,
+      "curso_id": 10,
+      "fecha": "2026-09-01",
+      "estado": "ausente"
+    },
+    {
+      "id": 2043,
+      "estudiante_id": 84,
+      "curso_id": 10,
+      "fecha": "2026-09-15",
+      "estado": "presente"
+    },
+    {
+      "id": 2044,
+      "estudiante_id": 84,
+      "curso_id": 10,
+      "fecha": "2026-09-29",
+      "estado": "ausente"
+    },
+    {
+      "id": 2045,
+      "estudiante_id": 84,
+      "curso_id": 10,
+      "fecha": "2026-10-06",
+      "estado": "presente"
+    },
+    {
+      "id": 2046,
+      "estudiante_id": 84,
+      "curso_id": 10,
+      "fecha": "2026-10-13",
+      "estado": "presente"
+    },
+    {
+      "id": 2047,
+      "estudiante_id": 84,
+      "curso_id": 10,
+      "fecha": "2026-10-27",
+      "estado": "presente"
+    },
+    {
+      "id": 2048,
+      "estudiante_id": 84,
+      "curso_id": 10,
+      "fecha": "2026-11-03",
+      "estado": "presente"
+    },
+    {
+      "id": 2049,
+      "estudiante_id": 86,
+      "curso_id": 10,
+      "fecha": "2026-03-31",
+      "estado": "presente"
+    },
+    {
+      "id": 2050,
+      "estudiante_id": 86,
+      "curso_id": 10,
+      "fecha": "2026-04-07",
+      "estado": "presente"
+    },
+    {
+      "id": 2051,
+      "estudiante_id": 86,
+      "curso_id": 10,
+      "fecha": "2026-04-14",
+      "estado": "ausente"
+    },
+    {
+      "id": 2052,
+      "estudiante_id": 86,
+      "curso_id": 10,
+      "fecha": "2026-04-28",
+      "estado": "presente"
+    },
+    {
+      "id": 2053,
+      "estudiante_id": 86,
+      "curso_id": 10,
+      "fecha": "2026-05-05",
+      "estado": "presente"
+    },
+    {
+      "id": 2054,
+      "estudiante_id": 86,
+      "curso_id": 10,
+      "fecha": "2026-05-12",
+      "estado": "presente"
+    },
+    {
+      "id": 2055,
+      "estudiante_id": 86,
+      "curso_id": 10,
+      "fecha": "2026-05-26",
+      "estado": "presente"
+    },
+    {
+      "id": 2056,
+      "estudiante_id": 86,
+      "curso_id": 10,
+      "fecha": "2026-06-02",
+      "estado": "presente"
+    },
+    {
+      "id": 2057,
+      "estudiante_id": 86,
+      "curso_id": 10,
+      "fecha": "2026-06-16",
+      "estado": "presente"
+    },
+    {
+      "id": 2058,
+      "estudiante_id": 86,
+      "curso_id": 10,
+      "fecha": "2026-06-23",
+      "estado": "presente"
+    },
+    {
+      "id": 2059,
+      "estudiante_id": 86,
+      "curso_id": 10,
+      "fecha": "2026-07-07",
+      "estado": "ausente"
+    },
+    {
+      "id": 2060,
+      "estudiante_id": 86,
+      "curso_id": 10,
+      "fecha": "2026-08-11",
+      "estado": "ausente"
+    },
+    {
+      "id": 2061,
+      "estudiante_id": 86,
+      "curso_id": 10,
+      "fecha": "2026-08-18",
+      "estado": "presente"
+    },
+    {
+      "id": 2062,
+      "estudiante_id": 86,
+      "curso_id": 10,
+      "fecha": "2026-08-25",
+      "estado": "presente"
+    },
+    {
+      "id": 2063,
+      "estudiante_id": 86,
+      "curso_id": 10,
+      "fecha": "2026-09-01",
+      "estado": "presente"
+    },
+    {
+      "id": 2064,
+      "estudiante_id": 86,
+      "curso_id": 10,
+      "fecha": "2026-09-15",
+      "estado": "presente"
+    },
+    {
+      "id": 2065,
+      "estudiante_id": 86,
+      "curso_id": 10,
+      "fecha": "2026-09-29",
+      "estado": "presente"
+    },
+    {
+      "id": 2066,
+      "estudiante_id": 86,
+      "curso_id": 10,
+      "fecha": "2026-10-06",
+      "estado": "presente"
+    },
+    {
+      "id": 2067,
+      "estudiante_id": 86,
+      "curso_id": 10,
+      "fecha": "2026-10-13",
+      "estado": "presente"
+    },
+    {
+      "id": 2068,
+      "estudiante_id": 86,
+      "curso_id": 10,
+      "fecha": "2026-10-27",
+      "estado": "presente"
+    },
+    {
+      "id": 2069,
+      "estudiante_id": 86,
+      "curso_id": 10,
+      "fecha": "2026-11-03",
+      "estado": "presente"
+    },
+    {
+      "id": 2070,
+      "estudiante_id": 87,
+      "curso_id": 10,
+      "fecha": "2026-03-31",
+      "estado": "presente"
+    },
+    {
+      "id": 2071,
+      "estudiante_id": 87,
+      "curso_id": 10,
+      "fecha": "2026-04-07",
+      "estado": "presente"
+    },
+    {
+      "id": 2072,
+      "estudiante_id": 87,
+      "curso_id": 10,
+      "fecha": "2026-04-14",
+      "estado": "presente"
+    },
+    {
+      "id": 2073,
+      "estudiante_id": 87,
+      "curso_id": 10,
+      "fecha": "2026-04-28",
+      "estado": "presente"
+    },
+    {
+      "id": 2074,
+      "estudiante_id": 87,
+      "curso_id": 10,
+      "fecha": "2026-05-05",
+      "estado": "presente"
+    },
+    {
+      "id": 2075,
+      "estudiante_id": 87,
+      "curso_id": 10,
+      "fecha": "2026-05-12",
+      "estado": "presente"
+    },
+    {
+      "id": 2076,
+      "estudiante_id": 87,
+      "curso_id": 10,
+      "fecha": "2026-05-26",
+      "estado": "presente"
+    },
+    {
+      "id": 2077,
+      "estudiante_id": 87,
+      "curso_id": 10,
+      "fecha": "2026-06-02",
+      "estado": "presente"
+    },
+    {
+      "id": 2078,
+      "estudiante_id": 87,
+      "curso_id": 10,
+      "fecha": "2026-06-16",
+      "estado": "presente"
+    },
+    {
+      "id": 2079,
+      "estudiante_id": 87,
+      "curso_id": 10,
+      "fecha": "2026-06-23",
+      "estado": "presente"
+    },
+    {
+      "id": 2080,
+      "estudiante_id": 87,
+      "curso_id": 10,
+      "fecha": "2026-07-07",
+      "estado": "ausente"
+    },
+    {
+      "id": 2081,
+      "estudiante_id": 87,
+      "curso_id": 10,
+      "fecha": "2026-08-11",
+      "estado": "presente"
+    },
+    {
+      "id": 2082,
+      "estudiante_id": 87,
+      "curso_id": 10,
+      "fecha": "2026-08-18",
+      "estado": "presente"
+    },
+    {
+      "id": 2083,
+      "estudiante_id": 87,
+      "curso_id": 10,
+      "fecha": "2026-08-25",
+      "estado": "presente"
+    },
+    {
+      "id": 2084,
+      "estudiante_id": 87,
+      "curso_id": 10,
+      "fecha": "2026-09-01",
+      "estado": "presente"
+    },
+    {
+      "id": 2085,
+      "estudiante_id": 87,
+      "curso_id": 10,
+      "fecha": "2026-09-15",
+      "estado": "presente"
+    },
+    {
+      "id": 2086,
+      "estudiante_id": 87,
+      "curso_id": 10,
+      "fecha": "2026-09-29",
+      "estado": "ausente"
+    },
+    {
+      "id": 2087,
+      "estudiante_id": 87,
+      "curso_id": 10,
+      "fecha": "2026-10-06",
+      "estado": "presente"
+    },
+    {
+      "id": 2088,
+      "estudiante_id": 87,
+      "curso_id": 10,
+      "fecha": "2026-10-13",
+      "estado": "presente"
+    },
+    {
+      "id": 2089,
+      "estudiante_id": 87,
+      "curso_id": 10,
+      "fecha": "2026-10-27",
+      "estado": "presente"
+    },
+    {
+      "id": 2090,
+      "estudiante_id": 87,
+      "curso_id": 10,
+      "fecha": "2026-11-03",
+      "estado": "presente"
+    },
+    {
+      "id": 2091,
+      "estudiante_id": 88,
+      "curso_id": 10,
+      "fecha": "2026-03-31",
+      "estado": "presente"
+    },
+    {
+      "id": 2092,
+      "estudiante_id": 88,
+      "curso_id": 10,
+      "fecha": "2026-04-07",
+      "estado": "ausente"
+    },
+    {
+      "id": 2093,
+      "estudiante_id": 88,
+      "curso_id": 10,
+      "fecha": "2026-04-14",
+      "estado": "presente"
+    },
+    {
+      "id": 2094,
+      "estudiante_id": 88,
+      "curso_id": 10,
+      "fecha": "2026-04-28",
+      "estado": "presente"
+    },
+    {
+      "id": 2095,
+      "estudiante_id": 88,
+      "curso_id": 10,
+      "fecha": "2026-05-05",
+      "estado": "presente"
+    },
+    {
+      "id": 2096,
+      "estudiante_id": 88,
+      "curso_id": 10,
+      "fecha": "2026-05-12",
+      "estado": "presente"
+    },
+    {
+      "id": 2097,
+      "estudiante_id": 88,
+      "curso_id": 10,
+      "fecha": "2026-05-26",
+      "estado": "presente"
+    },
+    {
+      "id": 2098,
+      "estudiante_id": 88,
+      "curso_id": 10,
+      "fecha": "2026-06-02",
+      "estado": "presente"
+    },
+    {
+      "id": 2099,
+      "estudiante_id": 88,
+      "curso_id": 10,
+      "fecha": "2026-06-16",
+      "estado": "presente"
+    },
+    {
+      "id": 2100,
+      "estudiante_id": 88,
+      "curso_id": 10,
+      "fecha": "2026-06-23",
+      "estado": "presente"
+    },
+    {
+      "id": 2101,
+      "estudiante_id": 88,
+      "curso_id": 10,
+      "fecha": "2026-07-07",
+      "estado": "presente"
+    },
+    {
+      "id": 2102,
+      "estudiante_id": 88,
+      "curso_id": 10,
+      "fecha": "2026-08-11",
+      "estado": "presente"
+    },
+    {
+      "id": 2103,
+      "estudiante_id": 88,
+      "curso_id": 10,
+      "fecha": "2026-08-18",
+      "estado": "ausente"
+    },
+    {
+      "id": 2104,
+      "estudiante_id": 88,
+      "curso_id": 10,
+      "fecha": "2026-08-25",
+      "estado": "ausente"
+    },
+    {
+      "id": 2105,
+      "estudiante_id": 88,
+      "curso_id": 10,
+      "fecha": "2026-09-01",
+      "estado": "presente"
+    },
+    {
+      "id": 2106,
+      "estudiante_id": 88,
+      "curso_id": 10,
+      "fecha": "2026-09-15",
+      "estado": "ausente"
+    },
+    {
+      "id": 2107,
+      "estudiante_id": 88,
+      "curso_id": 10,
+      "fecha": "2026-09-29",
+      "estado": "presente"
+    },
+    {
+      "id": 2108,
+      "estudiante_id": 88,
+      "curso_id": 10,
+      "fecha": "2026-10-06",
+      "estado": "ausente"
+    },
+    {
+      "id": 2109,
+      "estudiante_id": 88,
+      "curso_id": 10,
+      "fecha": "2026-10-13",
+      "estado": "presente"
+    },
+    {
+      "id": 2110,
+      "estudiante_id": 88,
+      "curso_id": 10,
+      "fecha": "2026-10-27",
+      "estado": "presente"
+    },
+    {
+      "id": 2111,
+      "estudiante_id": 88,
+      "curso_id": 10,
+      "fecha": "2026-11-03",
+      "estado": "presente"
+    },
+    {
+      "id": 2112,
+      "estudiante_id": 89,
+      "curso_id": 10,
+      "fecha": "2026-03-31",
+      "estado": "ausente"
+    },
+    {
+      "id": 2113,
+      "estudiante_id": 89,
+      "curso_id": 10,
+      "fecha": "2026-04-07",
+      "estado": "ausente"
+    },
+    {
+      "id": 2114,
+      "estudiante_id": 89,
+      "curso_id": 10,
+      "fecha": "2026-04-14",
+      "estado": "ausente"
+    },
+    {
+      "id": 2115,
+      "estudiante_id": 89,
+      "curso_id": 10,
+      "fecha": "2026-04-28",
+      "estado": "ausente"
+    },
+    {
+      "id": 2116,
+      "estudiante_id": 89,
+      "curso_id": 10,
+      "fecha": "2026-05-05",
+      "estado": "ausente"
+    },
+    {
+      "id": 2117,
+      "estudiante_id": 89,
+      "curso_id": 10,
+      "fecha": "2026-05-12",
+      "estado": "ausente"
+    },
+    {
+      "id": 2118,
+      "estudiante_id": 89,
+      "curso_id": 10,
+      "fecha": "2026-05-26",
+      "estado": "presente"
+    },
+    {
+      "id": 2119,
+      "estudiante_id": 89,
+      "curso_id": 10,
+      "fecha": "2026-06-02",
+      "estado": "ausente"
+    },
+    {
+      "id": 2120,
+      "estudiante_id": 89,
+      "curso_id": 10,
+      "fecha": "2026-06-16",
+      "estado": "ausente"
+    },
+    {
+      "id": 2121,
+      "estudiante_id": 89,
+      "curso_id": 10,
+      "fecha": "2026-06-23",
+      "estado": "ausente"
+    },
+    {
+      "id": 2122,
+      "estudiante_id": 89,
+      "curso_id": 10,
+      "fecha": "2026-07-07",
+      "estado": "ausente"
+    },
+    {
+      "id": 2123,
+      "estudiante_id": 89,
+      "curso_id": 10,
+      "fecha": "2026-08-11",
+      "estado": "ausente"
+    },
+    {
+      "id": 2124,
+      "estudiante_id": 89,
+      "curso_id": 10,
+      "fecha": "2026-08-18",
+      "estado": "ausente"
+    },
+    {
+      "id": 2125,
+      "estudiante_id": 89,
+      "curso_id": 10,
+      "fecha": "2026-08-25",
+      "estado": "ausente"
+    },
+    {
+      "id": 2126,
+      "estudiante_id": 89,
+      "curso_id": 10,
+      "fecha": "2026-09-01",
+      "estado": "ausente"
+    },
+    {
+      "id": 2127,
+      "estudiante_id": 89,
+      "curso_id": 10,
+      "fecha": "2026-09-15",
+      "estado": "ausente"
+    },
+    {
+      "id": 2128,
+      "estudiante_id": 89,
+      "curso_id": 10,
+      "fecha": "2026-09-29",
+      "estado": "ausente"
+    },
+    {
+      "id": 2129,
+      "estudiante_id": 89,
+      "curso_id": 10,
+      "fecha": "2026-10-06",
+      "estado": "ausente"
+    },
+    {
+      "id": 2130,
+      "estudiante_id": 89,
+      "curso_id": 10,
+      "fecha": "2026-10-13",
+      "estado": "ausente"
+    },
+    {
+      "id": 2131,
+      "estudiante_id": 89,
+      "curso_id": 10,
+      "fecha": "2026-10-27",
+      "estado": "ausente"
+    },
+    {
+      "id": 2132,
+      "estudiante_id": 89,
+      "curso_id": 10,
+      "fecha": "2026-11-03",
+      "estado": "ausente"
+    },
+    {
+      "id": 2133,
+      "estudiante_id": 90,
+      "curso_id": 10,
+      "fecha": "2026-03-31",
+      "estado": "presente"
+    },
+    {
+      "id": 2134,
+      "estudiante_id": 90,
+      "curso_id": 10,
+      "fecha": "2026-04-07",
+      "estado": "presente"
+    },
+    {
+      "id": 2135,
+      "estudiante_id": 90,
+      "curso_id": 10,
+      "fecha": "2026-04-14",
+      "estado": "presente"
+    },
+    {
+      "id": 2136,
+      "estudiante_id": 90,
+      "curso_id": 10,
+      "fecha": "2026-04-28",
+      "estado": "presente"
+    },
+    {
+      "id": 2137,
+      "estudiante_id": 90,
+      "curso_id": 10,
+      "fecha": "2026-05-05",
+      "estado": "presente"
+    },
+    {
+      "id": 2138,
+      "estudiante_id": 90,
+      "curso_id": 10,
+      "fecha": "2026-05-12",
+      "estado": "presente"
+    },
+    {
+      "id": 2139,
+      "estudiante_id": 90,
+      "curso_id": 10,
+      "fecha": "2026-05-26",
+      "estado": "presente"
+    },
+    {
+      "id": 2140,
+      "estudiante_id": 90,
+      "curso_id": 10,
+      "fecha": "2026-06-02",
+      "estado": "presente"
+    },
+    {
+      "id": 2141,
+      "estudiante_id": 90,
+      "curso_id": 10,
+      "fecha": "2026-06-16",
+      "estado": "presente"
+    },
+    {
+      "id": 2142,
+      "estudiante_id": 90,
+      "curso_id": 10,
+      "fecha": "2026-06-23",
+      "estado": "presente"
+    },
+    {
+      "id": 2143,
+      "estudiante_id": 90,
+      "curso_id": 10,
+      "fecha": "2026-07-07",
+      "estado": "ausente"
+    },
+    {
+      "id": 2144,
+      "estudiante_id": 90,
+      "curso_id": 10,
+      "fecha": "2026-08-11",
+      "estado": "ausente"
+    },
+    {
+      "id": 2145,
+      "estudiante_id": 90,
+      "curso_id": 10,
+      "fecha": "2026-08-18",
+      "estado": "presente"
+    },
+    {
+      "id": 2146,
+      "estudiante_id": 90,
+      "curso_id": 10,
+      "fecha": "2026-08-25",
+      "estado": "presente"
+    },
+    {
+      "id": 2147,
+      "estudiante_id": 90,
+      "curso_id": 10,
+      "fecha": "2026-09-01",
+      "estado": "ausente"
+    },
+    {
+      "id": 2148,
+      "estudiante_id": 90,
+      "curso_id": 10,
+      "fecha": "2026-09-15",
+      "estado": "presente"
+    },
+    {
+      "id": 2149,
+      "estudiante_id": 90,
+      "curso_id": 10,
+      "fecha": "2026-09-29",
+      "estado": "ausente"
+    },
+    {
+      "id": 2150,
+      "estudiante_id": 90,
+      "curso_id": 10,
+      "fecha": "2026-10-06",
+      "estado": "presente"
+    },
+    {
+      "id": 2151,
+      "estudiante_id": 90,
+      "curso_id": 10,
+      "fecha": "2026-10-13",
+      "estado": "presente"
+    },
+    {
+      "id": 2152,
+      "estudiante_id": 90,
+      "curso_id": 10,
+      "fecha": "2026-10-27",
+      "estado": "presente"
+    },
+    {
+      "id": 2153,
+      "estudiante_id": 90,
+      "curso_id": 10,
+      "fecha": "2026-11-03",
+      "estado": "presente"
+    },
+    {
+      "id": 2154,
+      "estudiante_id": 91,
+      "curso_id": 10,
+      "fecha": "2026-03-31",
+      "estado": "ausente"
+    },
+    {
+      "id": 2155,
+      "estudiante_id": 91,
+      "curso_id": 10,
+      "fecha": "2026-04-07",
+      "estado": "presente"
+    },
+    {
+      "id": 2156,
+      "estudiante_id": 91,
+      "curso_id": 10,
+      "fecha": "2026-04-14",
+      "estado": "presente"
+    },
+    {
+      "id": 2157,
+      "estudiante_id": 91,
+      "curso_id": 10,
+      "fecha": "2026-04-28",
+      "estado": "presente"
+    },
+    {
+      "id": 2158,
+      "estudiante_id": 91,
+      "curso_id": 10,
+      "fecha": "2026-05-05",
+      "estado": "presente"
+    },
+    {
+      "id": 2159,
+      "estudiante_id": 91,
+      "curso_id": 10,
+      "fecha": "2026-05-12",
+      "estado": "presente"
+    },
+    {
+      "id": 2160,
+      "estudiante_id": 91,
+      "curso_id": 10,
+      "fecha": "2026-05-26",
+      "estado": "presente"
+    },
+    {
+      "id": 2161,
+      "estudiante_id": 91,
+      "curso_id": 10,
+      "fecha": "2026-06-02",
+      "estado": "presente"
+    },
+    {
+      "id": 2162,
+      "estudiante_id": 91,
+      "curso_id": 10,
+      "fecha": "2026-06-16",
+      "estado": "presente"
+    },
+    {
+      "id": 2163,
+      "estudiante_id": 91,
+      "curso_id": 10,
+      "fecha": "2026-06-23",
+      "estado": "ausente"
+    },
+    {
+      "id": 2164,
+      "estudiante_id": 91,
+      "curso_id": 10,
+      "fecha": "2026-07-07",
+      "estado": "ausente"
+    },
+    {
+      "id": 2165,
+      "estudiante_id": 91,
+      "curso_id": 10,
+      "fecha": "2026-08-11",
+      "estado": "ausente"
+    },
+    {
+      "id": 2166,
+      "estudiante_id": 91,
+      "curso_id": 10,
+      "fecha": "2026-08-18",
+      "estado": "presente"
+    },
+    {
+      "id": 2167,
+      "estudiante_id": 91,
+      "curso_id": 10,
+      "fecha": "2026-08-25",
+      "estado": "presente"
+    },
+    {
+      "id": 2168,
+      "estudiante_id": 91,
+      "curso_id": 10,
+      "fecha": "2026-09-01",
+      "estado": "ausente"
+    },
+    {
+      "id": 2169,
+      "estudiante_id": 91,
+      "curso_id": 10,
+      "fecha": "2026-09-15",
+      "estado": "presente"
+    },
+    {
+      "id": 2170,
+      "estudiante_id": 91,
+      "curso_id": 10,
+      "fecha": "2026-09-29",
+      "estado": "ausente"
+    },
+    {
+      "id": 2171,
+      "estudiante_id": 91,
+      "curso_id": 10,
+      "fecha": "2026-10-06",
+      "estado": "presente"
+    },
+    {
+      "id": 2172,
+      "estudiante_id": 91,
+      "curso_id": 10,
+      "fecha": "2026-10-13",
+      "estado": "presente"
+    },
+    {
+      "id": 2173,
+      "estudiante_id": 91,
+      "curso_id": 10,
+      "fecha": "2026-10-27",
+      "estado": "presente"
+    },
+    {
+      "id": 2174,
+      "estudiante_id": 91,
+      "curso_id": 10,
+      "fecha": "2026-11-03",
+      "estado": "presente"
+    },
+    {
+      "id": 2175,
+      "estudiante_id": 92,
+      "curso_id": 10,
+      "fecha": "2026-03-31",
+      "estado": "presente"
+    },
+    {
+      "id": 2176,
+      "estudiante_id": 92,
+      "curso_id": 10,
+      "fecha": "2026-04-07",
+      "estado": "presente"
+    },
+    {
+      "id": 2177,
+      "estudiante_id": 92,
+      "curso_id": 10,
+      "fecha": "2026-04-14",
+      "estado": "presente"
+    },
+    {
+      "id": 2178,
+      "estudiante_id": 92,
+      "curso_id": 10,
+      "fecha": "2026-04-28",
+      "estado": "presente"
+    },
+    {
+      "id": 2179,
+      "estudiante_id": 92,
+      "curso_id": 10,
+      "fecha": "2026-05-05",
+      "estado": "presente"
+    },
+    {
+      "id": 2180,
+      "estudiante_id": 92,
+      "curso_id": 10,
+      "fecha": "2026-05-12",
+      "estado": "ausente"
+    },
+    {
+      "id": 2181,
+      "estudiante_id": 92,
+      "curso_id": 10,
+      "fecha": "2026-05-26",
+      "estado": "presente"
+    },
+    {
+      "id": 2182,
+      "estudiante_id": 92,
+      "curso_id": 10,
+      "fecha": "2026-06-02",
+      "estado": "presente"
+    },
+    {
+      "id": 2183,
+      "estudiante_id": 92,
+      "curso_id": 10,
+      "fecha": "2026-06-16",
+      "estado": "presente"
+    },
+    {
+      "id": 2184,
+      "estudiante_id": 92,
+      "curso_id": 10,
+      "fecha": "2026-06-23",
+      "estado": "presente"
+    },
+    {
+      "id": 2185,
+      "estudiante_id": 92,
+      "curso_id": 10,
+      "fecha": "2026-07-07",
+      "estado": "presente"
+    },
+    {
+      "id": 2186,
+      "estudiante_id": 92,
+      "curso_id": 10,
+      "fecha": "2026-08-11",
+      "estado": "ausente"
+    },
+    {
+      "id": 2187,
+      "estudiante_id": 92,
+      "curso_id": 10,
+      "fecha": "2026-08-18",
+      "estado": "presente"
+    },
+    {
+      "id": 2188,
+      "estudiante_id": 92,
+      "curso_id": 10,
+      "fecha": "2026-08-25",
+      "estado": "presente"
+    },
+    {
+      "id": 2189,
+      "estudiante_id": 92,
+      "curso_id": 10,
+      "fecha": "2026-09-01",
+      "estado": "presente"
+    },
+    {
+      "id": 2190,
+      "estudiante_id": 92,
+      "curso_id": 10,
+      "fecha": "2026-09-15",
+      "estado": "presente"
+    },
+    {
+      "id": 2191,
+      "estudiante_id": 92,
+      "curso_id": 10,
+      "fecha": "2026-09-29",
+      "estado": "ausente"
+    },
+    {
+      "id": 2192,
+      "estudiante_id": 92,
+      "curso_id": 10,
+      "fecha": "2026-10-06",
+      "estado": "presente"
+    },
+    {
+      "id": 2193,
+      "estudiante_id": 92,
+      "curso_id": 10,
+      "fecha": "2026-10-13",
+      "estado": "ausente"
+    },
+    {
+      "id": 2194,
+      "estudiante_id": 92,
+      "curso_id": 10,
+      "fecha": "2026-10-27",
+      "estado": "presente"
+    },
+    {
+      "id": 2195,
+      "estudiante_id": 92,
+      "curso_id": 10,
+      "fecha": "2026-11-03",
+      "estado": "presente"
     }
   ],
   "licencias": [
@@ -10181,15 +10279,6 @@
       "curso_id": 7,
       "usuario_id": 1,
       "created_at": "2026-10-31 19:34:15"
-    },
-    {
-      "id": 3,
-      "fecha": "2026-10-31",
-      "motivo": "Licencia Médica",
-      "descripcion": "",
-      "curso_id": 7,
-      "usuario_id": 1,
-      "created_at": "2026-10-31 19:37:54"
     }
   ]
 }

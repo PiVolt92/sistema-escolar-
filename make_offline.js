@@ -99,6 +99,30 @@ async function handleOfflineApi(url, options = {}) {
     }
   }
 
+  const matchCursoAsistMatriz = path.match(/^\\/api\\/cursos\\/(\\d+)\\/asistencia-matriz-excel/);
+  if (matchCursoAsistMatriz && method === 'POST') {
+    const cursoId = parseInt(matchCursoAsistMatriz[1], 10);
+    const { registrosMatriz } = body;
+    if (!db.asistencia) db.asistencia = [];
+    if (Array.isArray(registrosMatriz)) {
+      for (const dia of registrosMatriz) {
+        if (!dia.fecha || !Array.isArray(dia.registros)) continue;
+        db.asistencia = db.asistencia.filter(a => !(a.curso_id == cursoId && a.fecha === dia.fecha));
+        for (const reg of dia.registros) {
+          db.asistencia.push({
+            id: Date.now() + Math.floor(Math.random()*10000),
+            estudiante_id: reg.estudianteId,
+            curso_id: cursoId,
+            fecha: dia.fecha,
+            estado: reg.estado || 'presente'
+          });
+        }
+      }
+    }
+    saveOfflineDB(db);
+    return { mensaje: 'Matriz de asistencia guardada correctamente.' };
+  }
+
   const matchCursoAsist = path.match(/^\\/api\\/cursos\\/(\\d+)\\/asistencia/);
   if (matchCursoAsist) {
     const cursoId = parseInt(matchCursoAsist[1], 10);

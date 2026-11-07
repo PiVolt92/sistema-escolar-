@@ -192,6 +192,38 @@ router.get('/:id/asistencia', (req, res) => {
 /**
  * POST /api/cursos/:id/asistencia
  */
+router.post('/:id/asistencia-matriz-excel', (req, res) => {
+  try {
+    const cursoId = req.params.id;
+    const { estudiantes, registrosMatriz } = req.body;
+    // registrosMatriz: [ { fecha: 'YYYY-MM-DD', registros: [ { estudianteId, estado } ] } ]
+    if (!Array.isArray(registrosMatriz)) {
+      return res.status(400).json({ error: 'Formato inválido de matriz de asistencia.' });
+    }
+
+    const guardar = db.transaction(() => {
+      const insertAsist = db.prepare(
+        'INSERT OR REPLACE INTO asistencia (curso_id, estudiante_id, fecha, estado) VALUES (?, ?, ?, ?)'
+      );
+
+      for (const dia of registrosMatriz) {
+        if (!dia.fecha || !Array.isArray(dia.registros)) continue;
+        for (const reg of dia.registros) {
+          if (!reg.estudianteId) continue;
+          insertAsist.run(cursoId, reg.estudianteId, dia.fecha, reg.estado || 'presente');
+        }
+      }
+    });
+
+    guardar();
+    db.pragma('wal_checkpoint(TRUNCATE)');
+    res.json({ mensaje: 'Matriz de asistencia guardada exitosamente.', totalFechas: registrosMatriz.length });
+  } catch (err) {
+    console.error('Error al guardar matriz de asistencia:', err);
+    res.status(500).json({ error: 'Error al procesar la matriz de asistencia.' });
+  }
+});
+
 router.post('/:id/asistencia', (req, res) => {
   try {
     const { fecha, registros } = req.body;
