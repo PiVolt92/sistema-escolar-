@@ -41,6 +41,7 @@ if (Array.isArray(dataExport.licencias)) {
 }
 
 const initialData = {
+  cicloLectivo: 2026,
   colegios: dataExport.colegios,
   cursos: dataExport.cursos,
   estudiantes: estudiantes,
@@ -159,6 +160,13 @@ const html = `<!DOCTYPE html>
           <span class="hidden md:inline">Backup</span>
         </button>
 
+        <!-- Reiniciar / Nuevo Año Escolar -->
+        <button onclick="abrirModalReiniciarCiclo()" class="bg-purple-900/80 hover:bg-purple-800 text-purple-200 hover:text-white text-xs px-3 py-2 rounded-lg font-bold border border-purple-700/60 transition flex items-center space-x-1.5 shadow-sm">
+          <i class="fa-solid fa-arrows-rotate text-purple-400"></i>
+          <span class="hidden md:inline">Nuevo Año Escolar</span>
+          <span class="md:hidden">Nuevo Año</span>
+        </button>
+
         <button onclick="abrirModalNuevoEstudiante()" class="bg-slate-700/60 hover:bg-slate-700 text-white text-xs px-3 py-2 rounded-lg font-medium transition flex items-center space-x-1 border border-slate-600">
           <i class="fa-solid fa-user-plus text-amber-400"></i>
           <span class="hidden lg:inline">Nuevo Alumno</span>
@@ -174,7 +182,11 @@ const html = `<!DOCTYPE html>
     <div class="bg-white rounded-xl border border-slate-200 p-5 mb-6 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
       <div>
         <div class="flex items-center space-x-2">
-          <span class="text-xs font-black uppercase tracking-wider text-amber-600 bg-amber-50 px-2.5 py-1 rounded-md border border-amber-200">Ciclo Lectivo 2026</span>
+          <span class="text-xs font-black uppercase tracking-wider text-amber-600 bg-amber-50 px-2.5 py-1 rounded-md border border-amber-200 flex items-center gap-1.5">
+            <i class="fa-solid fa-calendar-check text-amber-500"></i>
+            <span>Ciclo Lectivo:</span>
+            <span id="lbl-ciclo-lectivo" class="text-slate-900 font-extrabold text-sm">2026</span>
+          </span>
           <span id="badge-periodo-activo" class="text-xs font-bold text-slate-600 bg-slate-100 px-2.5 py-1 rounded-md">Todo el Año</span>
         </div>
         <h2 id="titulo-institucion" class="text-xl font-bold text-slate-900 mt-1">E.E.S.T. N° 4 / E.E.S. — Control de Asistencia y Regularidad</h2>
@@ -515,6 +527,109 @@ const html = `<!DOCTYPE html>
       <div class="mt-6 pt-3 border-t border-slate-100 flex justify-end">
         <button onclick="cerrarModalBackup()" class="text-xs text-slate-600 hover:bg-slate-100 font-bold px-4 py-2 rounded-lg transition">
           Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: REINICIO DE CICLO LECTIVO / NUEVO AÑO ESCOLAR -->
+  <div id="modal-reiniciar-ciclo" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden">
+    <div class="bg-white rounded-2xl max-w-xl w-full p-6 shadow-2xl border border-slate-200">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
+        <div class="flex items-center space-x-2.5">
+          <div class="w-10 h-10 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center font-bold text-lg">
+            <i class="fa-solid fa-arrows-rotate"></i>
+          </div>
+          <div>
+            <h3 class="text-base font-bold text-slate-900">Cierre de Ciclo e Inicio de Nuevo Año Escolar</h3>
+            <p class="text-xs text-slate-500">Reiniciar el sistema para un nuevo ciclo lectivo de forma segura</p>
+          </div>
+        </div>
+        <button onclick="cerrarModalReiniciarCiclo()" class="text-slate-400 hover:text-slate-600 text-lg p-1">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="space-y-4">
+        <!-- Aviso de Seguridad -->
+        <div class="bg-blue-50 border border-blue-200 rounded-xl p-3.5 text-xs text-blue-900 flex items-start space-x-2.5">
+          <i class="fa-solid fa-shield-halved text-blue-600 text-base mt-0.5 shrink-0"></i>
+          <div>
+            <strong class="text-blue-950 font-bold">Resguardo Automático Garantizado:</strong>
+            <p class="mt-0.5 text-blue-800">
+              Al confirmar el reinicio, el sistema <strong>descargará automáticamente una Copia de Seguridad completa (.json)</strong> de este año para que mantengas todo el historial guardado en tu computadora.
+            </p>
+          </div>
+        </div>
+
+        <!-- Selector de Año -->
+        <div class="bg-slate-50 border border-slate-200 rounded-xl p-3.5 flex items-center justify-between">
+          <div>
+            <label class="block text-xs font-bold text-slate-700">Año del Nuevo Ciclo Lectivo:</label>
+            <p class="text-[11px] text-slate-500">Ciclo actual: <span class="font-bold text-slate-800" id="reinicio-ciclo-actual-txt">2026</span></p>
+          </div>
+          <div class="flex items-center space-x-2">
+            <input type="number" id="input-nuevo-ciclo" value="2027" min="2020" max="2035" class="w-24 text-center text-sm font-black border border-slate-300 rounded-xl px-2 py-1.5 bg-white focus:ring-2 focus:ring-purple-500 outline-none">
+          </div>
+        </div>
+
+        <!-- Modos de reinicio -->
+        <div class="space-y-2.5">
+          <label class="block text-xs font-bold text-slate-700">Seleccionar Modo de Reinicio:</label>
+
+          <div class="border border-purple-300 bg-purple-50/50 p-3 rounded-xl flex items-start space-x-3 cursor-pointer hover:bg-purple-50 transition" onclick="document.getElementById('radio-reinicio-estandar').checked = true">
+            <input type="radio" id="radio-reinicio-estandar" name="modo-reinicio" value="estandar" checked class="mt-1 text-purple-600 focus:ring-purple-500">
+            <div>
+              <label for="radio-reinicio-estandar" class="text-xs font-black text-purple-950 block cursor-pointer">
+                🌟 Nuevo Año Estándar (Recomendado)
+              </label>
+              <p class="text-[11px] text-purple-900 mt-0.5">
+                Conserva tus colegios y la estructura de tus cursos (4° 1°, 4° 3°, etc.). Limpia asistencias anteriores y la lista de alumnos para que puedas cargar la nueva matrícula desde tu nuevo Excel de marzo.
+              </p>
+            </div>
+          </div>
+
+          <div class="border border-slate-200 bg-slate-50 p-3 rounded-xl flex items-start space-x-3 cursor-pointer hover:bg-slate-100 transition" onclick="document.getElementById('radio-reinicio-promover').checked = true">
+            <input type="radio" id="radio-reinicio-promover" name="modo-reinicio" value="conservar_alumnos" class="mt-1 text-slate-600 focus:ring-purple-500">
+            <div>
+              <label for="radio-reinicio-promover" class="text-xs font-bold text-slate-900 block cursor-pointer">
+                👥 Conservar Alumnos y Reiniciar Solo Asistencias a 0
+              </label>
+              <p class="text-[11px] text-slate-600 mt-0.5">
+                Mantiene los nombres de los estudiantes actuales pero pone el contador de presentes y faltas en cero para comenzar el nuevo año con el mismo grupo.
+              </p>
+            </div>
+          </div>
+
+          <div class="border border-slate-200 bg-slate-50 p-3 rounded-xl flex items-start space-x-3 cursor-pointer hover:bg-slate-100 transition" onclick="document.getElementById('radio-reinicio-total').checked = true">
+            <input type="radio" id="radio-reinicio-total" name="modo-reinicio" value="total" class="mt-1 text-slate-600 focus:ring-purple-500">
+            <div>
+              <label for="radio-reinicio-total" class="text-xs font-bold text-slate-900 block cursor-pointer">
+                🧼 Reinicio Total Limpio
+              </label>
+              <p class="text-[11px] text-slate-600 mt-0.5">
+                Limpia colegios, cursos, alumnos y asistencias para arrancar una configuración 100% en blanco.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Confirmación de seguridad -->
+        <div class="pt-2">
+          <label class="flex items-center space-x-2 text-xs font-bold text-slate-700 cursor-pointer">
+            <input type="checkbox" id="check-confirmar-reinicio" class="w-4 h-4 rounded text-purple-600 focus:ring-purple-500">
+            <span>Confirmo el cierre de ciclo y la apertura del nuevo año escolar</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between pt-5 mt-5 border-t border-slate-100">
+        <button onclick="cerrarModalReiniciarCiclo()" class="text-xs text-slate-600 hover:bg-slate-100 font-bold px-4 py-2.5 rounded-lg transition">
+          Cancelar
+        </button>
+        <button onclick="ejecutarReinicioCicloConfirmado()" class="bg-purple-700 hover:bg-purple-800 text-white text-xs font-black px-5 py-2.5 rounded-lg shadow-sm transition flex items-center space-x-1.5">
+          <i class="fa-solid fa-rocket"></i>
+          <span>Guardar Respaldo e Iniciar Nuevo Año</span>
         </button>
       </div>
     </div>
@@ -1441,6 +1556,100 @@ const html = `<!DOCTYPE html>
     }
 
     // =========================================================================
+    // 🔄 REINICIO DE CICLO LECTIVO / NUEVO AÑO ESCOLAR
+    // =========================================================================
+    function abrirModalReiniciarCiclo() {
+      const anioActual = state.cicloLectivo || 2026;
+      document.getElementById('reinicio-ciclo-actual-txt').textContent = anioActual;
+      document.getElementById('input-nuevo-ciclo').value = parseInt(anioActual) + 1;
+      document.getElementById('check-confirmar-reinicio').checked = false;
+      document.getElementById('modal-reiniciar-ciclo').classList.remove('hidden');
+    }
+
+    function cerrarModalReiniciarCiclo() {
+      document.getElementById('modal-reiniciar-ciclo').classList.add('hidden');
+    }
+
+    function actualizarIndicadorCicloUI() {
+      const anio = state.cicloLectivo || 2026;
+      const lbl = document.getElementById('lbl-ciclo-lectivo');
+      if (lbl) lbl.textContent = anio;
+    }
+
+    function ejecutarReinicioCicloConfirmado() {
+      const check = document.getElementById('check-confirmar-reinicio');
+      if (!check.checked) {
+        alert("Por favor marca la casilla de confirmación para proceder con el nuevo ciclo lectivo.");
+        return;
+      }
+
+      const anioActual = state.cicloLectivo || 2026;
+      const nuevoAnio = parseInt(document.getElementById('input-nuevo-ciclo').value) || (parseInt(anioActual) + 1);
+      const modo = document.querySelector('input[name="modo-reinicio"]:checked').value;
+
+      // 1. DESCARGA AUTOMÁTICA OBLIGATORIA DEL RESPALDO HISTÓRICO
+      const backupData = {
+        version: "TuProfeWeb_Historico_Ciclo_" + anioActual,
+        cicloLectivo: anioActual,
+        fechaCierre: new Date().toISOString(),
+        fechaLegible: new Date().toLocaleString('es-AR'),
+        docente: "Prof. Facundo Casciano",
+        datos: JSON.parse(JSON.stringify(state))
+      };
+
+      const blob = new Blob([JSON.stringify(backupData, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = "Respaldo_Historico_TuProfeWeb_Ciclo_" + anioActual + ".json";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+
+      // 2. GUARDAR EN HISTORIAL UNDO (Ctrl+Z)
+      guardarEstado(true);
+
+      // 3. ARCHIVAR EN HISTORIAL MULTIANUAL
+      if (!state.historialCiclos) state.historialCiclos = {};
+      state.historialCiclos[anioActual] = {
+        fechaCierre: new Date().toISOString(),
+        totalAlumnos: state.estudiantes.length,
+        totalAsistencias: Object.keys(state.asistencias).length
+      };
+
+      // 4. APLICAR MODO DE REINICIO
+      state.cicloLectivo = nuevoAnio;
+      state.asistencias = {};
+      state.incidencias = {};
+
+      if (modo === 'estandar') {
+        // Conserva colegios y cursos, limpia alumnos para nuevo Excel
+        state.estudiantes = [];
+      } else if (modo === 'total') {
+        // Reinicio completo desde cero
+        state.colegios = [{ id: 1, nombre: 'Escuela Técnica' }];
+        state.cursos = [{ id: 1, colegio_id: 1, nombre: '1° Año', turno: 'Mañana' }];
+        state.estudiantes = [];
+        colegioActivoId = 1;
+        cursoActivoId = 1;
+      } else if (modo === 'conservar_alumnos') {
+        // Mantiene alumnos y limpia asistencias
+      }
+
+      // Establecer fecha de clase en marzo del nuevo año
+      fechaHoyStr = nuevoAnio + '-03-01';
+      const fInput = document.getElementById('fecha-asistencia');
+      if (fInput) fInput.value = fechaHoyStr;
+
+      actualizarIndicadorCicloUI();
+      cerrarModalReiniciarCiclo();
+      renderTodo();
+
+      alert("🎉 ¡Ciclo Lectivo " + nuevoAnio + " iniciado con total éxito!\\n\\nSe descargó automáticamente 'Respaldo_Historico_TuProfeWeb_Ciclo_" + anioActual + ".json' en tu computadora.\\nYa podés subir las nuevas planillas de alumnos para el nuevo año escolar.");
+    }
+
+    // =========================================================================
     // 📂 ACTUALIZADOR INTELIGENTE DE ARCHIVOS (SMART MERGE / REEMPLAZAR)
     // =========================================================================
     let datosAnalizadosArchivo = null;
@@ -1893,6 +2102,7 @@ const html = `<!DOCTYPE html>
     // 🎨 RENDERIZADO VISUAL DEL DASHBOARD
     // =========================================================================
     function renderTodo() {
+      actualizarIndicadorCicloUI();
       renderColegios();
       renderCursos();
       actualizarEstadoDiaUI();
