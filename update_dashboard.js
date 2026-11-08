@@ -743,6 +743,143 @@ const html = `<!DOCTYPE html>
     </div>
   </div>
 
+  
+  <!-- MODAL: FICHA PEDAGÓGICA INDIVIDUAL DEL ESTUDIANTE -->
+  <div id="modal-ficha-estudiante" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden">
+    <div class="bg-white rounded-2xl max-w-2xl w-full p-6 shadow-2xl border border-slate-200 max-h-[90vh] flex flex-col">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4 shrink-0">
+        <div class="flex items-center space-x-3">
+          <div id="ficha-avatar" class="w-12 h-12 rounded-2xl bg-amber-500 text-slate-950 flex items-center justify-center font-black text-xl shadow-sm">
+            AL
+          </div>
+          <div>
+            <h3 id="ficha-nombre-alumno" class="text-lg font-black text-slate-900">APELLIDO, NOMBRE</h3>
+            <p class="text-xs text-slate-500"><span id="ficha-curso-txt">Curso</span> • DNI: <span id="ficha-dni-txt">---</span></p>
+          </div>
+        </div>
+        <button onclick="cerrarFichaEstudiante()" class="text-slate-400 hover:text-slate-600 text-xl p-1">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="overflow-y-auto pr-1 space-y-4 flex-1">
+        <!-- Indicadores Clave del Estudiante -->
+        <div class="grid grid-cols-4 gap-2.5 text-center">
+          <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+            <span class="text-[10px] uppercase font-bold text-slate-500">Clases</span>
+            <div id="ficha-stat-clases" class="text-xl font-black text-slate-800 mt-0.5">0</div>
+          </div>
+          <div class="bg-emerald-50 p-3 rounded-xl border border-emerald-200">
+            <span class="text-[10px] uppercase font-bold text-emerald-700">Presentes</span>
+            <div id="ficha-stat-presentes" class="text-xl font-black text-emerald-800 mt-0.5">0</div>
+          </div>
+          <div class="bg-rose-50 p-3 rounded-xl border border-rose-200">
+            <span class="text-[10px] uppercase font-bold text-rose-700">Faltas</span>
+            <div id="ficha-stat-faltas" class="text-xl font-black text-rose-800 mt-0.5">0</div>
+          </div>
+          <div class="bg-amber-50 p-3 rounded-xl border border-amber-200">
+            <span class="text-[10px] uppercase font-bold text-amber-700">% Asistencia</span>
+            <div id="ficha-stat-porcentaje" class="text-xl font-black text-amber-800 mt-0.5">0%</div>
+          </div>
+        </div>
+
+        <!-- Tarjeta de Condición y Proyección -->
+        <div id="ficha-tarjeta-proyeccion" class="p-3.5 rounded-xl border flex items-center justify-between">
+          <div>
+            <div class="flex items-center space-x-2">
+              <span id="ficha-badge-condicion" class="text-xs font-black px-2.5 py-0.5 rounded-full">Condición</span>
+            </div>
+            <p id="ficha-detalle-proyeccion" class="text-xs text-slate-600 mt-1">Detalle de la proyección</p>
+          </div>
+          <div id="ficha-icono-proyeccion" class="text-2xl"></div>
+        </div>
+
+        <!-- Historial Día por Día -->
+        <div>
+          <h4 class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-2 flex items-center justify-between">
+            <span>Historial Diario de Asistencia</span>
+            <span class="text-[11px] text-slate-400 font-normal">P: Presente • A: Ausente • J: Justificada • T: Tarde</span>
+          </h4>
+          <div id="ficha-historial-dias" class="flex flex-wrap gap-1.5 p-3 bg-slate-50 rounded-xl border border-slate-200 max-h-40 overflow-y-auto"></div>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between pt-4 mt-4 border-t border-slate-100 shrink-0">
+        <button onclick="copiarMensajeFamiliarWhatsApp()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-3.5 py-2.5 rounded-xl shadow-xs transition flex items-center space-x-1.5">
+          <i class="fa-brands fa-whatsapp text-sm"></i>
+          <span>Mensaje para la Familia (WhatsApp)</span>
+        </button>
+        <button onclick="cerrarFichaEstudiante()" class="text-xs text-slate-600 hover:bg-slate-100 font-bold px-4 py-2.5 rounded-xl transition">
+          Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: SIMULADOR INTERACTIVO DE RECUPERABILIDAD A FIN DE AÑO -->
+  <div id="modal-simulador" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden">
+    <div class="bg-white rounded-2xl max-w-4xl w-full p-6 shadow-2xl border border-slate-200 max-h-[92vh] flex flex-col">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4 shrink-0">
+        <div class="flex items-center space-x-2.5">
+          <div class="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold text-lg">
+            <i class="fa-solid fa-calculator"></i>
+          </div>
+          <div>
+            <h3 class="text-base font-bold text-slate-900">Simulador de Recuperabilidad de Asistencia a Fin de Año</h3>
+            <p class="text-xs text-slate-500">Calculá exactamente quiénes salvan la materia y quiénes quedan libres según las clases restantes</p>
+          </div>
+        </div>
+        <button onclick="cerrarModalSimulador()" class="text-slate-400 hover:text-slate-600 text-lg p-1">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- Barra de Control del Simulador -->
+      <div class="bg-indigo-50 border border-indigo-200 rounded-xl p-3.5 mb-4 shrink-0 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div class="flex items-center space-x-3">
+          <label class="text-xs font-bold text-indigo-950">Clases restantes a simular:</label>
+          <div class="flex items-center space-x-1 bg-white p-1 rounded-lg border border-indigo-300">
+            <button onclick="cambiarClasesSimuladas(3)" id="btn-sim-3" class="px-2.5 py-1 text-xs font-bold rounded hover:bg-indigo-100 text-indigo-900">3 clases</button>
+            <button onclick="cambiarClasesSimuladas(4)" id="btn-sim-4" class="px-2.5 py-1 text-xs font-bold rounded hover:bg-indigo-100 text-indigo-900">4 clases</button>
+            <button onclick="cambiarClasesSimuladas(5)" id="btn-sim-5" class="px-2.5 py-1 text-xs font-bold rounded bg-indigo-600 text-white shadow-2xs">5 clases (Regular)</button>
+            <button onclick="cambiarClasesSimuladas(6)" id="btn-sim-6" class="px-2.5 py-1 text-xs font-bold rounded hover:bg-indigo-100 text-indigo-900">6 clases (Intensif.)</button>
+          </div>
+        </div>
+
+        <div class="text-xs text-indigo-900 font-medium">
+          Mínimo exigido: <strong>70% de asistencia</strong>
+        </div>
+      </div>
+
+      <!-- Tabla del Simulador -->
+      <div class="overflow-y-auto flex-1 border border-slate-200 rounded-xl">
+        <table class="w-full text-left text-xs border-collapse">
+          <thead class="bg-slate-100 text-slate-700 sticky top-0 z-10 uppercase tracking-wider font-bold">
+            <tr>
+              <th class="py-2.5 px-3">Estudiante</th>
+              <th class="py-2.5 px-2 text-center">Pres. Hoy</th>
+              <th class="py-2.5 px-2 text-center">% Hoy</th>
+              <th class="py-2.5 px-2 text-center">Clases Rest.</th>
+              <th class="py-2.5 px-2 text-center">Máx % con Asist. Perfecta</th>
+              <th class="py-2.5 px-2 text-center">Presencias Mínimas Necesarias</th>
+              <th class="py-2.5 px-3 text-center">Diagnóstico a Diciembre</th>
+            </tr>
+          </thead>
+          <tbody id="simulador-tbody" class="divide-y divide-slate-100"></tbody>
+        </table>
+      </div>
+
+      <div class="flex items-center justify-between pt-4 mt-4 border-t border-slate-100 shrink-0">
+        <div class="text-xs text-slate-500">
+          💡 Las asistencias perfectas simulan presencia en el 100% de las fechas restantes.
+        </div>
+        <button onclick="cerrarModalSimulador()" class="text-xs text-slate-600 hover:bg-slate-100 font-bold px-4 py-2 rounded-lg transition">
+          Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- TOAST DE NOTIFICACIÓN RÁPIDA -->
   <div id="toast-notificacion" class="fixed bottom-5 right-5 bg-slate-900 text-white text-xs px-4 py-3 rounded-xl shadow-2xl flex items-center space-x-2 transition-all duration-300 transform translate-y-20 opacity-0 z-50">
     <i class="fa-solid fa-circle-check text-emerald-400 text-base"></i>
@@ -2176,6 +2313,260 @@ const html = `<!DOCTYPE html>
       renderTablaEstudiantes();
       renderAlertasPreceptoria();
       actualizarEstadisticas();
+    }
+
+    
+    // =========================================================================
+    // 🔍 BÚSQUEDA Y FILTRADO AVANZADO DE LA TABLA DE ESTUDIANTES
+    // =========================================================================
+    let textoBusquedaEstudiante = '';
+    let filtroEstadoTabla = 'todos';
+    let alumnoSeleccionadoFichaId = null;
+    let clasesSimuladasConfig = 5;
+
+    function alBuscarEstudiante(e) {
+      textoBusquedaEstudiante = e.target.value.toLowerCase().trim();
+      const btnClear = document.getElementById('btn-limpiar-busqueda');
+      if (textoBusquedaEstudiante) btnClear.classList.remove('hidden');
+      else btnClear.classList.add('hidden');
+      renderTablaEstudiantes();
+    }
+
+    function limpiarBuscador() {
+      const input = document.getElementById('buscador-estudiantes');
+      if (input) input.value = '';
+      textoBusquedaEstudiante = '';
+      document.getElementById('btn-limpiar-busqueda').classList.add('hidden');
+      renderTablaEstudiantes();
+    }
+
+    function cambiarFiltroTabla(filtro) {
+      filtroEstadoTabla = filtro;
+      const botones = ['todos', 'regulares', 'pueden_salvarse', 'libres', 'ausentes_hoy'];
+      botones.forEach(b => {
+        const btn = document.getElementById('filtro-btn-' + b);
+        if (btn) {
+          if (b === filtro) {
+            btn.className = 'px-2.5 py-1.5 rounded-lg font-bold bg-slate-900 text-white shadow-2xs transition';
+          } else {
+            btn.className = 'px-2.5 py-1.5 rounded-lg font-medium bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition';
+          }
+        }
+      });
+      renderTablaEstudiantes();
+    }
+
+    function actualizarContadoresFiltros(alumnos, fechaHoy) {
+      let cntTodos = alumnos.length;
+      let cntRegulares = 0;
+      let cntPueden = 0;
+      let cntLibres = 0;
+      let cntAusentes = 0;
+
+      alumnos.forEach(est => {
+        const stats = calcularStatsEstudiante(est.id);
+        if (stats.estadoProyeccion === 'PUEDE_LLEGAR') cntPueden++;
+        else if (stats.estadoProyeccion === 'NO_LLEGA_LIBRE') cntLibres++;
+        else cntRegulares++;
+
+        const estadoHoy = state.asistencias[fechaHoy + '_' + est.id] || 'P';
+        if (estadoHoy === 'A') cntAusentes++;
+      });
+
+      const setT = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+      setT('cnt-filtro-todos', cntTodos);
+      setT('cnt-filtro-regulares', cntRegulares);
+      setT('cnt-filtro-pueden_salvarse', cntPueden);
+      setT('cnt-filtro-libres', cntLibres);
+      setT('cnt-filtro-ausentes', cntAusentes);
+    }
+
+    // =========================================================================
+    // 👤 FICHA PEDAGÓGICA INDIVIDUAL DEL ESTUDIANTE
+    // =========================================================================
+    function abrirFichaEstudiante(id) {
+      const est = state.estudiantes.find(e => e.id === id);
+      if (!est) return;
+      alumnoSeleccionadoFichaId = id;
+
+      const cur = state.cursos.find(c => c.id === est.curso_id);
+      const stats = calcularStatsEstudiante(id);
+
+      document.getElementById('ficha-nombre-alumno').textContent = (est.apellido + ', ' + est.nombre).toUpperCase();
+      document.getElementById('ficha-curso-txt').textContent = cur ? cur.nombre : 'Curso';
+      document.getElementById('ficha-dni-txt').textContent = est.dni || 'Sin DNI cargado';
+
+      const iniciales = (est.apellido.slice(0, 1) + (est.nombre ? est.nombre.slice(0, 1) : '')).toUpperCase();
+      document.getElementById('ficha-avatar').textContent = iniciales;
+
+      document.getElementById('ficha-stat-clases').textContent = stats.totalClases;
+      document.getElementById('ficha-stat-presentes').textContent = stats.presentes;
+      document.getElementById('ficha-stat-faltas').textContent = stats.ausentes;
+      document.getElementById('ficha-stat-porcentaje').textContent = stats.porcentaje + '%';
+
+      // Tarjeta de proyección
+      const card = document.getElementById('ficha-tarjeta-proyeccion');
+      const badge = document.getElementById('ficha-badge-condicion');
+      const desc = document.getElementById('ficha-detalle-proyeccion');
+      const ico = document.getElementById('ficha-icono-proyeccion');
+
+      if (stats.estadoProyeccion === 'PUEDE_LLEGAR') {
+        card.className = 'p-3.5 rounded-xl border border-amber-300 bg-amber-50 flex items-center justify-between';
+        badge.className = 'text-xs font-black px-2.5 py-0.5 rounded-full bg-amber-300 text-amber-950 border border-amber-500';
+        badge.textContent = '🟡 PUEDE LLEGAR (Asistencia Perfecta)';
+        desc.textContent = 'Necesita asistir a ' + stats.presMinimosNecesarios + ' de las ' + stats.clasesRestantes + ' clases restantes para alcanzar el 70%. Máximo alcanzable: ' + stats.maxPctPosible + '%.';
+        ico.innerHTML = '🟡';
+      } else if (stats.estadoProyeccion === 'NO_LLEGA_LIBRE') {
+        card.className = 'p-3.5 rounded-xl border border-rose-300 bg-rose-50 flex items-center justify-between';
+        badge.className = 'text-xs font-black px-2.5 py-0.5 rounded-full bg-rose-200 text-rose-900 border border-rose-400';
+        badge.textContent = '🔴 QUEDA LIBRE';
+        desc.textContent = 'Aún con asistencia perfecta al 100%, lo máximo que puede alcanzar es ' + stats.maxPctPosible + '% (requiere ' + stats.presMinimosNecesarios + ' clases pero solo quedan ' + stats.clasesRestantes + ').';
+        ico.innerHTML = '🔴';
+      } else {
+        card.className = 'p-3.5 rounded-xl border border-emerald-300 bg-emerald-50 flex items-center justify-between';
+        badge.className = 'text-xs font-black px-2.5 py-0.5 rounded-full bg-emerald-200 text-emerald-900 border border-emerald-400';
+        badge.textContent = '🟢 CONDICIÓN REGULAR';
+        desc.textContent = 'Asistencia satisfactoria por encima del 70%. Puede tolerar hasta ' + Math.max(0, stats.faltasPermitidas) + ' faltas más.';
+        ico.innerHTML = '🟢';
+      }
+
+      // Renderizar historial de días
+      const contHist = document.getElementById('ficha-historial-dias');
+      contHist.innerHTML = '';
+      const fechas = obtenerFechasDictadasCurso(est.curso_id);
+
+      fechas.forEach(f => {
+        const estMarca = state.asistencias[f + '_' + est.id] || 'P';
+        const p = f.split('-');
+        const fFmt = p.length === 3 ? (p[2] + '/' + p[1]) : f;
+
+        const chip = document.createElement('span');
+        let colorChip = 'bg-emerald-100 text-emerald-800 border-emerald-300';
+        if (estMarca === 'A') colorChip = 'bg-rose-100 text-rose-800 border-rose-300 font-bold';
+        else if (estMarca === 'J') colorChip = 'bg-amber-100 text-amber-800 border-amber-300';
+        else if (estMarca === 'T') colorChip = 'bg-blue-100 text-blue-800 border-blue-300';
+
+        chip.className = 'inline-flex items-center space-x-1 px-2 py-0.5 rounded border text-[11px] ' + colorChip;
+        chip.innerHTML = '<span>' + fFmt + '</span><span class="font-black">(' + estMarca + ')</span>';
+        contHist.appendChild(chip);
+      });
+
+      document.getElementById('modal-ficha-estudiante').classList.remove('hidden');
+    }
+
+    function cerrarFichaEstudiante() {
+      document.getElementById('modal-ficha-estudiante').classList.add('hidden');
+      alumnoSeleccionadoFichaId = null;
+    }
+
+    function copiarMensajeFamiliarWhatsApp() {
+      if (!alumnoSeleccionadoFichaId) return;
+      const est = state.estudiantes.find(e => e.id === alumnoSeleccionadoFichaId);
+      const cur = state.cursos.find(c => c.id === est.curso_id);
+      const col = state.colegios.find(c => c.id === (cur ? cur.colegio_id : null));
+      const stats = calcularStatsEstudiante(alumnoSeleccionadoFichaId);
+
+      const lineas = [
+        'Estimada familia de *' + (est.apellido + ', ' + est.nombre).toUpperCase() + '*:',
+        '',
+        'Nos comunicamos desde la *' + (col ? col.nombre : 'Escuela') + '*, en relación al curso *' + (cur ? cur.nombre : '') + '* a cargo del *Prof. Facundo Casciano*.',
+        '',
+        '📊 *Estado de Asistencia Escolar al día de la fecha:*',
+        '• Clases dictadas en el año: ' + stats.totalClases,
+        '• Presentes registrados: ' + stats.presentes,
+        '• Inasistencias (faltas): *' + stats.ausentes + '*',
+        '• Porcentaje de asistencia actual: *' + stats.porcentaje + '%* (Mínimo requerido por normativa: 70%)',
+        ''
+      ];
+
+      if (stats.estadoProyeccion === 'NO_LLEGA_LIBRE') {
+        lineas.push('⚠️ *SITUACIÓN CRÍTICA:* Se notifica que debido a la cantidad de faltas acumuladas, no alcanza el porcentaje mínimo reglamentario para sostener la regularidad regular y deberá presentarse a comisión evaluadora / intensificación pedagógica.');
+      } else if (stats.estadoProyeccion === 'PUEDE_LLEGAR') {
+        lineas.push('⚠️ *AVISO URGENTE:* Para no perder la regularidad, el estudiante *debe asistir obligatoriamente a las ' + stats.clasesRestantes + ' clases restantes* sin incurrir en nuevas faltas.');
+      } else {
+        lineas.push('✅ El estudiante mantiene condición regular de asistencia.');
+      }
+
+      lineas.push('');
+      lineas.push('Solicitamos responder este mensaje o acercarse a Preceptoría para coordinar y notificarse debidamente.');
+      lineas.push('');
+      lineas.push('_Equipo de Conducción y Docente Titular_');
+
+      const msg = lineas.join(String.fromCharCode(10));
+
+      navigator.clipboard.writeText(msg).then(() => {
+        alert("¡Mensaje oficial para la familia copiado con éxito! Ya podés pegarlo en WhatsApp.");
+      }).catch(() => {
+        prompt("Copiá este mensaje para enviar por WhatsApp:", msg);
+      });
+    }
+
+    // =========================================================================
+    // 🔮 SIMULADOR INTERACTIVO DE RECUPERABILIDAD A FIN DE AÑO
+    // =========================================================================
+    function abrirModalSimulador() {
+      renderSimulador();
+      document.getElementById('modal-simulador').classList.remove('hidden');
+    }
+
+    function cerrarModalSimulador() {
+      document.getElementById('modal-simulador').classList.add('hidden');
+    }
+
+    function cambiarClasesSimuladas(n) {
+      clasesSimuladasConfig = n;
+      [3, 4, 5, 6].forEach(x => {
+        const btn = document.getElementById('btn-sim-' + x);
+        if (btn) {
+          if (x === n) btn.className = 'px-2.5 py-1 text-xs font-bold rounded bg-indigo-600 text-white shadow-2xs';
+          else btn.className = 'px-2.5 py-1 text-xs font-bold rounded hover:bg-indigo-100 text-indigo-900';
+        }
+      });
+      renderSimulador();
+    }
+
+    function renderSimulador() {
+      const tbody = document.getElementById('simulador-tbody');
+      tbody.innerHTML = '';
+      const alumnos = state.estudiantes.filter(e => e.curso_id === cursoActivoId);
+      const fechas = obtenerFechasDictadasCurso(cursoActivoId);
+      const rem = clasesSimuladasConfig;
+      const totalAnual = fechas.length + rem;
+      const presExigidos = Math.ceil(0.70 * totalAnual);
+
+      alumnos.forEach((est, idx) => {
+        let pres = 0;
+        fechas.forEach(f => {
+          const st = state.asistencias[f + '_' + est.id] || 'P';
+          if (st === 'P' || st === 'T') pres++;
+        });
+
+        const pctHoy = fechas.length > 0 ? Math.round((pres / fechas.length) * 100) : 100;
+        const maxPres = pres + rem;
+        const maxPct = totalAnual > 0 ? Math.round((maxPres / totalAnual) * 100) : 100;
+        const presMin = presExigidos - pres;
+
+        let badge = '';
+        if (maxPct < 70) {
+          badge = '<span class="inline-flex items-center text-[10px] font-black text-rose-800 bg-rose-100 border border-rose-300 px-2 py-0.5 rounded-full">🔴 QUEDA LIBRE (Máx ' + maxPct + '%)</span>';
+        } else if (pctHoy < 70) {
+          badge = '<span class="inline-flex items-center text-[10px] font-black text-amber-950 bg-amber-300 border border-amber-500 px-2 py-0.5 rounded-full">🟡 PUEDE SALVARSE (' + maxPct + '%)</span>';
+        } else {
+          badge = '<span class="inline-flex items-center text-[10px] font-bold text-emerald-800 bg-emerald-100 border border-emerald-300 px-2 py-0.5 rounded-full">🟢 REGULAR</span>';
+        }
+
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-slate-50 ' + (maxPct < 70 ? 'bg-rose-50/20' : (pctHoy < 70 ? 'bg-amber-50/20' : ''));
+        tr.innerHTML = '<td class="py-2.5 px-3 font-bold text-slate-800">' + (idx + 1) + '. ' + (est.apellido + ', ' + est.nombre).toUpperCase() + '</td>'
+          + '<td class="py-2.5 px-2 text-center font-semibold text-slate-600">' + pres + ' / ' + fechas.length + '</td>'
+          + '<td class="py-2.5 px-2 text-center font-bold ' + (pctHoy < 70 ? 'text-rose-600' : 'text-slate-800') + '">' + pctHoy + '%</td>'
+          + '<td class="py-2.5 px-2 text-center font-bold text-indigo-700">+' + rem + '</td>'
+          + '<td class="py-2.5 px-2 text-center font-black ' + (maxPct < 70 ? 'text-rose-700' : 'text-emerald-700') + '">' + maxPct + '%</td>'
+          + '<td class="py-2.5 px-2 text-center font-semibold text-slate-700">' + (presMin <= rem ? ('Asistir a <strong>' + Math.max(0, presMin) + '</strong> de ' + rem) : ('<span class="text-rose-600 font-bold">Imposible (' + presMin + ')</span>')) + '</td>'
+          + '<td class="py-2.5 px-3 text-center">' + badge + '</td>';
+
+        tbody.appendChild(tr);
+      });
     }
 
     function renderTablaEstudiantes() {
